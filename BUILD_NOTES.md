@@ -30,7 +30,7 @@ asked). Both packaged regression decks (`tests/trns.dat`,
 `tests/bsheet.dat`) still pass cleanly with trapping on. See "Known
 latent bug" below for the reason this matters concretely.
 
-## Known latent bug: unguarded divide-by-zero in third-order pole-face fringe (not yet fixed)
+## Fixed: unguarded divide-by-zero in third-order pole-face fringe
 
 `src/fring3.f` (third-order pole-face fringe-field matrix, only
 reached when a deck sets `NORD1 .GE. 3` via a `17. 3.` — or higher —
@@ -62,11 +62,16 @@ power of `H0` — so the correct value of every `U(i,j)` this routine
 would set is already exactly zero when `H0=0`; skipping the call
 doesn't approximate that limit, it *is* that limit.
 
-**Not yet applied.** Before touching `thor.f`, build a minimal
-third-order regression deck (a bend with pole-face cards, nonzero
-field, plus a `17. 3.` card) to confirm the one-line guard leaves
-third-order output bit-identical for the nonzero-field case it doesn't
-change, then apply under version control.
+**Fixed** (commit `4b62f3f`). Verified with two minimal `NORD1=3` test
+decks (a bend with pole-face cards, nonzero field, plus `17. 3.`; and
+a zero-field companion): the nonzero-field case's output came out
+byte-identical before/after — this guard branch is never taken there,
+so real third-order calculations don't move — while the zero-field
+case, which previously crashed with `SIGILL`/`EXC_BAD_INSTRUCTION` at
+the `fdiv` inside `fring3_` under the `-ffpe-trap` build, now runs to
+completion with the pole-face contribution correctly zeroed. Both
+packaged regression decks still match their reference output modulo
+the pre-existing cosmetic diffs noted above.
 
 **Not the cause of the B5 `bsheet.exe` label/drift-loss episode.**
 That was independently investigated and traced to something else
