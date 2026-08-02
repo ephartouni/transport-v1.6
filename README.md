@@ -15,6 +15,27 @@ build and run it, and `BUILD_NOTES.md` for the full history of what it
 took to get a 2002-era, per-routine Fortran source tree building and
 matching its original reference output on arm64.
 
+## Warning and disclaimer
+
+This software is provided as-is, with no warranty of correctness,
+fitness for a particular purpose, or fitness for any specific
+experiment's reconstruction. Neither the maintainers of this repo nor
+Fermilab are responsible for results obtained from it, decisions made
+using it, or any errors — known or not yet discovered — in its
+calculations. `BUILD_NOTES.md` documents one real, silently-corrupting
+bug already found and fixed (see the third-order pole-face fringe
+section); the fact that it existed undetected for over two decades
+should inform how much trust to place in output the maintainers
+haven't specifically checked. Verify results independently, especially
+for any beamline configuration or feature not already exercised in
+`tests/` or discussed in `BUILD_NOTES.md`.
+
+This code will change over time, at whatever pace bugs are found and
+fixed — there is no release schedule, and no guarantee that a given
+deck's output will be numerically identical between commits. Pin a
+specific commit if you need reproducibility, and check
+`BUILD_NOTES.md`/`git log` before assuming a past finding still holds.
+
 ## Provenance
 
 This is the Fermilab distribution of TRANSPORT, dated Dec 2002 (also
