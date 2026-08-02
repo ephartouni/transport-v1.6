@@ -1,0 +1,2 @@
+      COMMON /XTYINT/ XTYE, XTYT, XTYCE, XTYCT, XTYSE, XTYST, XTYDE,
+     1                XTYDT

@@ -1,0 +1,7 @@
+C UMETER              UMETER UNIT SET
+C
+C UMETER                 SIZE OF UNITS IN UMETER UNIT SET
+C                        (IN TERMS OF METERS, RADIANS, ETC.)
+C
+      REAL            UMETER(14)
+      COMMON /UMETER/ UMETER

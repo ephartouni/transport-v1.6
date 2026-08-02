@@ -1,0 +1,59 @@
+# Modern build for TRANSPORT v1.6 using gfortran.
+#
+# The shipped src/ tree has one Fortran routine per file (an old
+# per-file split done for a Mac/Absoft MPW build - see src/*.exe.make),
+# rather than the handful of consolidated files (transport.f, trin.f,
+# trm.f, trsec.f, ranport.f) the original distribution Makefile
+# expects. That consolidated version also survives under
+# "src/old src/" but turns out to be an incomplete earlier snapshot
+# (missing many routines). This Makefile instead compiles every
+# routine file in src/ into a library and links the two driver
+# programs (trcall, bshcall) against it.
+#
+# The shipped sources use classic-Mac CR-only line endings, which
+# trips up gfortran on some files, so this builds from LF-normalized
+# copies staged in build/ rather than the preserved originals in src/.
+
+FF = gfortran
+INCLUDE = -Iinclude
+FFLAGS = -g -std=legacy -w -fallow-argument-mismatch -fno-range-check -ffpe-trap=invalid,zero,overflow -fbacktrace
+
+TRANSLIB = lib/libtransport.a
+
+DRIVERS = trcall bshcall bshm
+LIB_SOURCES = $(filter-out $(addprefix build/,$(addsuffix .f,$(DRIVERS))),$(wildcard build/*.f))
+LIB_OBJECTS = $(patsubst build/%.f,bin/%.o,$(LIB_SOURCES))
+
+# bsheet.exe (the separate BSHEET beam-sheet/survey utility) needs
+# DATE and MARKCK, neither of which exists anywhere in this archive.
+# build/date_stub.f is a real reimplementation of the vendor
+# (VAX/Absoft) DATE runtime intrinsic. build/markck_stub.f is a
+# documented no-op: MARKCK is only called for decks using ALIGN/USE,
+# which tests/bsheet.dat (the only surviving BSHEET regression test)
+# doesn't exercise - see comments in that file. `make -f Makefile.build
+# bsheet` is kept separate from "all" since it relies on that stub.
+all: bin/trns.exe
+
+# trnsblk.o/trinblk.o hold the BLOCK DATA that initializes I/O unit
+# numbers (NIN/NOUT/...) and other defaults. Nothing in trnsprt.f
+# actually calls them (EXTERNAL alone doesn't generate a reference
+# gfortran honors), so the linker drops them if left to pull from the
+# archive on demand - force them onto the link line explicitly.
+bin/trns.exe: bin/trcall.o bin/trnsblk.o bin/trinblk.o $(TRANSLIB)
+	$(FF) -o $@ bin/trcall.o bin/trnsblk.o bin/trinblk.o $(TRANSLIB)
+
+bsheet: bin/bsheet.exe
+
+bin/bsheet.exe: bin/bshcall.o bin/bshm.o $(TRANSLIB)
+	$(FF) -o $@ bin/bshcall.o bin/bshm.o $(TRANSLIB)
+
+$(TRANSLIB): $(LIB_OBJECTS)
+	ar rs $(TRANSLIB) $(LIB_OBJECTS)
+
+bin/%.o: build/%.f
+	$(FF) -o $@ $(FFLAGS) $(INCLUDE) -c $<
+
+clean:
+	rm -f $(TRANSLIB) bin/*.o bin/trns.exe bin/bsheet.exe
+
+.PHONY: all clean

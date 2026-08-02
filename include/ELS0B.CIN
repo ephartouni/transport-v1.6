@@ -1,0 +1,7 @@
+C ELS0B               TEMPORARY STORAGE FOR ELM0B
+C
+C LCS        STORAGE FOR LC
+C
+      REAL            LCS
+C
+      COMMON /ELS0B/  LCS

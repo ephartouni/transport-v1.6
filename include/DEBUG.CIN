@@ -1,0 +1,2 @@
+      COMMON /DEBUG/  DEBUG
+      LOGICAL         DEBUG

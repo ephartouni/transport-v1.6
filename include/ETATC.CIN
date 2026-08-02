@@ -1,0 +1,2 @@
+      COMMON /ETATC/  ETAT
+      REAL            ETAT(6)

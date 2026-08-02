@@ -1,0 +1,4 @@
+C                     THICKNESS OF HORN MATERIAL
+C
+      COMMON /THIKNS/ THIKNS(3,12)
+      REAL            THIKNS

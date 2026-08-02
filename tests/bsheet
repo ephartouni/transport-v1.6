@@ -1,0 +1,16 @@
+#!/bin/csh
+# invoke transport <name> where <>.dat is the input deck
+if ( ! $?TRANSPORT_DIR ) then
+    setenv TRANSPORT_DIR ..
+endif
+setenv TRANSPORT_BIN_DIR $TRANSPORT_DIR/bin
+
+$TRANSPORT_BIN_DIR/bsheet.exe < bsheet.dat > bsheet.out
+#
+if (-f fort.7) then
+mv -f fort.7 bsheet.bin
+endif
+#
+if (-f fort.8) then
+mv -f fort.8 bsheet.plot
+endif

@@ -1,0 +1,8 @@
+C  ELM5C               OTHER MATRIX ELEMENTS AND DERIVATIVES FOR QUADS
+C
+C CSO                    CS IN OTHER PLANE
+C SNO                    SN IN OTHER PLANE
+C
+	REAL           CSO, SNO
+C
+	COMMON /ELM5C/ CSO, SNO

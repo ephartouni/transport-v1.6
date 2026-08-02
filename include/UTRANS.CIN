@@ -1,0 +1,7 @@
+C UTRANS              UTRANS UNIT SET
+C
+C                        SIZE OF UNITS IN UTRANS UNIT SET
+C                        (IN TERMS OF METERS, RADIANS, ETC.)
+C
+      REAL            UTRANS(14)
+      COMMON /UTRANS/ UTRANS

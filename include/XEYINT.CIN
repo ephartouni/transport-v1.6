@@ -1,0 +1,2 @@
+      COMMON /XEYINT/ XEYE, XEYT, XEYCE, XEYCT, XEYSE, XEYST, XEYDE,
+     1                XEYDT

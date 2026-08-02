@@ -1,0 +1,6 @@
+C                     NEUTRINO HORN ELEMENT
+C
+C                       ANGLE OF SEGMENT OF NEUTRINO HORN
+C
+      COMMON /AHORN/  AHORN(3,12)
+      REAL            AHORN

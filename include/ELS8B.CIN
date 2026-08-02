@@ -1,0 +1,7 @@
+C ELS8B      TEMPORARY STORAGE FOR ELM8B
+C
+C VMS      STORAGE FOR VM
+C
+      REAL            VMS(6)
+C
+      COMMON /ELS8B/  VMS

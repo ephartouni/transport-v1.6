@@ -1,0 +1,12 @@
+C ELM6                UPDATE
+C
+C AP        APERTURE.
+C CAP       TRUE IF 13. 10. IS PRESENT.
+C JA        SECOND ITEM ON AN UPDATE CARD (ALWAYS ZERO).
+C KA        INDICATES WHICH TRANSFER MATRIX IS UPDATED
+C
+      LOGICAL         CAP
+      INTEGER         JA, KA
+      REAL            AP
+C
+      COMMON /ELM6/   AP, CAP, JA, KA

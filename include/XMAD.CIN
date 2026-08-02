@@ -1,0 +1,7 @@
+C XMAD              UMAD UNIT SET
+C
+C XMAD                 NAMES OF UNITS IN UMAD UNIT SET
+C                      ('M', 'R', 'F', 'GEV', ETC.)
+C
+      CHARACTER*4   XMAD(14)
+      COMMON /XMAD/ XMAD

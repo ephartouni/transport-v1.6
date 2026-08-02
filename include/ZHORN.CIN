@@ -1,0 +1,4 @@
+C                     LONGITUDINAL POSITIONS OF HORN VERTICES
+C
+      COMMON /ZHORN/  ZHORN(3,12)
+      REAL            ZHORN

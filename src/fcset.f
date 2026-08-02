@@ -1,0 +1,1 @@
+      SUBROUTINE FCSETCC     SETS INITIAL VALUES OF FLOOR COORDINATESCC----------------------------------      CALL OSETC      RETURN      END

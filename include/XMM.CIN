@@ -1,0 +1,7 @@
+C XMM                 UMM UNIT SET
+C
+C XMM                    NAMES OF UNITS IN UMM UNIT SET
+C                        ('MM', 'MR', 'PM', 'GEV')
+C
+      CHARACTER*4     XMM(14)
+      COMMON /XMM/    XMM

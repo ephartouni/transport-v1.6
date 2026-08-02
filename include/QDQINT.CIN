@@ -1,0 +1,2 @@
+      COMMON /QDQINT/ QDQE, QDQT, QDQCE, QDQCT, QDQSE, QDQST, QDQDE,
+     1                QDQDT

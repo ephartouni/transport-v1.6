@@ -1,0 +1,7 @@
+C ELM1F               RELATIVISTIC QUANTITIES FOR TIME OF FLIGHT
+C
+C GI2                 1/GAMMA**2
+C
+      REAL            GI2
+C
+      COMMON /ELM1F/  GI2

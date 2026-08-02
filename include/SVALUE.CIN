@@ -1,0 +1,9 @@
+C SVALUE              NAMED CONSTANTS
+C
+C SVALUE                 VALUES OF NAMED CONSTANTS (SUCH
+C                        AS THE MASS OF A PROTON, THE SPEED
+C                        OF LIGHT, OR PI)
+C
+      REAL            SVALUE(NSYM)
+C
+      COMMON /SVALUE/ SVALUE

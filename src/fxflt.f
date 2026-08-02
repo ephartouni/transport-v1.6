@@ -1,0 +1,1 @@
+      SUBROUTINE FXFLT (X,I,A)C     WE SET A MAXIMUM VALUE TO A OF .99999 (1.0 - 1.0E-06)      I = INT(X)      A = X - FLOAT(I)      A = AMIN1 (A,0.99999E+00)      RETURN      END

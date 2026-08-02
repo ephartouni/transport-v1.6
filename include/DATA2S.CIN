@@ -1,0 +1,8 @@
+C DATA2S              TEMPORARY STORAGE FOR DATA2A
+C
+C NUMS                   STORAGE FOR NUM
+C NDIFS                  STORAGE FOR NDIF
+C
+      INTEGER         NUMS, NDIFS
+C
+      COMMON /DATA2S/ NUMS, NDIFS

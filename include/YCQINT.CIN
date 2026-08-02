@@ -1,0 +1,2 @@
+      COMMON /YCQINT/ YCQE, YCQT, YCQCE, YCQCT, YCQSE, YCQST, YCQDE,
+     1                YCQDT

@@ -1,0 +1,306 @@
+
+                                  R E A D M E
+
+
+Product Name:           TRANSPORT
+Product Version:        Various
+Date (mm/dd/yyyy):      08/11/1999
+
+------------------------------------------------------------------------
+
+                        ORIGIN
+                        ======
+
+Authors
+
+        D.C. Carey
+        Fermi National Accelerator Laboratory - Mail Station 221
+        P.O.Box 500
+        Batavia, IL 60510-0500
+        Internet: TRANSPORT_SUPPORT@fnal.gov
+    
+and
+        K.L. Brown and Frank Rothacker
+        Stanford Linear Accelerator Center
+        Stanford, California 94309
+
+Makefile mods by
+
+	Chuck DeBaun
+	Fermi National Accelerator Laboratory - MS 114
+	P.O. Box 500
+	Batavia, IL 60510-0500
+	Internet: TRANSPORT_SUPPORT@fnal.gov
+
+Fermilab Standard Government Sponsorship Notice
+
+    This work was performed at Fermi National Accelerator Laboratory,
+    which is operated by Universities Research Association, Inc., under
+    contract DE-AC02-76CHO3000 with the U.S. Department of Energy.
+
+Acknowledgements
+
+We acknowledge the contribution of the following to this software:
+
+                    Richard Helm        (SLAC)
+                    Christoph Iselin    (CERN)
+                    Charles Moore       (formerly of SLAC)
+                    Hal Butler          (formerly of SLAC)
+                    Sam Howry           (formerly of SLAC)
+                    Barbara Kear        (formerly of SLAC)
+                    Stan Kowalski       (MIT)
+
+                    Ruth Pordes         (Fermilab)
+                    Catherine James     (Fermilab)
+		    Jim Holt            (Fermilab)
+		    Norm Gelfand        (Fermilab)
+                    Leonid Sagalovsky   (formerly of Fermilab)
+
+
+-----------------------------------------------------------------------
+
+                        TERMS AND CONDITIONS
+                        ====================
+
+This software has been made freely available with a request for 
+collaborative input subject to standard Fermitools Terms and Conditions 
+given in full below.
+
+-----------------------------------------------------------------------
+
+                        PRODUCT DESCRIPTION
+                        ===================
+
+TRANSPORT is a computer program used to design charged particle beam 
+transport systems.  Beam line components which can be represented are 
+drifts, bending magnets, quadrupoles, sextupoles, octupoles, solenoids, 
+travelling wave accelerating cavities, steering magnets, and plasma 
+lenses.  The effect of the beam line on a charged particle trajectory is 
+represented by first-, second-, and third-order matrices. Beam phase 
+space dimensions and floor coordinates may also be calculated.  The beam 
+phase space can be specified as a matrix of variances and covariances or 
+in accelerator parameters.  Its center can deviate from the reference 
+trajectory along which the magnetic components are placed.
+
+TRANSPORT will do fitting, allowing the simultaneous variation of up to 
+20 selected parameters to satisfy imposed constraints.  Misalignments 
+and errors may be simulated and their effect evaluated.  In conjunction 
+with a plotting program such as TOPDRAWER, plots can be made of the beam 
+ellipse, any matrix element against accumulated length, and the floor 
+layout of the beam line, including three-dimensional representations of 
+the magnets.
+
+Input can be in either the MAD compatable notation of Christoph Iselin 
+or in a strictly numerical format. The parameters can be in any units 
+desired.  Physical parameters and constrained quantities can be related 
+by algebraic expressions.
+
+Documentation
+-------------
+
+Transport Manual online
+-----------------------
+The Transport manual is now available online as a postscript file in 
+http://fnalpubs.fnal.gov/archive/1998/pub/Pub-98-310.html
+
+
+The input deck format is described in report SLAC-R-530 which is also 
+Fermilab-Pub-98/310.
+
+Required Hardware and Software
+------------------------------
+
+Use on various platforms
+------------------------
+Currently, at FNAL, TRANSPORT is being developed on a UNIX platform, and 
+certified using a set of test files and files representing beamlines.
+The Accelerator Division has used TRANSPORT on a VAX platform as well as
+SUN workstations.  
+
+To compile and link on a VAX, simply FOR and LINK the list of .for files 
+transfered from the selected version sub-directory.
+
+TRANSPORT has been built on an SGI as a test.  For version v1_0, there 
+were several compiler and linker warnings.  A single test input deck was 
+run through this executable, and the results matched the results 
+obtained on a VAX for the same input, to within a reasonable level of 
+precision.  That is, the results differed only in the 4th digit to the 
+right of the decimal. The user is warned to make careful selection of 
+the UNITS he tells TRANSPORT to work in, to be certain that differences 
+in floating-point operations on various platforms do not affect the 
+results.
+
+   The Makefile used in this SGI test was  (-g -w to suppress warnings) 
+FFLAGS = -g -w
+
+OBJECTS = transport.o ranport.o trm.o trin.o trsec.o trcall.o
+
+transport       : $(OBJECTS)
+        $(F77) $(FLAGS) $(OBJECTS) -o $@
+
+After v1.5, a single Makefile is used to build all flavors.
+One can simply cd to the top directory of transport and issue
+
+	make FLAVOR=<the operating system name (AIX, IRIX+6, IRIX46, etc)
+or
+	make	# the default FLAVOR is as supplied by 
+		# ups flavor -2.
+
+
+Product Installation
+--------------------
+
+Each version of TRANSPORT in this public area is placed in its own sub-
+directory (v1_3, v1_4, v1_5, etc).  The subdirectory will contain all 
+the source code needed to build the full program. This README file 
+contains a list of the version sub-directories, their dates of creation, 
+and what was changed in the source code.
+
+TRANSPORT has traditionally been maintained in 5 pieces. The code is all 
+in FORTRAN. The names of the five pieces and their functions are:
+
+        TRCALL          Main calling routine
+        TRANSPORT       Main steering routine and block data
+        TRM             Main body of code
+        TRIN            Code to handle translation of the input deck
+        TRSEC           Code to handle higher order terms in magnets
+        RANPORT         A random number generator used for simulation of
+                          errors
+      
+      
+Running the Software
+--------------------
+VERSION LIST and COMMENTS
+-------------------------
+
+v1_5
+----
+Initial public version, certified in 4/95. A predecessor of this version 
+was used for the FNAL Main Injector design, and for that version some 
+variables were changed from single to double precision.
+
+This version uses standard input and output for its IO.  On a UNIX 
+platform, one executes the program by redirecting the std io
+        transport < in.dat > in.out
+where in.dat is supplied by the user, following the input deck format as
+outlined in the Transport manual.
+
+On a VAX, one can assign filenames to standard input and output
+        ASSIGN/USER in.dat FOR005
+        ASSIGN/USER in.out FOR006
+
+Following instructions in the manual, one can request binary output from
+TRANSPORT for use in plotting and other applications.  These special 
+output files will be named as standard fortran units, fort.11 on Unix, 
+and for011.dat on a Vax.
+
+
+------------------------------------------------------------------------
+
+                        SUPPORT
+                        =======
+
+Help with the installation or use of TRANSPORT is available by sending 
+mail to
+
+                        TRANSPORT_support@fnal.gov
+
+which is auto-forwarded to the group in charge of TRANSPORT support at 
+Fermilab.
+
+This software is furnished by Fermilab on an "as is" basis as a service 
+to the wider community with the goal of stimulating collaborative use 
+and further development.
+
+Provision of the software implies no commitment of support by Fermilab.
+
+The Fermilab Computing Division is open to discussing other levels of 
+support for use of the software with responsible and committed users and 
+collaborators.
+
+Use of the software in experiments at Fermilab will be assured of a 
+level of support as agreed to through the standard Memorandum Of 
+Understanding process.
+
+Users may send mail to the mail address given above, with the 
+expectation that it will be read and noted.
+
+
+------------------------------------------------------------------------
+
+                        TERMS AND CONDITIONS IN FULL
+                         ============================
+
+------------------------------------------------------------------------
+Fermitools Software Legal Information (Modified BSD licence)- 12/01/2001
+------------------------------------------------------------------------
+
+
+COPYRIGHT STATUS:  
+ Dec 1st 2001, Fermi National Accelerator Laboratory (FNAL) documents and
+ software are sponsored by the U.S. Department of Energy under Contract No.
+ DE-AC02-76CH03000. Therefore, the U.S. Government retains a  world-wide 
+ non-exclusive, royalty-free license to publish or reproduce these documents 
+ and software for U.S. Government purposes.  All documents and software 
+ available from this server are protected under the U.S. and Foreign 
+ Copyright Laws, and FNAL reserves all rights. 
+
+
+   Distribution of the software available from this server is free of 
+   charge subject to the user following the terms of the Fermitools 
+   Software Legal Information.
+
+   Redistribution and/or modification of the software shall be accompanied 
+   by the Fermitools Software Legal Information  (including the copyright 
+   notice).
+
+   The user is asked to feed back problems, benefits, and/or suggestions 
+   about the software to the Fermilab Software Providers. 
+
+
+   Neither the name of Fermilab, the  URA, nor the names of the contributors
+   may be used to endorse or promote products derived from this software 
+   without specific prior written permission.
+
+
+
+ DISCLAIMER OF LIABILITY (BSD): 
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ "AS IS" AND ANY EXPRESS OR IMPLIED  WARRANTIES, INCLUDING, BUT NOT
+ LIMITED TO, THE IMPLIED  WARRANTIES OF MERCHANTABILITY AND FITNESS
+ FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL FERMILAB,
+ OR THE URA, OR THE U.S. DEPARTMENT of ENERGY, OR CONTRIBUTORS BE LIABLE
+ FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ OF SUBSTITUTE  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+ BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY  OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT  OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE  POSSIBILITY OF SUCH DAMAGE.
+   
+
+ Liabilities of the Government: 
+
+ This software is provided by URA, independent from its Prime Contract 
+ with the U.S. Department of Energy. URA is acting independently from 
+ the Government and in its own private capacity and is not acting on 
+ behalf of the U.S. Government, nor as its contractor nor its agent. 
+ Correspondingly, it is understood and agreed that the U.S. Government 
+ has no connection to this software and in no manner whatsoever shall 
+ be liable for nor assume any responsibility or obligation for any claim, 
+ cost, or damages arising out of or resulting from the use of the software 
+ available from this server.
+
+
+ Export Control:
+
+ All documents and software available from this server are subject to U.S. 
+ export control laws.  Anyone downloading information from this server is 
+ obligated to secure any necessary Government licenses before exporting 
+ documents or software obtained from this server. 
+
+
+ 
+
+

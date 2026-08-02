@@ -1,0 +1,1 @@
+      SUBROUTINE RANST      DIMENSION ISINIT(4)      COMMON /ISEED/   ISEED(4)      DATA ISINIT /0,0,0,1/C      DO 10 J = 1, 4      ISEED(J) = ISINIT(J)   10 CONTINUE      RETURN      END

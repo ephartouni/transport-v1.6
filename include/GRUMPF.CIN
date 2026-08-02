@@ -1,0 +1,6 @@
+C  
+C
+C
+C
+      COMMON /GRUMPF/ GRUMPF
+      CHARACTER*9     GRUMPF

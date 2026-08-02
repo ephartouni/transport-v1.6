@@ -1,0 +1,2 @@
+      COMMON /XYZOLD/ OOLD(3,3), LCOLD, XOLD, YOLD, ZOLD, CURRNT
+      REAL            LCOLD

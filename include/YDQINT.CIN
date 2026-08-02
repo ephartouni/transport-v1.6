@@ -1,0 +1,2 @@
+      COMMON /YDQINT/ YDQE, YDQT, YDQCE, YDQCT, YDQSE, YDQST, YDQDE,
+     1                YDQDT

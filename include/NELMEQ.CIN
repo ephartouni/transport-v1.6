@@ -1,0 +1,29 @@
+      INTEGER         NBEAM, NROT, NDRFT, NBEND, NQUAD, NUPD
+      INTEGER         NCENT, NMIS, NREPS, NFIT, NCVTY, NCORR
+      INTEGER         NPRNT, NMTX, NUNIT, NSPEC, NORD, NSEXT
+      INTEGER         NSOLE, NSROT, NSTRA, NSTOR, NSECT, NOCT
+      INTEGER         NRAN, NETA, NRBND, NSBND, NMRKR, NHKCK
+      INTEGER         NPLT, NLIM, NMAGN, NSEPM, NKICK, NSHIFT
+      INTEGER         NPHORN
+      EQUIVALENCE     (NBEAM,NELMS(1)), (NROT ,NELMS(2)),
+     1                (NDRFT,NELMS(3)), (NBEND,NELMS(4)),
+     2                (NQUAD,NELMS(5)), (NUPD ,NELMS(6)),
+     3                (NCENT,NELMS(7)), (NMIS ,NELMS(8)),
+     4                (NREPS,NELMS(9)),  (NFIT ,NELMS(10)),
+     5                (NCVTY,NELMS(11)), (NCORR,NELMS(12)),
+     6                (NPRNT,NELMS(13)), (NMTX ,NELMS(14)),
+     7                (NUNIT,NELMS(15)), (NSPEC,NELMS(16)),
+     8                (NORD ,NELMS(17)), (NSEXT,NELMS(18)),
+     9                (NSOLE,NELMS(19)), (NSROT,NELMS(20)),
+     A                (NSTRA,NELMS(21)), (NSTOR,NELMS(22)),
+     B                                   (NSECT,NELMS(24)),
+     C                (NOCT ,NELMS(25)), (NRAN ,NELMS(26)),
+     D                (NETA ,NELMS(27)), (NRBND,NELMS(28)),
+     E                (NSBND,NELMS(29)),
+     F                (NMRKR,NELMS(31)),
+     H                (NHKCK,NELMS(35)),
+     I                                   (NPLT,NELMS(38)),
+     J                (NLIM ,NELMS(39)), (NMAGN,NELMS(40)),
+     K                (NSEPM,NELMS(41)), (NKICK,NELMS(42)),
+     L                (NSHIFT,NELMS(43)),
+     M                (NPHORN,NELMS(45))

@@ -1,0 +1,7 @@
+C DUPD                KEYWORDS FOR UPDATE ELEMENT
+C
+C DUPD                   LIST OF KEYWORDS FOR UPDATE
+C
+      CHARACTER*15    DUPD(16)
+C
+      COMMON /DUPD/   DUPD

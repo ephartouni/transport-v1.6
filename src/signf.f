@@ -1,0 +1,1 @@
+      REAL FUNCTION SIGNF(X)CC     RETURNS THE SIGN OF A NUMBER OR ZEROCC ----------------------------------------------------------------------      DATA XNORM /1.0/      IF (X .NE. 0.0) THEN        SIGNF = SIGN(XNORM,X)      ELSE        SIGNF = 0.      ENDIF      RETURN      END

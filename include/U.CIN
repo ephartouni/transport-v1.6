@@ -1,0 +1,7 @@
+C   U.INC			NO DESCRIPTION
+C
+	REAL  U(5,56), UV(5,56)
+	REAL  UL(280), UVL(280)
+	EQUIVALENCE  (U(1,1),UL(1)), (UV(1,1),UVL(1))
+C
+      COMMON /U/ U, UV

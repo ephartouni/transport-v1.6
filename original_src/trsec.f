@@ -1,0 +1,3813 @@
+      SUBROUTINE SECORN
+C---- NON-MIDPLANE-SYMMETRIC SECOND-ORDER INTEGRALS OF PRODUCTS OF
+C---- CHARACTERISTIC FUNCTIONS AND TRANSFER MATRIX ELEMENTS FOR A
+C---- COMBINED-FUNCTION BENDING MAGNET
+C----------------------------------------------------------------------
+      INCLUDE 'ELM0B.CIN'
+      INCLUDE 'ELM4A.CIN'
+      INCLUDE 'ELM4B.CIN'
+      INCLUDE 'ELM4D.CIN'
+      INCLUDE 'HSINT.CIN'
+      INCLUDE 'HSINTA.CIN'
+      INCLUDE 'HPINT.CIN'
+      INCLUDE 'HPINTA.CIN'
+      INCLUDE 'R.CIN'
+      INCLUDE 'T.CIN'
+      INCLUDE 'VSINT.CIN'
+      INCLUDE 'VSINTA.CIN'
+      INCLUDE 'VPINT.CIN'
+      INCLUDE 'VPINTA.CIN'
+      INCLUDE 'WMN.CIN'
+      INCLUDE 'WM5N.CIN'
+C ---------------------------------------------------------------------
+      REAL            BMTNP, DMSLV, FNM4
+      REAL            GLUG1, GLUG2, GLUG3, GLUG4, GLUG5, GLUG6, GLUG7,
+     1                GLUG8, GLUG9, GLUGA, GLUGB, GLUGC, GLUGD, GLUGE,
+     2                GLUGF, GLUGG, GLUGH, GLUGI, GLUGJ
+      REAL            NMB, NMTB, NPMV
+      REAL            SMLCV, SNARK, TBMNP, TBTNP, TMN, TNMB, TVMNP, 
+     1                WM2N, WP2R
+C
+      WP2R = 1.0 + 2.0*RMPS
+C
+      NMB = NB - BEB
+      NMTB = NB - 2.0*BEB
+      TMN = 2.0 - NB
+      TNMB = 2.0*NB - BEB - 1.0
+      WM2N = 1.0 - 2.0*NB + 2.0*RMPS*(1.0 - NB)
+      FNM4 = 5.0*NB - 4.0 + RMPS*(5.0*NB - 8.0)
+C
+      NPMV = NPR - VR
+      TVMNP = 2.0*VR - NPR
+      TBMNP = 2.0*BEP - NPR - VR
+      TBTNP = 2.0*BEP - 3.0*NPR + VR
+      BMTNP = BEP - 2.0*NPR
+C
+      HSCY = (WMN*DISN - NBR*DSVN)/WM2N
+      HSSY = (SY - SX)/WM2N
+      HSLCY = ((2.0*NB*RH*SY - WP2R*SX)/WM2N + L*CY)/WM2N
+      HSLSY = (2.0*(NBR*DSVN - WMN*DISN)/WM2N
+     1 + L*SY)/WM2N
+      IF (NB .NE. 0.0) HSGLP = (HSSY - HSLCY)/NB
+      IF (NB .EQ. 0.0) HSGLP = (H*H0)**2*L**5/60.0
+      HSCCM = (NBR*CX*DSVN - 2.*WMN*SX*SY)/FNM4
+      HSCSM = - CX*SY/FNM4 + 0.5*H0**2*SX*DSVN
+     1 + 0.5*SX*(1.0 + CY)/FNM4
+      HSSCM = (2.0*CX*SY - SX*(1.0 + CY))/FNM4
+      HSSSM = 2.0*CX*DSVN/FNM4 - SX*SY/FNM4
+      HSDCM = RH*(- CX*(1.0 - CY)/(WMN*FNM4)
+     1 - (CX - CY)/(WMN*WM2N) + 2.0*H0**2*SX*SY/FNM4)
+      HSCDY = 0.5*RH*(1.0 - 3.0*WMN/WM5N)*DISN/WM2N
+     1 - RH*DSVN/WM2N + RH*SY**2/WM5N
+      HSDSM = RH*(CX*SY/(WMN*FNM4) - 0.5*SX*CY/(WMN*FNM4)
+     1 - (1.0/WM2N + 0.5/FNM4)*SX/WMN
+     2 + SY/(WMN*WM2N)) - 0.5*H*H0*SX*DSVN/WMN
+      HSSDY = 3.0*RH*(SX - SY)/(WM2N*WM5N)
+     1 + H*H0*SY*DSVN/WM5N
+      HPCY = (WMN*SX - NBR*SY)/WM2N
+      HPSY = (WMN*DISN - NBR*DSVN)/WM2N
+      HPLCY = (WP2R*(WMN*DISN - NBR*DSVN)/WM2N - NBR*L*SY)/WM2N
+      HPLSY = ((WP2R*SY - 2.0*WMN*SX)/WM2N + L*CY)/WM2N
+      IF (NB .NE. 0.0) HPGLP = (HPSY - HPLCY)/NB
+      IF (NB .EQ. 0.0)
+     1 HPGLP = ( - 2.0*DISN + L**2)/WMN
+      HPCCM = 0.5*CX*SY*(1.0 + RH*NB/FNM4)
+     1 - WMN*SX*(1.0 + CY)/FNM4
+      HPCSM = 0.5*CX*DSVN*(1.0 + NBR/FNM4) - WMN*SX*SY/FNM4
+      HPSCM = - NBR*CX*DSVN/FNM4 + 0.5*SX*SY*(1.0 + NBR/FNM4)
+      HPSSM = 0.5*H*H0*SX*DSVN/RH - 0.5*SX*(1.0 + CY)/FNM4
+     1 + CX*SY/FNM4
+      HPDCM = RH*(SX/WM2N + SX*(1.0 + CY)/FNM4
+     1 - RH*NB*SY/(WMN*WM2N)
+     2 - 0.5*(1.0 + RH*NB/FNM4)*CX*SY/WMN)
+      HPCDY = RH*(0.5*SX/WM2N - 1.5*WMN*SX/(WM2N*WM5N))
+     1 + 2.0*RH*CY*SY/WM5N - RH*SY/WM2N
+      HPDSM = - 0.5*RH*(1.0 + NBR/FNM4)*CX*DSVN/WMN
+     1 + RH*(WMN*DISN - NBR*DSVN)/(WMN*WM2N) + RH*SX*SY/FNM4
+      HPSDY = 3.0*RH*(CX - CY)/(WM5N*WM2N)
+     1 - H*H0*DSVN/WM5N + 2.0*H*H0*SY**2/WM5N
+      VSCX = (WMN*DISN - NBR*DSVN)/WM2N
+      VSSX = (SY - SX)/WM2N
+      VSDX = RH*((NBR*DSVN - WMN*DISN)/(WMN*WM2N) + DSVN/WMN)
+      IF (NB .EQ. 0.0) DMSLV = H0*H*L**4/24.0
+      IF (NB .NE. 0.0) DMSLV = (DSVN - 0.5*L*SY)/NB
+      VSDY = DMSLV
+      VSLCX = ((2.0*WMN*SX - WP2R*SY)/WM2N - L*CX)/WM2N
+      VSLSX = (2.0*(WMN*DISN - NBR*DSVN)/WM2N - L*SX)/WM2N
+      VSCX2 = 0.5*(1.0 + NBR/FNM4)*DSVN - WMN*SX**2/FNM4
+      VSCSX = (CX*SX - SY)/FNM4
+      VSSX2 = 0.5*(1.0 - NBR/FNM4)*DSVN/WMN + SX**2/FNM4
+      VSCY2 = (DSVN + SY**2)/3.0
+      VSCSY = SY*DSVN/3.0
+      IF (NB .EQ. 0.0) SNARK = 0.25*H0**2*L**4
+      IF (NB .NE. 0.0) SNARK = (2.0*DSVN - SY**2)/(NB*RH)
+      VSSY2 = SNARK/3.0
+      VSCDX = - 0.5*H*H0*(1.0 + NBR/FNM4)*DSVN/WMN
+     1 - RH*(CX - CY)/(WMN*WM2N) + H*H0*SX**2/FNM4
+      VSCDM = - H*H0*CX*DSVN/WM5N + 3.0*RH*(CX - CY)/(WM2N*WM5N)
+     1 + 2.0*H*H0*SX*SY/WM5N
+      VSSDX = RH*( - CX*SX/FNM4 - SX/WM2N
+     1 + SY*(1.0/WM2N + 1.0/FNM4))/WMN
+      VSSDM = - 2.0*RH*CX*SY/(WMN*WM5N)
+     1 + 0.5*RH*(1.0/WMN - 3.0/WM5N)*SY/WM2N
+     2 + 3.0*RH*SX/(WM2N*WM5N) - H*H0*SX*DSVN/WM5N
+      VSDX2 = RH*(2.0*RH*(NBR*DSVN - WMN*DISN)/(WMN**2*WM2N)
+     1 - RH*SX**2/(WMN*FNM4)
+     2 + 0.5*RH*(3.0 + NBR/FNM4)*DSVN/WMN**2)
+      VSDDM = RH*((RH*CX*DSVN/WM5N
+     1 + 3.0*RH*(WMN*DISN - NBR*DSVN)/(WM2N*WM5N)
+     2 - 2.0*RH*SX*SY/WM5N + DMSLV)/WMN)
+      VPCX = (WMN*SX - RH*NB*SY)/WM2N
+      VPSX = (WMN*DISN - NBR*DSVN)/WM2N
+      VPDX = RH*(SY - SX)/WM2N
+      IF (NB .EQ. 0.0) SMLCV = H0**2*L**3/3.0
+      IF (NB .NE. 0.0) SMLCV = (SY - L*CY)/NB
+      VPDY = 0.5*SMLCV
+      VPLCX = (WP2R*(CX - CY)/WM2N + H0**2*WMN*L*SX)/WM2N
+      VPLSX = ((WP2R*SX - 2.0*NB*RH*SY)/WM2N - L*CX)/WM2N
+      VPCX2 = 0.5*(1.0 + RH*NB/FNM4)*SY
+     1 - 2.0*WMN*CX*SX/FNM4
+      VPCSX = (NBR*DSVN - 2.0*WMN*SX**2)/FNM4
+      VPSX2 = 0.5*(1.0 - RH*NB/FNM4)*SY/WMN + 2.0*CX*SX/FNM4
+      VPCY2 = SY*(1.0 + 2.0*CY)/3.0
+      VPCSY = ( - DSVN + 2.0*SY**2)/3.0
+      VPSY2 = 2.0*SY*DSVN/3.0
+      VPCDX = RH*(2.0*CX*SX/FNM4 + SX/WM2N
+     1 - (RH*(NB/WM2N + 0.5*NB/FNM4) + 0.5)*SY/WMN)
+      VPCDM = RH*CX*SY/WM5N - RH*(1.0/WM2N - 1.0/WM5N)*SY
+     1 + WMN*H*H0*SX*DSVN/WM2N
+     2 + 0.5*RH*(1.0/WM2N - 3.0*WMN/(WM2N*WM5N))*SX*CY
+      VPSDX = RH*( - (CX - CY)/(WMN*WM2N)
+     1 - (1.0 - CY)/(WMN*FNM4) + 2.0*H0**2*SX**2/FNM4)
+      VPSDM = RH*(0.5*(1.0 - 3.0*WMN/WM5N)*CY*DISN/WM2N
+     1 - CX*DSVN/WM2N + SX*SY/WM5N)
+      VPDX2 = RH**2*(- 2.0*CX*SX/(WMN*FNM4) - 2.0*SX/(WMN*WM2N)
+     1 + (RH*NB*(2.0/WM2N + 0.5/FNM4) + 1.5)*SY/WMN**2)
+      VPDDM = RH*( - RH*CX*SY/(WMN*WM5N)
+     1 + 0.5*RH*( - 1.0/WMN + 3.0/WM5N)*SX*CY/WM2N
+     2 - H*H0*SX*DSVN/WM2N
+     3 + 0.5*SMLCV/WMN
+     4 + RH*SY*(1.0/WM2N - 1.0/WM5N)/WMN)
+C
+      R(1,3) = R(1,3) + VR*H0**2*(- NMTB*HSCDY + NB*HSSY2)
+      R(1,4) = R(1,4) - VR*HSCSY - NMTB*VR*HSSDY
+      R(2,3) = R(2,3) + VR*H0**2*(- NMTB*HPCDY + NB*HPSY2)
+      R(2,4) = R(2,4) - VR*H0**2*HPCSY
+     1 - NMTB*VR*HPSDY
+      R(3,1) = R(3,1) - 2.0*VR*NMB*VSCDM
+     1 - VR*WMN*H0**2*VSSSM
+      R(3,2) = R(3,2) + VR*(VSCSM - 2.0*NMB*VSSDM)
+      R(3,6) = R(3,6) + VR*H0*(NB*VSDY + VSSSM - 2.0*NMB*VSDDM)
+     1 - VR*H0*DSVN
+      R(4,1) = R(4,1) - VR*H0**2*(2.0*NMB*VPCDM + WMN*VPSSM)
+     1 - VR*H0**2*CX*SY
+      R(4,2) = R(4,2) + VR*H0**2*(VPCSM - 2.0*NMB*VPSDM)
+     1 - VR*H0**2*SX*SY
+      R(4,6) = R(4,6)
+     1 + VR*H0*(NB*VPDY + VPSSM - 2.0*NMB*VPDDM)
+     2 - VR*H0*(SY + H0**2*DISN)
+C
+      GLUG1 = H0**3*TBTNP*HSCCM
+      GLUG2 = H0**3*NPMV*(0.5*(1.0 - WMN/WM5N) + 2.0*NMB/WM5N)*
+     1 (HSCY - HSCCM)
+      GLUG3 = H0**3*NPMV*(BEB*WMN/WM5N + NMB)*HSSSM
+      GLUG4 = H0**3*(- 2.*TNMB*NPMV + NMTB*TVMNP)*HSCCM/WM2N
+      GLUG5 = 2.0*H0**3*TNMB*NPMV*HSCX2/WM2N
+      GLUG6 = - H0**3*NMTB*TVMNP*HSCY2/WM2N
+      GLUG7 = NB*WMN*H0**3*(TVMNP - NPMV)*HSSSM/WM2N
+      GLUG8 = WMN**2*H0**3*NPMV*HSSX2/WM2N
+      GLUG9 = - NB**2*H0**3*TVMNP*HSSY2/WM2N
+      T(1,4) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9
+      GLUG1 = H0*TBTNP*HSCSM
+      GLUG2 = 0.5*H0*NPMV*(HSSY - HSCSM)
+      GLUG3 = H0*NPMV*( - 2.0*NMB + 0.5*WMN)*(HSSY + HSCSM)/WM5N
+      GLUG4 = H0*NPMV*(4.0*NMB - WMN)*HSSCM/WM5N
+      GLUG5 = H0*NPMV*(2.0*TNMB - WMN)*H0**2*HSCSX/WM2N
+      GLUG6 = - H0*(2.*TNMB*NPMV - NMTB*TVMNP)*HSCSM/WM2N
+      GLUG7 = - H0*WMN*(TVMNP - NPMV)*HSSCM/WM2N
+      GLUG8 = 2.0*BEB*H0*TVMNP*HSCSY/WM2N
+      GLUG9 = H0*NPMV*(SX - SY)/WM2N
+      T(1,7) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9
+      GLUG1 = H0*TBTNP*HSSCM
+      GLUG2 = - NPR*H0*(0.5*(1.0 - WMN/WM5N) + 2.0*NMB/WM5N)*HSSCM
+      GLUG3 = - BEB*H0*NPMV*(HSSY + HSCSM)/WM5N
+      GLUG4 = NMB*H0*NPMV*(HSSY - HSCSM)/WMN
+      GLUG5 = NPMV*(2.0*TNMB - WMN)*H0**3*HSCSX/WM2N
+      GLUG6 = - H0*NB*(TVMNP - NPMV)*HSCSM/WM2N
+      GLUG7 = - H0*(2.0*TNMB*NPMV - NMTB*TVMNP)*HSSCM/WM2N
+      GLUG8 = 2.0*BEB*H0*TVMNP*HSCSY/WM2N
+      T(1,5) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8
+      GLUG1 = H0*TBTNP*HSSSM
+      GLUG2 = - H0*NPMV*(0.5*(1.0 - WMN/WM5N) + 2.0*NMB/WM5N)*
+     1 HSSSM
+      GLUG3 = H0*NPMV*(4.0*NMB/WMN - 1.0)*(HSCY - HSCCM)/WM5N
+      GLUG4 = H0*(TVMNP - NPMV)*HSCCM/WM2N
+      GLUG5 = H0*NPMV*HSCX2/WM2N
+      GLUG6 = - H0*(2.0*TNMB*NPMV - NMTB*TVMNP)*HSSSM/WM2N
+      GLUG7 = 2.0*H0*TNMB*NPMV*HSSX2/WM2N
+      GLUG8 = - H0*TVMNP*HSCY2/WM2N
+      GLUG9 = - H0*NMTB*TVMNP*HSSY2/WM2N
+      T(1,8) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9
+      GLUG1 = NPMV*H0**2*HSCY
+      GLUG2 = TBTNP*HSDCM
+      GLUG3 = NMTB*VR*H0**2*HSCDY
+      GLUG4 = - NB*VR*H0**2*HSSY2
+      GLUG5 = 2.0*NPMV*H0**2*BEB*(HSCY - HSCCM)/(WMN*WM5N)
+      GLUG6 = - NPMV*(NMB/WMN + BEB/WM5N)*H0**2*HSSSM
+      GLUG7 = - NPMV*(0.5*NB - NMB/WMN)*H0**2*HSLSY
+      GLUG8 = TMN*NPMV*H0**2*(HSCX - HSCY)/WM2N
+      GLUG9 = 2.0*TNMB*NPMV*H0**2*HSCDX/WM2N
+      GLUGA = 3.0*VR*NB*H0**2*HSSSM/WM2N
+      GLUGB = - WMN*NPMV*H0**2*HSSX2/WM2N
+      GLUGC = - (2.*TNMB*NPMV - NMTB*TVMNP)*HSDCM/WM2N
+      GLUGD = - NMTB*TVMNP*H0**2*HSCDY/WM2N
+      GLUGE = - NB*TVMNP*H0**2*HSSY2/WM2N
+      T(1,18) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9 + GLUGA + GLUGB + GLUGC
+     2 + GLUGD + GLUGE
+      GLUG1 = TBTNP*HSDSM
+      GLUG2 = VR*HSCSY
+      GLUG3 = NMTB*VR*HSSDY
+      GLUG4 = NPMV*(2.0*NMB/WMN - 0.5)*(HSSY + HSCSM)/WM5N
+      GLUG5 = - 0.5*NPMV*(HSSY - HSCSM)/WMN
+      GLUG6 = 0.5*NPMV*HSSY
+      GLUG7 = 0.5*NPMV*HSLCY
+      GLUG8 = NPMV*NMB*HSGLP/WMN
+      GLUG9 = NPMV*(- 4.0*NMB/WMN + 1.0)*HSSCM/WM5N
+      GLUGA = NPMV*H0**2*HSCSX/WM2N
+      GLUGB = TMN*NPMV*HSSX/WM2N
+      GLUGC = 2.0*TNMB*NPMV*HSSDX/WM2N
+      GLUGD = - VR*HSSCM/WM2N
+      GLUGE = TVMNP*HSCSY/WM2N
+      GLUGF = - TMN*NPMV*HSSY/WM2N
+      GLUGG = - (2.*TNMB*NPMV - NMTB*TVMNP)*HSDSM/WM2N
+      GLUGH = - NMTB*TVMNP*HSSDY/WM2N
+      T(1,19) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9 + GLUGA + GLUGB + GLUGC
+     1 + GLUGD + GLUGE + GLUGF + GLUGG + GLUGH
+      GLUG1 = H0**3*TBTNP*HPCCM
+      GLUG2 = H0**3*NPMV*(0.5*(1.0 - WMN/WM5N) + 2.0*NMB/WM5N)*
+     1 (HPCY - HPCCM)
+      GLUG3 = H0**3*NPMV*(BEB*WMN/WM5N + NMB)*HPSSM
+      GLUG4 = H0**3*(- 2.*TNMB*NPMV + NMTB*TVMNP)*HPCCM/WM2N
+      GLUG5 = 2.0*H0**3*TNMB*NPMV*HPCX2/WM2N
+      GLUG6 = - H0**3*NMTB*TVMNP*HPCY2/WM2N
+      GLUG7 = NB*WMN*H0**3*(TVMNP - NPMV)*HPSSM/WM2N
+      GLUG8 = WMN**2*H0**5*NPMV*HPSX2/WM2N
+      GLUG9 = - NB**2*H0**3*TVMNP*HPSY2/WM2N
+      GLUGA = H0**3*NPMV*(2.0*WMN*CX*SX
+     1 - NB*CX*SY - WMN*CY*SX)/WM2N
+      T(2,4) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9 + GLUGA
+      GLUG1 = H0**3*TBTNP*HPCSM
+      GLUG2 = 0.5*H0**3*NPMV*(HPSY - HPCSM)
+      GLUG3 = H0**3*NPMV*( - 2.0*NMB + 0.5*WMN)*(HPSY + HPCSM)/WM5N
+      GLUG4 = H0**3*NPMV*(4.0*NMB - WMN)*HPSCM/WM5N
+      GLUG5 = H0**3*NPMV*(2.0*TNMB - WMN)*HPCSX/WM2N
+      GLUG6 = - H0**3*(2.*TNMB*NPMV - NMTB*TVMNP)*HPCSM/WM2N
+      GLUG7 = - H0**3*WMN*(TVMNP - NPMV)*HPSCM/WM2N
+      GLUG8 = 2.0*BEB*H0**3*TVMNP*HPCSY/WM2N
+      GLUG9 = H0**3*NPMV*( - WMN*DISN*(1.0 + CY)
+     1 + WMN*(2.0*SX**2 - SX*SY))/WM2N
+      T(2,7) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9
+      GLUG1 = H0**3*TBTNP*HPSCM
+      GLUG2 = - NPMV*H0**3*(0.5*(1.0 - WMN/WM5N) + 2.0*NMB/WM5N)*HPSCM
+      GLUG3 = - BEB*H0**3*NPMV*(HPSY + HPCSM)/WM5N
+      GLUG4 = NMB*H0**3*NPMV*(HPSY - HPCSM)/WMN
+      GLUG5 = H0**3*NPMV*(2.0*TNMB - WMN)*HPCSX/WM2N
+      GLUG6 = - H0**3*NB*(TVMNP - NPMV)*HPCSM/WM2N
+      GLUG7 = - H0**3*(2.0*TNMB*NPMV - NMTB*TVMNP)*HPSCM/WM2N
+      GLUG8 = 2.0*BEB*H0**3*TVMNP*HPCSY/WM2N
+      GLUG9 = - H0**3*NPMV*(WMN*DISN + NB*CX*DSVN
+     1 + NB*SX*SY - 2.0*WMN*SX**2)/WM2N
+      T(2,5) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9
+      GLUG1 = H0*TBTNP*HPSSM
+      GLUG2 = - H0*NPMV*(0.5*(1.0 - WMN/WM5N) + 2.0*NMB/WM5N)*
+     1 HPSSM
+      GLUG3 = H0*NPMV*(4.0*NMB/WMN - 1.0)*(HPCY - HPCCM)/WM5N
+      GLUG4 = H0*(TVMNP - NPMV)*HPCCM/WM2N
+      GLUG5 = H0*NPMV*HPCX2/WM2N
+      GLUG6 = - H0*(2.0*TNMB*NPMV - NMTB*TVMNP)*HPSSM/WM2N
+      GLUG7 = 2.0*H0**3*TNMB*NPMV*HPSX2/WM2N
+      GLUG8 = - H0*TVMNP*HPCY2/WM2N
+      GLUG9 = - H0*NMTB*TVMNP*HPSY2/WM2N
+      GLUGA = H0*NPMV*(CX*SY + CY*SX - 2.0*CX*SX)/WM2N
+      T(2,8) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9 + GLUGA
+      GLUG1 = H0**2*TBTNP*HPDCM
+      GLUG2 = NPMV*H0**2*HPCY
+      GLUG3 = NMTB*VR*H0**2*HPCDY
+      GLUG4 = - NB*VR*H0**2*HPSY2
+      GLUG5 = 2.0*NPMV*H0**2*BEB*(HPCY - HPCCM)/(WMN*WM5N)
+      GLUG6 = - NPMV*(NMB/WMN + BEB/WM5N)*H0**2*HPSSM
+      GLUG7 = - NPMV*(0.5*NB - NMB/WMN)*H0**2*HPLSY
+      GLUG8 = TMN*NPMV*H0**2*(HPCX - HPCY)/WM2N
+      GLUG9 = 2.0*TNMB*NPMV*H0**2*HPCDX/WM2N
+      GLUGA = 3.0*VR*NB*H0**2*HPSSM/WM2N
+      GLUGB = - WMN*NPMV*H0**4*HPSX2/WM2N
+      GLUGC = - (2.*TNMB*NPMV - NMTB*TVMNP)*H0**2*HPDCM/WM2N
+      GLUGD = - NMTB*TVMNP*H0**2*HPCDY/WM2N
+      GLUGE = - NB*TVMNP*H0**2*HPSY2/WM2N
+      GLUGF = H0**2*NPMV*(SX*(CY - CX)
+     1 + H0*DISP*(WMN*SX - NB*SY))/WM2N
+      T(2,18) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9 + GLUGA + GLUGB + GLUGC
+     2 + GLUGD + GLUGE + GLUGF
+      GLUG1 = H0**2*TBTNP*HPDSM
+      GLUG2 = VR*H0**2*HPCSY
+      GLUG3 = NMTB*VR*HPSDY
+      GLUG4 = NPMV*(2.0*NMB/WMN - 0.5)*H0**2*(HPSY + HPCSM)/WM5N
+      GLUG5 = - 0.5*NPMV*H0**2*(HPSY - HPCSM)/WMN
+      GLUG6 = 0.5*NPMV*H0**2*HPSY
+      GLUG7 = 0.5*NPMV*H0**2*HPLCY
+      GLUG8 = NPMV*NMB*H0**2*HPGLP/WMN
+      GLUG9 = NPMV*(- 4.0*NMB/WMN + 1.0)*H0**2*HPSCM/WM5N
+      GLUGA = NPMV*H0**2*HPCSX/WM2N
+      GLUGB = TMN*NPMV*H0**2*HPSX/WM2N
+      GLUGC = 2.0*TNMB*NPMV*H0**2*HPSDX/WM2N
+      GLUGD = - VR*H0**2*HPSCM/WM2N
+      GLUGE = TVMNP*H0**2*HPCSY/WM2N
+      GLUGF = - TMN*NPMV*H0**2*HPSY/WM2N
+      GLUGG = - (2.*TNMB*NPMV - NMTB*TVMNP)*H0**2*HPDSM/WM2N
+      GLUGH = - NMTB*TVMNP*HPSDY/WM2N
+      GLUGI = NPMV*H0*DISP*(CY - CX)/WM2N
+      GLUGJ = NPMV*H0**2*SX*(SY - SX)/WM2N
+      T(2,19) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9 + GLUGA + GLUGB + GLUGC
+     2 + GLUGD + GLUGE + GLUGF + GLUGG + GLUGH + GLUGI + GLUGJ
+      GLUG1 = H0**3*BMTNP*VSCX2
+      GLUG2 = 0.5*VR*H0**3*WMN**2*VSSX2
+      GLUG3 = TVMNP*H0**3*(TNMB + WMN)*VSDX/3.0
+      GLUG4 = H0**3*TVMNP*(2.0*TNMB - WMN)*VSSX2/6.0
+      GLUG5 = 2.0*H0**3*TVMNP*NMB*(VSCX2 - VSCCM)/WM2N
+      GLUG6 = NB*H0**3*TVMNP*WMN*VSSSM/WM2N
+      GLUG7 = - H0**3*TVMNP*WMN**2*VSSX2/WM2N
+      T(3,1) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7
+      GLUG1 = H0*(2.0*BMTNP - VR*WMN)*VSCSX
+      GLUG2 = H0*TVMNP*(2.0*TNMB/WMN - 1.0)*(VSSX - VSCSX)/3.0
+      GLUG3 = H0*TVMNP*(2.0*NMB + WMN)*(2.0*VSCSX - VSSCM)/WM2N
+      GLUG4 = - H0*TVMNP*(2.0*NMB + NB)*VSCSM/WM2N
+      GLUG5 = - H0*TVMNP*(SX - SY)/WM2N
+      T(3,2) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+      GLUG1 = H0*BMTNP*VSSX2
+      GLUG2 = 0.5*H0*VR*VSCX2
+      GLUG3 = H0*TVMNP*( - 2.0*TNMB/WMN + 1.0)*VSSX2/6.0
+      GLUG4 = H0*TVMNP*(4.0*TNMB/WMN + 1.0)*VSDX/6.0
+      GLUG5 = H0*TVMNP*(VSCCM - VSCX2)/WM2N
+      GLUG6 = 2.0*H0*TVMNP*NMB*(VSSX2 - VSSSM)/WM2N
+      T(3,3) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6
+      GLUG1 = 2.0*BMTNP*VSCDX
+      GLUG2 = - TVMNP*H0**2*VSCX
+      GLUG3 = VR*WMN*H0**2*(VSSSM - VSSX2)
+      GLUG4 = 2.0*VR*NMB*VSCDM
+      GLUG5 = TVMNP*(TNMB/WMN + 0.5*TMN)*H0**2*VSLSX
+      GLUG6 = TVMNP*( - 2.0*TNMB/WMN + 1.0)*H0**2*VSSX2/3.0
+      GLUG7 = - 2.0*TVMNP*(TNMB/WMN + 1.0)*H0**2*VSDX/3.0
+      GLUG8 = NB*TVMNP*H0**2*(VSCY - VSCX)/WM2N
+      GLUG9 = 2.0*TVMNP*NMB*(2.0*VSCDX - VSCDM - H0**2*VSDCM)/
+     1 WM2N
+      GLUGA = TVMNP*H0**2*VSSSM
+      T(3,16) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9 + GLUGA
+      GLUG1 = 2.0*BMTNP*VSSDX
+      GLUG2 = - TVMNP*VSSX
+      GLUG3 = VR*(VSCSX - VSCSM)
+      GLUG4 = 2.*VR*NMB*VSSDM
+      GLUG5 = - TVMNP*(TNMB/WMN + 0.5*TMN)*VSLCX/WMN
+      GLUG6 = TVMNP*(2.0*TNMB/WMN - 1.0)*VSCSX/(3.0*WMN)
+      GLUG7 = TVMNP*(2.0*TNMB/WMN + 3.0*TMN + 2.0)*VSSX/
+     1 (6.0*WMN)
+      GLUG8 = TVMNP*(VSSCM - VSCSM)/WM2N
+      GLUG9 = NB*TVMNP*(VSSY - VSSX)/WM2N
+      GLUGA = 2.*TVMNP*NMB*(2.0*VSSDX - VSSDM - VSDSM)/WM2N
+      T(3,17) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9 + GLUGA
+      GLUG1 = H0*BMTNP*VSDX2
+      GLUG2 = - 2.0*H0*TVMNP*VSDX
+      GLUG3 = VR*H0*(DSVN - VSSSM + 0.5*VSSX2)
+      GLUG4 = 2.0*VR*H0*NMB*VSDDM
+      GLUG5 = - NB*H0*VR*VSDY
+      GLUG6 = - H0*TVMNP*(TNMB/WMN + 0.5*TMN)*VSLSX/WMN
+      GLUG7 = H0*TVMNP*(2.0*TNMB/WMN - 1.0)*VSSX2/(6.0*WMN)
+      GLUG8 = H0*TVMNP*(4.0*TNMB/WMN + 3.0*TMN + 1.0)*VSDX/(3.0*WMN)
+      GLUG9 = H0*TVMNP*(VSSX2 - VSSSM)/WM2N
+      GLUGA = NB*H0*TVMNP*(VSDY - VSDX)/WM2N
+      GLUGB = 2.0*H0*TVMNP*NMB*(VSDX2 - VSDDM)/WM2N
+      T(3,21) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9 + GLUGA + GLUGB
+      GLUG1 = - 0.5*H0**3*TBMNP*VSCY2
+      GLUG2 = 0.5*H0**3*NB**2*VR*VSSY2
+      GLUG3 = 0.5*H0**3*BEB*TVMNP*WMN*VSDX/WM5N
+      GLUG4 = - 0.25*H0**3*TVMNP*(NMTB + NB)*VSDX
+      GLUG5 = - H0**3*TVMNP*NB*BEB*VSSY2/WM5N
+      GLUG6 = 2.0*H0**3*NPMV*NMB*(VSCY2 - VSCCM)/WM2N
+      GLUG7 = H0**3*NB*WMN*NPMV*VSSSM/WM2N
+      GLUG8 = - H0**3*NB**2*NPMV*VSSY2/WM2N
+      T(3,6) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8
+      GLUG1 = - (TBMNP + NB*VR)*H0**3*VSCSY
+      GLUG2 = 2.0*H0*BEB*TVMNP*(H0**2*VSCSY - VSSX)/WM5N
+      GLUG3 = NPMV*H0*(2.0*NMB + NB)*(2.0*H0**2*VSCSY - VSCSM)/WM2N
+      GLUG4 = - H0*NPMV*(2.0*NMB + WMN)*VSSCM/WM2N
+      T(3,9) = GLUG1 + GLUG2 + GLUG3 + GLUG4
+      GLUG1 = - 0.5*H0*TBMNP*VSSY2
+      GLUG2 = 0.5*H0*VR*VSCY2
+      GLUG3 = - H0*TVMNP*(- NMTB/WM5N + 0.25*(1.0 + WMN/WM5N))*VSDX
+      GLUG4 = H0*TVMNP*BEB*VSSY2/WM5N
+      GLUG5 = H0*NPMV*(VSCCM - VSCY2)/WM2N
+      GLUG6 = 2.0*H0*NPMV*NMB*(VSSY2 - VSSSM)/WM2N
+      T(3,10) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6
+      GLUG1 = H0**3*BMTNP*VPCX2
+      GLUG2 = 0.5*VR*H0**3*WMN**2*VPSX2
+      GLUG3 = TVMNP*H0**3*(TNMB + WMN)*VPDX/3.0
+      GLUG4 = H0**3*TVMNP*(2.0*TNMB - WMN)*VPSX2/6.0
+      GLUG5 = 2.0*H0**3*TVMNP*NMB*(VPCX2 - VPCCM)/WM2N
+      GLUG6 = NB*H0**3*TVMNP*WMN*VPSSM/WM2N
+      GLUG7 = - H0**3*TVMNP*WMN**2*VPSX2/WM2N
+      GLUG8 = - H0**3*TVMNP*CX*(WMN*SX - NB*SY)/WM2N
+      T(4,1) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8
+      GLUG1 = H0**3*(2.0*BMTNP - VR*WMN)*VPCSX
+      GLUG2 = H0**3*TVMNP*(2.0*TNMB/WMN - 1.0)*(VPSX - VPCSX)/3.0
+      GLUG3 = H0**3*TVMNP*(2.0*NMB + WMN)*(2.0*VPCSX - VPSCM)/WM2N
+      GLUG4 = - H0**3*TVMNP*(2.0*NMB + NB)*VPCSM/WM2N
+      GLUG5 = H0**3*TVMNP*(WMN*DISN*(1.0 + CY) + NB*SX*SY
+     1 - 2.0*WMN*SX**2)/WM2N
+      T(4,2) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+      GLUG1 = H0*BMTNP*VPSX2
+      GLUG2 = 0.5*H0*VR*VPCX2
+      GLUG3 = H0*TVMNP*( - 2.0*TNMB/WMN + 1.0)*VPSX2/6.0
+      GLUG4 = H0*TVMNP*(4.0*TNMB/WMN + 1.0)*VPDX/6.0
+      GLUG5 = H0*TVMNP*(VPCCM - VPCX2)/WM2N
+      GLUG6 = 2.0*H0*TVMNP*NMB*(VPSX2 - VPSSM)/WM2N
+      GLUG7 = H0*TVMNP*SX*(CX - CY)/WM2N
+      T(4,3) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7
+      GLUG1 = 2.0*H0**2*BMTNP*VPCDX
+      GLUG2 = - TVMNP*H0**2*VPCX
+      GLUG3 = VR*WMN*H0**2*(VPSSM - VPSX2)
+      GLUG4 = 2.0*H0**2*VR*NMB*VPCDM
+      GLUG5 = TVMNP*(TNMB/WMN + 0.5*TMN)*H0**2*VPLSX
+      GLUG6 = TVMNP*( - 2.0*TNMB/WMN + 1.0)*H0**2*VPSX2/3.0
+      GLUG7 = - 2.0*TVMNP*(TNMB/WMN + 1.0)*H0**2*VPDX/3.0
+      GLUG8 = NB*TVMNP*H0**2*(VPCY - VPCX)/WM2N
+      GLUG9 = 2.0*H0**2*TVMNP*NMB*(2.0*VPCDX - VPCDM - VPDCM)/
+     1 WM2N
+      GLUGA = TVMNP*H0**2*VPSSM
+      GLUGB = H0**2*((TVMNP*CX*(SX - SY)
+     1 - TVMNP*WMN*H0*SX*DISP + NB*TVMNP*H0*SY*DISP)/WM2N
+     2 + VR*CX*SY)
+      T(4,16) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9 + GLUGA + GLUGB
+      GLUG1 = 2.0*BMTNP*VPSDX
+      GLUG2 = 2.*VR*NMB*H0**2*VPSDM
+      GLUG3 = - TVMNP*H0**2*VPSX
+      GLUG4 = VR*H0**2*(VPCSX - VPCSM)
+      GLUG5 = - TVMNP*(TNMB/WMN + 0.5*TMN)*VPLCX/WMN
+      GLUG6 = TVMNP*(2.0*TNMB/WMN - 1.0)*H0**2*VPCSX/(3.0*WMN)
+      GLUG7 = TVMNP*(2.0*TNMB/WMN + 3.0*TMN + 2.0)*H0**2*VPSX/
+     1 (6.0*WMN)
+      GLUG8 = TVMNP*H0**2*(VPSCM - VPCSM)/WM2N
+      GLUG9 = NB*TVMNP*H0**2*(VPSY - VPSX)/WM2N
+      GLUGA = 2.*TVMNP*NMB*(2.0*VPSDX - H0**2*(VPSDM + VPDSM))/WM2N
+      GLUGB = TVMNP*H0**2*SX*(SX - SY)/WM2N
+      GLUGC = TVMNP*H0*DISP*(CX - CY)/WM2N
+      GLUGD = VR*H0**2*SX*SY
+      T(4,17) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9 + GLUGA + GLUGB + GLUGC
+     2 + GLUGD
+      GLUG1 = H0*BMTNP*VPDX2
+      GLUG2 = VR*H0*SY
+      GLUG3 = - H0*VR*VPSSM
+      GLUG4 = 0.5*H0*VR*VPSX2
+      GLUG5 = - 2.0*H0*TVMNP*VPDX
+      GLUG6 = 2.0*H0*VR*NMB*VPDDM
+      GLUG7 = - NB*H0*VR*VPDY
+      GLUG8 = - H0*TVMNP*(TNMB/WMN + 0.5*TMN)*VPLSX/WMN
+      GLUG9 = H0*TVMNP*(2.0*TNMB/WMN - 1.0)*VPSX2/(6.0*WMN)
+      GLUGA = H0*TVMNP*(4.0*TNMB/WMN + 3.0*TMN + 1.0)*VPDX/(3.0*WMN)
+      GLUGB = H0*TVMNP*(VPSX2 - VPSSM)/WM2N
+      GLUGC = NB*H0*TVMNP*(VPDY - VPDX)/WM2N
+      GLUGD = 2.0*H0*TVMNP*NMB*(VPDX2 - VPDDM)/WM2N
+      GLUGE = H0**2*(TVMNP*DISP*(SX - SY)/WM2N
+     1 + VR*DISP*SY)
+      T(4,21) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9 + GLUGA + GLUGB + GLUGC
+     2 + GLUGD + GLUGE
+      GLUG1 = - 0.5*H0**3*TBMNP*VPCY2
+      GLUG2 = 0.5*H0**5*NB**2*VR*VPSY2
+      GLUG3 = 0.5*H0**3*BEB*TVMNP*WMN*VPDX/WM5N
+      GLUG4 = - 0.25*H0**3*TVMNP*(NMTB + NB)*VPDX
+      GLUG5 = - H0**5*TVMNP*NB*BEB*VPSY2/WM5N
+      GLUG6 = 2.0*H0**3*NPMV*NMB*(VPCY2 - VPCCM)/WM2N
+      GLUG7 = H0**3*NB*WMN*NPMV*VPSSM/WM2N
+      GLUG8 = - H0**5*NB**2*NPMV*VPSY2/WM2N
+      GLUG9 = H0**3*NB*NPMV*SY*(CX - CY)/WM2N
+      T(4,6) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7 + GLUG8 + GLUG9
+      GLUG1 = - H0**3*(TBMNP + NB*VR)*VPCSY
+      GLUG2 = 2.0*H0**3*BEB*TVMNP*(VPCSY - VPSX)/WM5N
+      GLUG3 = H0**3*NPMV*(2.0*NMB + NB)*(2.0*VPCSY - VPCSM)/WM2N
+      GLUG4 = - H0**3*NPMV*(2.0*NMB + WMN)*VPSCM/WM2N
+      GLUG5 = H0**3*NPMV*(WMN*DISN + NB*CX*DSVN)/WM2N
+      GLUG6 = H0**3*NB*NPMV*SY*(SX - 2.0*SY)/WM2N
+      T(4,9) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6
+      GLUG1 = - 0.5*H0**3*TBMNP*VPSY2
+      GLUG2 = 0.5*H0*VR*VPCY2
+      GLUG3 = H0*TVMNP*(NMTB/WM5N - 0.25*(1.0 + WMN/WM5N))*VPDX
+      GLUG4 = H0**3*TVMNP*BEB*VPSY2/WM5N
+      GLUG5 = H0*NPMV*(VPCCM - VPCY2)/WM2N
+      GLUG6 = 2.0*NPMV*NMB*H0*(H0**2*VPSY2 - VPSSM)/WM2N
+      GLUG7 = - H0*NPMV*CY*(SX - SY)/WM2N
+      T(4,10) = GLUG1 + GLUG2 + GLUG3 + GLUG4 + GLUG5
+     1 + GLUG6 + GLUG7
+      RETURN
+      END
+      SUBROUTINE SECORS
+C---- MIDPLANE-SYMMETRIC INTEGRALS OF PRODUCTS OF CHARACTERISTIC
+C---- FUNCTIONS AND TRANSFER MATRIX ELEMENTS FOR A COMBINED-FUNCTION
+C---- BENDING MAGNET
+C----------------------------------------------------------------------
+      INCLUDE 'ELM0B.CIN'
+      INCLUDE 'ELM1F.CIN'
+      INCLUDE 'ELM4A.CIN'
+      INCLUDE 'ELM4B.CIN'
+      INCLUDE 'ELM4D.CIN'
+      INCLUDE 'HSINT.CIN'
+      INCLUDE 'HPINT.CIN'
+      INCLUDE 'R.CIN'
+      INCLUDE 'T.CIN'
+      INCLUDE 'TERMS.CIN'
+      INCLUDE 'VSINT.CIN'
+      INCLUDE 'VPINT.CIN'
+      INCLUDE 'WMN.CIN'
+      INCLUDE 'WM5N.CIN'
+C ---------------------------------------------------------------------
+      REAL            FMTB, GLOP
+      REAL            NMB, NMTB, NNM2
+      REAL            QUACK, RAT1, RAT2, RATIO, TMN, TNMB, TNSM, TNTM
+C
+      WM5N = 1.0 - 5.0*NB + RMPS*(2.0 - 5.0*NB)
+      TNMB = 2.0*NB - BEB - 1.0
+      NMB = NB - BEB
+      NMTB = NB - 2.0*BEB
+      TMN = 2.0 - NB
+C
+      RAT1 = ABS(SQRT(ABS(NB))*H0*L)
+      RAT2 = ABS(SQRT(ABS(WMN))*H0*L)
+      RATIO = AMAX1(RAT1,RAT2)
+      XPND = RATIO .LT. 0.01
+C
+      HSCX = 0.5*L*SX
+      HSSX = 0.5*SMLCX/WMN
+      IF (XPND) THEN
+        HSDX = 1.0/24.0*H0**2*L**4 - 1.0/360.*WMN*H0**4*L**6
+      ELSE
+        HSDX = RH*(DISN - 0.5*L*SX)/WMN
+      ENDIF
+      HSCX2 = (DISN + SX**2)/3.0
+      HSCSX = SX*DISN/3.0
+      IF (XPND) THEN
+        HSSX2 = 1.0/12.0*H0**2*L**4 - 1.0/72.*WMN*H0**4*L**6
+      ELSE
+        HSSX2 = (2.0*DISN - SX**2)/(3.0*WMN)
+      ENDIF
+      HSCY2 = 0.5*DISN*(1.0 + WMN/WM5N) - RH*NB*SY**2/WM5N
+      IF (XPND) THEN
+        HSCSY = 1.0/6.0*H0**2*L**3 - (NB/30. + WMN/120.)*H0**4*L**5
+        HSSY2 = 1.0/12.0*H0**2*L**4 - (NB/90. + WMN/360.)*H0**4*L**6
+        HSCDX = 1.0/24.0*H0**2*L**4 - 1.0/90.0*WMN*H0**4*L**6
+        HSSDX = 0.025*H*H0**3*L**5 - 1./280.*WMN*H0**6*L**7
+        HSDX2 = 1.0/120.0*H**2*H0**2*L**6 - 1./1120.*WMN*H0**6*L**8
+      ELSE
+        HSCSY = (CY*SY - SX)/WM5N
+        HSSY2 = ( - 2*DISN + SY**2)/WM5N
+        HSCDX = RH*( - (DISN + SX**2)/3.0 + 0.5*L*SX)/WMN
+        HSSDX = RH*(SX + 2.0*SX*CX - 3*L*CX)/(6.0*WMN**2)
+        HSDX2 = RH**2*(4.0*DISN - 3.0*L*SX + SX**2)/(3.0*WMN**2)
+      ENDIF
+C
+      HPCX = 0.5*(SX + L*CX)
+      HPSX = 0.5*L*SX
+      HPDX = 0.5*RH*SMLCX/WMN
+      HPCX2 = SX*(1.0 + 2.0*CX)/3.0
+      HPCSX = ( - DISN + 2.0*SX**2)/3.0
+      HPSX2 = 2.0*SX*DISN/3.0
+      HPCY2 = 0.5*SX*(1.0 + WMN/WM5N) - 2.0*RH*NB*CY*SY/WM5N
+      HPCSY = (WMN*DISN - 2.0*NB*SY**2)/WM5N
+      IF (XPND) THEN
+        HPSY2 = 1.0/3.0*H0**2*L**3 - (NB/15. + WMN/60.)*H0**4*L**5
+        HPCDX = 1.0/6.0*H0**2*L**3 - 1./15.*WMN*H0**4*L**5
+        HPSDX = 0.125*H0**2*L**4 - 0.025*WMN*H0**4*L**6
+        HPDX2 = 0.05*H**2*H0**2*L**5 - 1./140.*WMN*H0**6*L**7
+      ELSE
+        HPSY2 = 2.0*(CY*SY - SX)/WM5N
+        HPCDX = RH*(3.0*L*CX - 4.0*CX*SX + SX)/(6.0*WMN)
+        HPSDX = RH*(2.0*DISN + 3.0*L*SX - 4.0*SX**2)/(6.0*WMN)
+        HPDX2 = RH**2*(2.0*CX*SX + SX - 3.0*L*CX)/(3.0*WMN**2)
+      ENDIF
+C
+      VSCY = 0.5*SY*L
+      IF (NB .NE. 0.0) QUACK = (SY - L*CY)/NB
+      IF (NB .EQ. 0.0) QUACK = H0*H*L**3/3.0
+      VSSY = 0.5*QUACK/RH
+      VSCCM = 0.5*(1.0 - WMN/WM5N)*SX*SY + WMN*CY*DISN/WM5N
+      IF (XPND) THEN
+        VSCSM = 1.0/6.0*H0**2*L**3 - (NB/60. + WMN/40.)*H0**4*L**5
+        VSSCM = 1.0/6.0*H0**2*L**3 - (NB/30. + WMN/120.)*H0**4*L**5
+        VSSSM = 1.0/12.0*H0**2*L**4 - (NB/120. + WMN/180.)*H0**4*L**6
+        VSDCM = 1.0/24.0*H0**2*L**4 - (7.*NB + WMN)*H0**4*L**6/720.
+        VSDSM = 0.025*H*H0**3*L**5
+     1          - (13.*NB/5040 + WMN/1008.)*H0**6*L**7
+      ELSE
+        VSCSM = (2.0*SX*CY - SY*(1.0 + CX))/WM5N
+        VSSCM = 0.5*SY*(1.0 - CX)/WMN
+     1   + 0.5*SY*(1.0 + CX)/WM5N - SX*CY/WM5N
+        VSSSM = (2.0*CY*DISN - SX*SY)/WM5N
+        VSDCM =  RH*( - CY*DISN/WM5N + 0.5*L*SY/WMN
+     1   + 0.5*(1.0/WM5N - 1.0/WMN)*SX*SY)
+        VSDSM = (RH*SY*(1.0 + CX)/WM5N
+     1   - 2.0*RH*SX*CY/WM5N + 0.5*QUACK)/WMN
+      ENDIF
+C
+      VPCY = 0.5*(SY + L*CY)
+      VPSY = 0.5*L*SY
+      VPCCM = 0.5*(1.0 + WMN/WM5N)*SX*CY
+     1 - RH*NB*SY*(1.0 + CX)/WM5N
+      VPCSM = 0.5*(1.0 + WMN/WM5N)*SX*SY
+     1 - WMN*CY*DISN/WM5N
+      VPSCM = 0.5*(1.0 + WMN/WM5N)*CY*DISN
+     1 - RH*NB*SX*SY/WM5N
+      IF (XPND) THEN
+        VPSSM = 1.0/3.0*H0**2*L**3 - (NB/20. + WMN/30.)*H0**4*L**5
+        VPDCM = 1.0/6.0*H0**2*L**3 - (7.*NB + WMN)*H0**4*L**5/120.
+        VPDSM = 0.125*H0**2*L**4 - (13.*NB/720. + WMN/144.)*H0**4*L**6
+      ELSE
+        VPSSM = 0.5*SY*((1.0 - CX)/WMN - (1.0 + CX)/WM5N)
+     1   + SX*CY/WM5N
+        VPDCM = RH*(RH*NB*SY*(1.0 + CX)/(WMN*WM5N)
+     1   + 0.5*(SY + L*CY)/WMN
+     2   - 0.5*(1.0/WMN + 1.0/WM5N)*SX*CY)
+        VPDSM = RH*(CY*DISN/WM5N + 0.5*SY*L/WMN
+     1   - 0.5*(1.0/WMN + 1.0/WM5N)*SX*SY)
+      ENDIF
+C
+      T(1,1) = H0**2*(TNMB*H*HSCX2
+     1 + 0.5*WMN**2*(H0 - HEX)*HSSX2)
+      T(1,2) = H0*(H0*(2.0*H*TNMB - WMN*(H0 - HEX))*HSCSX
+     1 + SX)
+      T(1,3) = TNMB*H*HSSX2
+     1 + 0.5*(H0 - HEX)*HSCX2
+      T(1,6) = - 0.5*H0**2*H*(NMTB*HSCY2
+     1 + NB**2*RH**2*HSSY2)
+      T(1,9) = H*(- NMTB + NB*RH)*HSCSY
+      T(1,10) = - 0.5*H*(NMTB*HSSY2 + HSCY2)
+      T(1,16) = H*(2.0*TNMB*H0*HSCDX + TMN*H0*HSCX
+     1 - WMN*(H0 - HEX)*HSSX2)
+      T(1,17) = RH*(2.0*TNMB*HSSDX + TMN*HSSX
+     1 + H0*(H0 - HEX)*HSCSX)
+      T(1,21) = RH*(TNMB*H0*HSDX2 + H0*TMN*HSDX
+     1 - H0*DISN + 0.5*RH*(H0 - HEX)*HSSX2)
+      T(2,1) = H0**2*(TNMB*H*HPCX2
+     1 + 0.5*WMN**2*H0**2*(H0 - HEX)*HPSX2 + WMN*H0*SX*CX)
+      T(2,2) = H0**2*((2.0*H*TNMB - WMN*(H0 - HEX))*HPCSX
+     1 + WMN*H0*(2.0*SX**2 - DISN))
+      T(2,3) = TNMB*H0**2*H*HPSX2
+     1 + 0.5*(H0 - HEX)*HPCX2 - H0*SX*CX
+      T(2,6) = - 0.5*H0**2*H*(NMTB*HPCY2
+     1 + NB**2*RH**2*HPSY2)
+      T(2,9) = H*H0*(- NMTB*H0 + NB*H)*HPCSY
+      T(2,10) = - 0.5*H*(NMTB*HPSY2 + HPCY2)
+      T(2,16) = H0*H*(2.0*TNMB*HPCDX + TMN*HPCX
+     1 - WMN*H0*(H0 - HEX)*HPSX2 + WMN*H0**2*SX*DISN - SX*CX)
+      T(2,17) = H*(2.0*TNMB*H0*HPSDX + TMN*H0*HPSX
+     1 + (H0 - HEX)*HPCSX - H0*CX*DISN - H0*SX**2)
+      T(2,21) = H*(TNMB*HPDX2 + TMN*HPDX
+     1 - SX + 0.5*H*(H0 - HEX)*HPSX2 - H0*H*SX*DISN)
+      T(3,4) = H*H0**2*(NB*WMN*VSSSM - 2.0*NMB*VSCCM)
+      T(3,5) = - H*(NB*VSCSM + 2.0*NMB*VSSCM)
+      T(3,7) = - (WMN*H0*VSSCM + 2.0*NMB*H*VSCSM - H0*SY)
+      T(3,8) = H0*VSCCM - 2.0*NMB*H*VSSSM
+      T(3,18) = H*H0*(NB*VSCY - RH*NB*VSSSM
+     1 - 2.0*NMB*VSDCM)
+      T(3,19) = RH*(NB*VSSY + VSSCM - 2.0*NMB*VSDSM)
+      T(4,4) = H*H0**2*(NB*WMN*VPSSM - 2.0*NMB*VPCCM
+     1 + NB*CX*SY)
+      T(4,5) = - H*H0**2*(NB*VPCSM + 2.0*NMB*VPSCM
+     1 - NB*SX*SY)
+      T(4,7) = - H0**2*(WMN*H0*VPSCM + 2.0*NMB*H*VPCSM
+     1 - WMN*H0*CY*DISN)
+      T(4,8) = H0*VPCCM - 2.0*NMB*H*VPSSM - H0*SX*CY
+      T(4,18) = H*(NB*H0*VPCY - NB*H*VPSSM
+     1 - 2.0*NMB*H0*VPDCM + NB*H0**2*SY*DISP)
+      T(4,19) = H0*H*(NB*VPSY + VPSCM - 2.0*NMB*VPDSM
+     1 - CY*DISN)
+C
+      FMTB = 5.0*NB - 2.0*BEB - 3.0
+      NNM2 = NB*(NB + 1.0) - 2.0*BEB
+      TNSM = 3.0*NB**2 - 2.0*NB - 4.0*BEB + 3.0
+      TNTM = NB*(3.0*NB - 1.0) - 2.0*BEB
+C
+      T(5,1) = - (TNTM*(L - SX*CX)
+     1 + 4.0*NMB*(L - SX))*H0**2/(12.0*WMN)
+      T(5,2) = - 2.0*NMB*(1.0 - CX)/(3.0*WMN**2)
+     1 + TNTM*H0**2*SX**2/(6.0*WMN)
+      T(5,3) = - (2.0*(FMTB + 2.0*NMB)*(L - SX)
+     1 - FMTB*(L - SX*CX))/(12.0*WMN**2) - 0.25*(L + SX*CX)
+      T(5,16) =  - NNM2*H0*SMLCX/(2.0*WMN**2)
+     1 + 2.0*NMB*H0*(L - SX)/(3.0*WMN**2)
+     2 + TNTM*H0*(L - SX*CX)/(6.0*WMN**2) + GI2*DDISP
+      T(5,17) = - TNSM*H0*DISN/(3.0*WMN**2)
+     1  + (NNM2*H0*L*SX/2.0 - TNTM*H0*SX**2/6.0)/WMN**2 + GI2*DISP
+      T(5,21) = - (4.0*NMB*(L - SX)/3.0 - NNM2*SMLCX/2.0
+     2 + TNTM*(L - CX*SX)/12.0)/WMN**3 + GI2*(L - SX)
+      T(5,6) = - (2.0*BEB*(1.0 - 3.0*NB)/WM5N - NB)*H0**2
+     1 *(L - SX)/(2.0*WMN)
+     2 - ( - 2.0*BEB/WM5N + NB)*H0**2*(L - SY*CY)/4.0
+      T(5,9) = - (BEB/WM5N - 0.5*NB)*H0**2*SY**2
+     1 + 2.0*BEB*(1.0 - CX)/(WM5N*WMN)
+      IF (NB .NE. 0.0) GLOP = (L - SY*CY)/(2.0*NB)
+      IF (NB .EQ. 0.0) GLOP = H0**2*L**3/3.0
+      T(5,10) = - BEB*(GLOP - 2.0*(L - SX)/WMN)/WM5N
+     1 + (L - SX)/(2.0*WMN) - 0.25*(L + SY*CY)
+C
+      IF (RMPS .EQ. 0.0) GO TO 410
+      HEX = RMPS*H0
+      TNMB = 2.0*NB - BEB - 1.0
+      R(1,1) = R(1,1) + HEX*H0*(- 2.0*TNMB*HSCDX + WMN*HSSX2)
+      R(1,2) = R(1,2) - RMPS*(2.0*TNMB*HSSDX + H0**2*HSCSX)
+      R(1,6) = R(1,6)
+     1 - RMPS*(2.0*TNMB*H0*HSDX2 + TMN*H0*HSDX + HSSX2)
+      R(2,1) = R(2,1)
+     1 + HEX*H0*(- 2.0*TNMB*HPCDX + WMN*H0**2*HPSX2
+     2 + CX*SX - WMN*H0**2*SX*DISN)
+      R(2,2) = R(2,2)
+     1 - HEX*H0*(2.0*TNMB*HPSDX + HPCSX
+     2 - SX**2 - CX*DISN)
+      R(2,6) = R(2,6)
+     1 - HEX*(2.0*TNMB*HPDX2 + TMN*HPDX + H0*HPSX2
+     2 - 2.0*H0*SX*DISP)
+      R(3,3) = R(3,3) +
+     1 HEX*(NB*VSSSM + 2.0*NMB*H0*VSDCM)
+      R(3,4) = R(3,4) +
+     1 RMPS*(2.0*NMB*VSDSM - VSSCM)
+      R(4,3) = R(4,3) +
+     1 HEX*(NB*VPSSM + 2.0*NMB*H0*VPDCM - NB*H0**2*H*SY*DISN)
+      R(4,4) = R(4,4) +
+     1 HEX*H0*(2.0*NMB*VPDSM - VPSCM + CY*DISN)
+C
+  410 RETURN
+      END
+      SUBROUTINE THORC
+C---- CALCULATES COEFFICIENTS OF TERMS IN ALGEBRAIC EXPRESSIONS FOR
+C---- THIRD-ORDER TRANSFER MATRIX ELEMENTS FOR A COMBINED-FUNCTION
+C---- BENDING MAGNET
+C----------------------------------------------------------------------
+      INCLUDE 'COEFS.CIN'
+      INCLUDE 'ELM0B.CIN'
+      INCLUDE 'ELM4A.CIN'
+      INCLUDE 'ELM4B.CIN'
+      INCLUDE 'H0F.CIN'
+      INCLUDE 'H02F.CIN'
+      INCLUDE 'H03F.CIN'
+      INCLUDE 'H04F.CIN'
+      INCLUDE 'H05F.CIN'
+      INCLUDE 'H06F.CIN'
+      INCLUDE 'H0L.CIN'
+      INCLUDE 'H02L.CIN'
+      INCLUDE 'H03L.CIN'
+      INCLUDE 'H04L.CIN'
+      INCLUDE 'H05L.CIN'
+      INCLUDE 'H06L.CIN'
+      INCLUDE 'H07L.CIN'
+      INCLUDE 'H08L.CIN'
+      INCLUDE 'H0N.CIN'
+      INCLUDE 'H0NW.CIN'
+      INCLUDE 'H0P.CIN'
+      INCLUDE 'H0T.CIN'
+      INCLUDE 'H0W.CIN'
+      INCLUDE 'H02W.CIN'
+      INCLUDE 'H03W.CIN'
+      INCLUDE 'H04W.CIN'
+      INCLUDE 'H05W.CIN'
+      INCLUDE 'H06W.CIN'
+      INCLUDE 'H0WF.CIN'
+      INCLUDE 'H02WF.CIN'
+      INCLUDE 'H03WF.CIN'
+      INCLUDE 'H04WF.CIN'
+      INCLUDE 'H05WF.CIN'
+      INCLUDE 'H06WF.CIN'
+      INCLUDE 'H0WT.CIN'
+      INCLUDE 'IOUNIT.CIN'
+      INCLUDE 'LP.CIN'
+      INCLUDE 'WMN.CIN'
+      INCLUDE 'WM2N.CIN'
+      INCLUDE 'WM5N.CIN'
+C
+      WM2N = 1.0 - 2.0*NB
+      IF (WM2N .EQ. 0.0) THEN
+        WRITE (NOUT,9100)
+ 9100   FORMAT (' N = 0.5 DOES NOT WORK WITH THIRD ORDER,',
+     1          ' TRY RESETTING TO .5001')
+        STOP
+      ENDIF
+      WM5N = 1.0 - 5.0*NB
+      FMTN = 4.0 - 3.0*NB
+      TMN = 2.0 - NB
+      NMB = NB - BEB
+      NMTB = NB - 2.0*BEB
+      TNMB = 2.0*NB - BEB - 1.0
+      GPTB = GAB + 2.0*BEB - NB
+      TGFB = 3.0*GAB + 4.0*BEB - NB
+      TGTB = 3.0*GAB + 3.0*BEB - 0.5*NB
+      SGTB = 6.0*GAB - 2.0*BEB - NB
+C
+      H02 = H0*H0
+      H03 = H02*H0
+      H04 = H03*H0
+      H05 = H04*H0
+      H06 = H05*H0
+      H07 = H06*H0
+      H08 = H07*H0
+C
+      L2 = L*L
+      L3 = L2*L
+      L4 = L3*L
+      L5 = L4*L
+      L6 = L5*L
+      L7 = L6*L
+      L8 = L7*L
+      L9 = L8*L
+      L10 = L9*L
+      L11 = L10*L
+      L12 = L11*L
+C
+      H0L5 = H0*L5
+      H0L6 = H0*L6
+      H0L7 = H0*L7
+      H02L = H02*L
+      H02L2 = H02*L2
+      H02L3 = H02*L3
+      H02L4 = H02*L4
+      H02L5 = H02*L5
+      H02L6 = H02*L6
+      H02L7 = H02*L7
+      H02L8 = H02*L8
+      H02L9 = H02*L9
+      H03L5 = H03*L5
+      H03L6 = H03*L6
+      H03L7 = H03*L7
+      H03L8 = H03*L8
+      H03L9 = H03*L9
+      H03L10 = H03*L10
+      H04L3 = H04*L3
+      H04L4 = H04*L4
+      H04L7 = H04*L7
+      H04L8 = H04*L8
+      H04L9 = H04*L9
+      H04L10 = H04*L10
+      H04L11 = H04*L11
+      H05L5 = H05*L5
+      H05L9 = H05L9
+      H05L10 = H05*L10
+      H05L11 = H05*L11
+      H05L12 = H05*L12
+      H06L6 = H06*L6
+      H07L7 = H07*L7
+      H08L8 = H08*L8
+C
+      WMN2 = WMN**2
+      WMN3 = WMN*WMN2
+      WM5N2 = WM5N**2
+      H0W = H0*WMN
+      H0W2 = H0*WMN2
+      H02W = H02*WMN
+      H02W2 = H02*WMN2
+      H03W = H03*WMN
+      H03W2 = H03*WMN2
+      H03W3 = H03*WMN3
+      H04W = H04*WMN
+      H04W2 = H04*WMN2
+      H04W3 = H04*WMN3
+      H05W = H05*WMN
+      H05W2 = H05*WMN2
+      H06W2 = H06*WMN2
+      H0F = H0*WM5N
+      H0F2 = H0*WM5N2
+      H02F = H02*WM5N
+      H02F2 = H02*WM5N2
+      H03F = H03*WM5N
+      H03F2 = H03*WM5N2
+      H04F = H04*WM5N
+      H04F2 = H04*WM5N2
+      H05F = H05*WM5N
+      H06F = H06*WM5N
+      H0T = H0*WM2N
+      H02T = H02*WM2N
+      H0WF = H0*WMN*WM5N
+      H02WF = H02*WMN*WM5N
+      H02W2F = H02*WMN2*WM5N
+      H03WF = H03*WMN*WM5N
+      H04WF = H04*WMN*WM5N
+      H04WF2 = H04*WMN*WM5N2
+      H04W2F = H04*WMN2*WM5N
+      H05WF = H05*WMN*WM5N
+      H06WF = H06*WMN*WM5N
+      H0WT = H0*WMN*WM2N
+      H02WT = H02*WMN*WM2N
+      H03WT = H03*WMN*WM2N
+      H04WT = H04*WMN*WM2N
+      H04W2T = H04*WMN2*WM2N
+      H02N = H02*NB
+      H03N = H03*NB
+      H04N = H04*NB
+      H05N = H05*NB
+      H03NW = H03*NB*WMN
+      H04NW = H04*NB*WMN
+      H05NW = H05*NB*WMN
+      RETURN
+      END
+      SUBROUTINE THORD
+C---- CALCULATES DOUBLE INTEGRALS FOR THIRD-ORDER MATRIX ELEMENTS FOR
+C---- A COMBINED-FUNCTION BENDING MAGNET
+C----------------------------------------------------------------------
+      INCLUDE 'ELM0B.CIN'
+      INCLUDE 'ELM4A.CIN'
+      INCLUDE 'ELM4D.CIN'
+      INCLUDE 'HSINT.CIN'
+      INCLUDE 'HSINT3.CIN'
+      INCLUDE 'HSLINT.CIN'
+      INCLUDE 'HSLIN3.CIN'
+      INCLUDE 'HPINT.CIN'
+      INCLUDE 'HPINT3.CIN'
+      INCLUDE 'HPLINT.CIN'
+      INCLUDE 'HPLIN3.CIN'
+      INCLUDE 'H0F.CIN'
+      INCLUDE 'H02F.CIN'
+      INCLUDE 'H03F.CIN'
+      INCLUDE 'H04F.CIN'
+      INCLUDE 'H05F.CIN'
+      INCLUDE 'H06F.CIN'
+      INCLUDE 'H0L.CIN'
+      INCLUDE 'H02L.CIN'
+      INCLUDE 'H03L.CIN'
+      INCLUDE 'H04L.CIN'
+      INCLUDE 'H05L.CIN'
+      INCLUDE 'H0N.CIN'
+      INCLUDE 'H0NW.CIN'
+      INCLUDE 'H0P.CIN'
+      INCLUDE 'H0W.CIN'
+      INCLUDE 'H02W.CIN'
+      INCLUDE 'H03W.CIN'
+      INCLUDE 'H04W.CIN'
+      INCLUDE 'H05W.CIN'
+      INCLUDE 'H06W.CIN'
+      INCLUDE 'H0WF.CIN'
+      INCLUDE 'H02WF.CIN'
+      INCLUDE 'H03WF.CIN'
+      INCLUDE 'H04WF.CIN'
+      INCLUDE 'H05WF.CIN'
+      INCLUDE 'H06WF.CIN'
+      INCLUDE 'LP.CIN'
+      INCLUDE 'PXINT.CIN'
+      INCLUDE 'PCXINT.CIN'
+      INCLUDE 'PSXINT.CIN'
+      INCLUDE 'PDXINT.CIN'
+      INCLUDE 'PCPINT.CIN'
+      INCLUDE 'PSPINT.CIN'
+      INCLUDE 'PDPINT.CIN'
+      INCLUDE 'PEYINT.CIN'
+      INCLUDE 'PTYINT.CIN'
+      INCLUDE 'PEQINT.CIN'
+      INCLUDE 'PTQINT.CIN'
+      INCLUDE 'QYINT.CIN'
+      INCLUDE 'QCYINT.CIN'
+      INCLUDE 'QSYINT.CIN'
+      INCLUDE 'QDYINT.CIN'
+      INCLUDE 'QCQINT.CIN'
+      INCLUDE 'QSQINT.CIN'
+      INCLUDE 'QDQINT.CIN'
+      INCLUDE 'QEXINT.CIN'
+      INCLUDE 'QTXINT.CIN'
+      INCLUDE 'QEPINT.CIN'
+      INCLUDE 'QTPINT.CIN'
+      INCLUDE 'TERMS.CIN'
+      INCLUDE 'VSINT.CIN'
+      INCLUDE 'VSINT3.CIN'
+      INCLUDE 'VSLIN3.CIN'
+      INCLUDE 'VPINT.CIN'
+      INCLUDE 'VPINT3.CIN'
+      INCLUDE 'VPLIN3.CIN'
+      INCLUDE 'WMN.CIN'
+      INCLUDE 'WM5N.CIN'
+      INCLUDE 'XXINT.CIN'
+      INCLUDE 'XCXINT.CIN'
+      INCLUDE 'XSXINT.CIN'
+      INCLUDE 'XDXINT.CIN'
+      INCLUDE 'XCPINT.CIN'
+      INCLUDE 'XSPINT.CIN'
+      INCLUDE 'XDPINT.CIN'
+      INCLUDE 'XEYINT.CIN'
+      INCLUDE 'XTYINT.CIN'
+      INCLUDE 'XEQINT.CIN'
+      INCLUDE 'XTQINT.CIN'
+      INCLUDE 'YYINT.CIN'
+      INCLUDE 'YCYINT.CIN'
+      INCLUDE 'YSYINT.CIN'
+      INCLUDE 'YDYINT.CIN'
+      INCLUDE 'YCQINT.CIN'
+      INCLUDE 'YSQINT.CIN'
+      INCLUDE 'YDQINT.CIN'
+      INCLUDE 'YEXINT.CIN'
+      INCLUDE 'YTXINT.CIN'
+      INCLUDE 'YEPINT.CIN'
+      INCLUDE 'YTPINT.CIN'
+C----------------------------------------------------------------------
+      REAL            TERM1
+C
+      XXI = HSDX/H02
+      XXC = 0.5*HSLSX/H02
+      IF (XPND) THEN
+        XXS = 1.0/120.0*L5 - WMN*H02L7/1680.
+        XXD = 1.0/720.0*H0L6 - WMN*H03L8/13440.
+      ELSE
+        XXS = 0.5*HSSX/H04W - 0.5*HSLCX/H02W
+        XXD = HSDX/H03W - 0.5*HSLSX/H03W
+      ENDIF
+      XXCC = 2./3.*HSDX/H02 + 1./3.*HSCDX/H02
+      XXCS = 1./3.*HSSDX/H04
+      IF (XPND) THEN
+        XXCD = 1.0/720.0*H0L6 - WMN*H03L8/4480.
+      ELSE
+        XXCD = 0.5*HSLSX/H03W - 2./3.*HSDX/H03W
+     1   - 1./3.*HSCDX/H03W
+      ENDIF
+      XXSS = 1./3.*HSDX2/H04
+      IF (XPND) THEN
+        XXSD = 1.0/1680.0*H0L7 - WMN*H03L9/17280.
+        XXDD = 1.0/6720.0*H02L8 - WMN*H04L10/86400.
+        XXEE = 1.0/24.0*L4 - H02L6/360.
+        XXET = 1.0/120.0*L5 - (NB/1260. + WMN/2520.)*H02L7
+        XXTT = 1.0/360.0*L6 - (NB/5040 + WMN/10080)*H02L8
+      ELSE
+        XXSD = 1./3.*HSCSX/H03W2 + 1./6.*HSSX/H05W2
+     1   - 0.5*HSLCX/H03W2
+        XXDD = 1./3.*HSCDX/H04W2 + 5./3.*HSDX/H04W2
+     1   - HSLSX/H04W2
+        XXEE = - 0.5*HSCX/H02W - 0.5*HSCX/H02F
+     1   + HSCY2/H02F - 2.0*NB*DISN/H02WF
+        XXET = - HSSX/H04F + HSCSY/H04F
+        XXTT = HSSY2/H04F - 2.0*HSDX/H04F
+      ENDIF
+C
+      XCXI = HSCDX/H02
+      XCXC = 0.5*HSLCS0
+      IF (XPND) THEN
+        XCXS = 1.0/120.0*L5 - 13.*WMN*H02L7/5040.
+        XCXD = 1.0/720.0*H0L6 - WMN*H03L8/2240.
+      ELSE
+        XCXS = - 0.5*HSLCC0/H02W + 0.5*HSCSX/H02W
+        XCXD = - 0.5*HSLCS0/H0W + HSCDX/H03W
+      ENDIF
+      XCXCC = 2./3.*HSCDX/H02 + 1./3.*HSCCD0/H0
+      XCXCS = 1./3.*HSCSD0/H0
+      IF (XPND) THEN
+        XCXCD = 1.0/720.0*H0L6 - WMN*H03L8/1680.
+        XCXSS = 1.0/360.0*L6 - WMN*H02L8/960.
+        XCXSD = 1.0/1680.0*H0L7 - WMN*H03L9/4320.
+        XCXDD = 1.0/6720.0*H02L8 - WMN*H04L10/17280.
+        XCXEE = 1.0/24.0*L4 - (NB/360. + WMN/90.)*H02L6
+        XCXET = 1.0/120.0*L5 - (NB/1260. + WMN/420.)*H02L7
+        XCXTT = 1.0/360.0*L6 - (NB/5040. + 17.*WMN/20160)*H02L8
+      ELSE
+        XCXCD = 0.5*HSLCS0/H0W - 2./3.*HSCDX/H03W
+     1   - 1./3.*HSCCD0/H02W
+        XCXSS = 1./3.*HSCDX/H04W - 1./3.*HSCCD0/H03W
+        XCXSD = - 0.5*HSLCC0/H03W2
+     1   + 1./6.*HSCSX/H03W2 + 1./3.*HSCCS0/H03W2
+        XCXDD = - HSLCS0/H02W2 + 5./3.*HSCDX/H04W2
+     1   + 1./3.*HSCCD0/H03W2
+        XCXEE = HSCCC2/H02F + 0.5*HSCDX/H02
+     1   - 0.5*HSCX/H02F - 0.5*HSCX2/H02F
+        XCXET = - HSCSX/H02F + HSCCS2/H02F
+        XCXTT = HSCSS2/H02F - 2.0*HSCX/H04WF
+     1   + 2.0*HSCX2/H04WF
+      ENDIF
+C
+      XSXI = HSSDX/H04
+      XSXC = 0.5*HSLSS0
+      IF (XPND) THEN
+        XSXS = 1.0/180.0*L6 - WMN*H02L8/1120.
+        XSXD = 1.0/1008.0*H0L7 - WMN*H03L9/6720.
+      ELSE
+        XSXS = - 0.5*HSLCS0/H02W + 0.5*HSSX2/H04W
+        XSXD = - 0.5*HSLSS0/H0W - HSCSX/H03W2
+     1   + HSSX/H05W2
+      ENDIF
+      XSXCC = 2./3.*HSSDX/H04 + 1./3.*HSCSD0/H0
+      XSXCS = 1./3.*HSSSD0/H0
+      IF (XPND) THEN
+        XSXCD = 1.0/1008.0*H0L7 - WMN*H03L9/3780.
+      ELSE
+        XSXCD = 0.5*HSLSS0/H0W - 2./3.*HSSDX/H05W
+     1   - 1./3.*HSCSD0/H02W
+      ENDIF
+      XSXSS = 1./3.*HSSDD0/H02
+      IF (XPND) THEN
+        XSXSD = 1.0/2240.0*H0*L8 - 11.*WMN*H03L10/120960.
+        XSXDD = 1.0/8640.0*H02L9 - 29.*WMN*H04L11/1330560.
+        XSXEE = 0.025*L5 - (NB/504 + WMN/280.)*H02L7
+        XSXET = 1.0/180.0*L6 - (NB/1680 + WMN/1344.)*H02L8
+        XSXTT = 1.0/504.0*L7 - (NB/6480. + 47.*WMN/181440.)*H02L9
+      ELSE
+        XSXSD = - 0.5*HSLCS0/H03W2
+     1   + 1./3.*HSCSS0/H03W2
+     2   + 1./6.*HSSX2/H05W2
+        XSXDD = - HSLSS0/H02W2 + 5./3.*HSSDX/H06W2
+     1   + 1./3.*HSCSD0/H03W2
+        XSXEE = 0.5*HSSDX/H04 - 0.5*HSCSX/H02F
+     1   + HSSCC2/H02F - 0.5*HSSX/H04F
+        XSXET = HSSCS2/H02F - HSSX2/H04F
+        XSXTT = 2.0*HSCSX/H04WF- 2.0*HSSX/H06WF
+     1   + HSSSS2/H02F
+      ENDIF
+C
+      XDXI = HSDX2/H03
+      XDXC = 0.5*HSLSD0
+      IF (XPND) THEN
+        XDXS = 1.0/504.0*H0L7 - 29.*WMN*H03L9/120960.
+        XDXD = 1.0/2688.0*H02L8 - 47.*WMN*H04L10/1209600.
+      ELSE
+        XDXS = - 0.5*HSLCD0/H02W + 0.5*HSSDX/H05W
+        XDXD = - 0.5*HSLSD0/H0W + HSDX2/H04W
+      ENDIF
+      XDXCC = 2./3.*HSDX2/H03 + 1./3.*HSCDD0/H0
+      XDXCS = 1./3.*HSSDD0/H0
+      IF (XPND) THEN
+        XDXCD = 1.0/2688.0*H02L8 - 103.*WMN*H04L10/1209600.
+      ELSE
+        XDXCD = 0.5*HSLSD0/H0W - 2./3.*HSDX2/H04W
+     1   - 1./3.*HSCDD0/H02W
+      ENDIF
+      XDXSS = 1./3.*HSDDD0/H02
+      IF (XPND) THEN
+        XDXSD = 1.0/5760.0*H02L9 - 11.*WMN*H04L11/403200.
+        XDXDD = 1.0/21600.0*H03L10 - 127.*WMN*H05L12/19958400.
+        XDXEE = 1.0/120.0*H0*L6 - (NB/1344. + WMN/1120.)*H03L8
+        XDXET = 1.0/504.0*H0L7 - (NB/4320 + 11.*WMN/60480.)*H03L9
+        XDXTT = 1.0/1344.0*H0*L8
+     1   - (NB/16200. + 113.*WMN/1814400.)*H03L10
+      ELSE
+        XDXSD = - 0.5*HSLCD0/H03W2
+     1   + 1./3.*HSCSD0/H03W2 + 1./6.*HSSDX/H06W2
+        XDXDD = - HSLSD0/H02W2 + 5./3.*HSDX2/H05W2
+     1   + 1./3.*HSCDD0/H03W2
+        XDXEE = 0.5*HSDX2/H03 - 0.5*HSCDX/H03F
+     1   + HSDCC2/H02F - 0.5*HSDX/H03F
+        XDXET = - HSSDX/H05F + HSDCS2/H02F
+        XDXTT = - 2.0*HSDX2/H05F + HSDSS2/H02F
+      ENDIF
+C
+      XCPI = HSCSX
+      XCPC = 0.5*HSLCC0 + 0.5*HSCSX
+      XCPS = 0.5*HSLCS0
+      IF (XPND) THEN
+        XCPD = 1.0/120.0*H0L5 - 13.*WMN*H03L7/5040.
+      ELSE
+        XCPD = - 0.5*HSLCC0/H0W + 0.5*HSCSX/H0W
+      ENDIF
+      XCPCC = 1./3.*HSCSX + 2./3.*HSCCS0
+      XCPCS = 1./3.*HSCDX/H02 + 2./3.*HSCCD0/H0
+      IF (XPND) THEN
+        XCPCD = 1.0/120.0*H0L5 - 19.*WMN*H03L7/5040.
+      ELSE
+        XCPCD = 0.5*HSLCC0/H0W + 1./6.*HSCSX/H0W
+     1   - 2./3.*HSCCS0/H0W
+      ENDIF
+      XCPSS = 2./3.*HSCSD0/H0
+      IF (XPND) THEN
+        XCPSD = 1.0/240.0*H0L6 - 11.*WMN*H03L8/6720.
+        XCPDD = 1.0/840.0*H02L7 - WMN*H04L9/2160.
+      ELSE
+        XCPSD = 0.5*HSLCS0/H0W - 1./3.*HSCDX/H03W
+     1   - 2./3.*HSCCD0/H02W
+        XCPDD = - HSLCC0/H02W2 + 1./3.*HSCSX/H02W2
+     1   + 2./3.*HSCCS0/H02W2
+      ENDIF
+      XCPEE = 0.5*WMN*HSCSX/WM5N - 2.*NB*HSCCS2/WM5N
+     1 + 0.5*HSCSX
+      IF (XPND) THEN
+        XCPET = 1.0/24.0*L4 - (NB/180. + WMN/90.)*H02L6
+        XCPTT = 1.0/60.0*L5 - (NB/630. + WMN/210.)*H02L7
+      ELSE
+        XCPET = 2.*HSCCC2/H02F - HSCX/H02F
+     1   - HSCX2/H02F
+        XCPTT = - 2.0*HSCSX/H02F + 2.*HSCCS2/H02F
+      ENDIF
+C
+      XSPI = HSSX2/H02
+      XSPC = 0.5*HSLCS0 + 0.5*HSSX2/H02
+      XSPS = 0.5*HSLSS0
+      IF (XPND) THEN
+        XSPD = 1.0/180.0*H0L6 - WMN*H03L8/1120.
+      ELSE
+        XSPD = - 0.5*HSLCS0/H0W + 0.5*HSSX2/H03W
+      ENDIF
+      XSPCC = 2./3.*HSCSS0  + 1./3.*HSSX2/H02
+      XSPCS = 1./3.*HSSDX/H04 + 2./3.*HSCSD0/H0
+      IF (XPND) THEN
+        XSPCD = 1.0/180.0*H0L6 - WMN*H03L8/560.
+      ELSE
+        XSPCD = 0.5*HSLCS0/H0W - 2./3.*HSCSS0/H0W
+     1   + 1./6.*HSSX2/H03W
+      ENDIF
+      XSPSS = 2./3.*HSSSD0/H0
+      IF (XPND) THEN
+        XSPSD = 1.0/336.0*H0L7 - 41.*WMN*H03L9/60480.
+        XSPDD = 1.0/1120.0*H02L8 - 11.*WMN*H04L10/60480.
+      ELSE
+        XSPSD = 0.5*HSLSS0/H0W - 2./3.*HSCSD0/H02W
+     1   - 1./3.*HSSDX/H05W
+        XSPDD = - HSLCS0/H02W2 + 2./3.*HSCSS0/H02W2
+     1   + 1./3.*HSSX2/H04W2
+      ENDIF
+      XSPEE = - 2.*NB*HSSCS2/WM5N + 0.5*HSSX2/H02
+     1 + 0.5*WMN*HSSX2/H02F
+      IF (XPND) THEN
+        XSPET = 0.025*L5 - (NB/252. + WMN/280.)*H02L7
+        XSPTT = 1.0/90.0*L6 - (NB/840. + WMN/672.)*H02L8
+      ELSE
+        XSPET = - HSCSX/H02F + 2.*HSSCC2/H02F
+     1   - HSSX/H04F
+        XSPTT = - 2.0*HSSX2/H04F + 2.*HSSCS2/H02F
+      ENDIF
+C
+      XDPI = HSSDX/H03
+      XDPC = 0.5*HSLCD0 + 0.5*HSSDX/H03
+      XDPS = 0.5*HSLSD0
+      IF (XPND) THEN
+        XDPD = 1.0/504.0*H02L7 - 29.*WMN*H04L9/120960.
+      ELSE
+        XDPD = - 0.5*HSLCD0/H0W + 0.5*HSSDX/H04W
+      ENDIF
+      XDPCC = 2./3.*HSCSD0 + 1./3.*HSSDX/H03
+      XDPCS = 1./3.*HSDX2/H03 + 2./3.*HSCDD0/H0
+      IF (XPND) THEN
+        XDPCD = 1.0/504.0*H02L7 - 71.*WMN*H04L9/120960.
+      ELSE
+        XDPCD = 0.5*HSLCD0/H0W - 2./3.*HSCSD0/H0W
+     1   + 1./6.*HSSDX/H04W
+      ENDIF
+      XDPSS = 2./3.*HSSDD0/H0W
+      IF (XPND) THEN
+        XDPSD = 1.0/896.0*H02L8 - 253.*WMN*H04L10/1209600.
+        XDPDD = 1.0/2880.0*H03L9 - 11.*WMN*H05L11/201600.
+      ELSE
+        XDPSD = 0.5*HSLSD0/H0W - 2./3.*HSCDD0/H02W
+     1   - 1./3.*HSDX2/H04W
+        XDPDD = - HSLCD0/H02W2 + 2./3.*HSCSD0/H02W2
+     1   + 1./3.*HSSDX/H05W2
+      ENDIF
+      XDPEE = - 2.*NB*HSDCS2/WM5N + 0.5*HSSDX/H03
+     1 + 0.5*HSSDX*WMN/H03F
+      IF (XPND) THEN
+        XDPET = 1.0/120.0*H0L6 - (NB/672. + WMN/1120.)*H03L8
+        XDPTT = 1.0/252.0*H0L7 - (NB/2160. + 11.*WMN/30240.)*H03L9
+      ELSE
+        XDPET = - HSCDX/H03F + 2.*HSDCC2/H02F
+     1   - HSDX/H03F
+        XDPTT = - 2.0*HSSDX/H05F + 2.*HSDCS2/H02F
+      ENDIF
+C
+      XEYE = 0.5*HSLCS2
+      IF (XPND) THEN
+        XEYT = 1.0/120.0*L5 - (NB/420. + WMN/5040.)*H02L7
+        XEYCE = 1.0/24.0*L4 - (NB/90. + WMN/360.)*H02L6
+        XEYCT = 1.0/120.0*L5 - (NB/420. + WMN/1260.)*H02L7
+        XEYSE = 1.0/120.0*L5 - (NB/360. + WMN/2520.)*H02L7
+        XEYST = 1.0/360.0*L6 - (NB/1120. + WMN/6720.)*H02L8
+        XEYDE = 1.0/720.0*H0L6 - (11.*NB + WMN)*H03L8/20160.
+      ELSE
+        IF (NB .EQ. 0.0) XEYT = 1./6.*HSL3/H04
+        IF (NB .NE. 0.0)
+     1    XEYT = - 0.5*HSLCC2/H02N + 0.5*HSCSY/H04N
+        XEYCE = - 2.0*NB*HSSCS2/WM5N - HSCCC2/H02F
+     1   + HSCY2/H02F
+        XEYCT = 2.0*HSSCC2/H02F - HSCCS2/H02F
+     1   - HSCSY/H04F
+        XEYSE = 0.5*HSCCS2/H02F + 0.5*HSDCS2/H0
+     1   + 0.5*HSCSY/H04F - HSSCC2/H02F
+        XEYST = 2.0*HSDCC2/H03F - HSSCS2/H02F
+        XEYDE = 0.5*HSLCS2/H0W + 2.0*NB*HSSCS2/H0WF
+     1   - HSDCC2/H02F
+      ENDIF
+      IF (XPND) THEN
+        XEYDT = 1.0/1680.0*H0L7 - (19.*NB/90720. + WMN/45360.)*H03L9
+      ELSE IF (NB .EQ. 0.0) THEN
+        XEYDT = 1./6.*HSL3/H05 - 2.0*HSSCC2/H03
+     1   + HSCCS2/H03 + HSCSY/H05
+      ELSE
+        XEYDT = - 0.5*HSLCC2/H03NW
+     1   + 0.5*HSCSY/H05NW - 2.0*HSSCC2/H03WF
+     2   + HSCCS2/H03WF + HSCSY/H05WF
+      ENDIF
+C
+      XTYE = 0.5*HSLSS2
+      IF (XPND) THEN
+        XTYT = 1.0/180.0*L6 - (NB/1260. + WMN/10080.)*H02L8
+        XTYCE = 0.025*L5 - (NB/252. + WMN/630.)*H02L7
+        XTYCT = 1.0/180.0*L6 - (NB/1260. + 11.*WMN/20160.)*H02L8
+        XTYSE = 1.0/180.0*L6 - (11.*NB/10080. + WMN/4032.)*H02L8
+        XTYST = 1.0/504.0*L7 - (NB/3240. + 19.*WMN/181440.)*H02L9
+        XTYDE = 1.0/1008.0*H0L7 - (NB/4320. + WMN/30240.)*H03L9
+      ELSE
+        IF (NB .EQ. 0.0) THEN
+          XTYT = 1.0/6.0*HSL4/H06
+        ELSE
+          XTYT = 0.5*HSSY2/H04N - 0.5*HSLCS2/H02N
+        ENDIF
+        XTYCE = - HSCCS2/H02F + HSCSY/H04F
+     1   - 2.0*NB*HSSSS2/WM5N
+        XTYCT = 2.0*HSSCS2/H02F - HSCSS2/H02F
+     1   - HSSY2/H04F
+        XTYSE = 0.5*HSDSS2/H0 - HSSCS2/H02F
+     1   + 0.5*HSCSS2/H02F + 0.5*HSSY2/H04F
+        XTYST = - 2.0*HSCCS2/H04WF
+     1   + 2.0*HSCSY/H06WF - HSSSS2/H02F
+        XTYDE = 0.5*HSLSS2/H0W - HSDCS2/H02F
+     1   + 2.0*NB*HSSSS2/H0WF
+      ENDIF
+      IF (XPND) THEN
+        XTYDT = 1.0/2240.0*H0*L8
+     1          - (17.*NB/226800. + 29.*WMN/1814400.)*H03L10
+      ELSE IF (NB .EQ. 0.0) THEN
+        XTYDT = HSSY2/H05 + HSCSS2/H03 - 2.0*HSSCS2/H03
+     1   + 1.0/6.0*HSL4/H07
+      ELSE
+        XTYDT = 0.5*HSSY2/H05NW
+     1   - 0.5*HSLCS2/H03NW - 2.0*HSSCS2/H03WF
+     2   + HSCSS2/H03WF + HSSY2/H05WF
+      ENDIF
+C
+      XEQE = 0.5*HSLCC2 + 0.5*HSCSY/H02
+      XEQT = 0.5*HSLCS2
+      XEQCE = - NB*HSCCS2/WM5N - NB*HSCSY/H02F
+     1 + 0.5*HSSCC2 + 0.5*WMN*HSSCC2/WM5N
+      IF (XPND) THEN
+        XEQCT = 1.0/24.0*L4 - (NB/90. + WMN/180.)*H02L6
+        XEQSE = 1.0/24.0*L4 - (NB/90. + WMN/360.)*H02L6
+        XEQST = 1.0/60.0*L5 - (13.*NB/2520. + WMN/840.)*H02L7
+        XEQDE = 1.0/120.0*H0L5 - (17.*NB/5040. + WMN/2520.)*H03L7
+        XEQDT = 1.0/240.0*H0L6 - (29.*NB/20160. + WMN/5040.)*H03L8
+      ELSE
+        XEQCT = 0.5*HSSCS2 + 0.5*HSSCS2*WMN/WM5N
+     1   + HSCCC2/H02F - HSCY2/H02F
+        XEQSE = 0.5*HSDCC2/H0 - NB*HSSCS2/WM5N
+     1   - 0.5*HSCCC2/H02F + 0.5*HSCY2/H02F
+        XEQST = 0.5*HSDCS2/H0 - 0.5*HSCCS2/H02F
+     1   - 0.5*HSCSY/H04F + HSSCC2/H02F
+        XEQDE = NB*HSCCS2/H0WF + NB*HSCSY/H03WF
+     1   + 0.5*HSLCC2/H0W + 0.5*HSCSY/H03W
+     2   - 0.5*HSSCC2/H0W - 0.5*HSSCC2/H0F
+        XEQDT = 0.5*HSLCS2/H0W - 0.5*HSSCS2/H0W
+     1   - 0.5*HSSCS2/H0F + HSDCC2/H02F
+      ENDIF
+C
+      XTQE = 0.5*HSLCS2 + 0.5*HSSY2/H02
+      XTQT = 0.5*HSLSS2
+      XTQCE = - NB*HSCSS2/WM5N - NB*HSSY2/H02F
+     1 + 0.5*HSSCS2 + 0.5*WMN*HSSCS2/WM5N
+      IF (XPND) THEN
+        XTQCT = 0.025*L5 - (NB/252. + WMN/280.)*H02L7
+        XTQSE = 0.025*L5 - (NB/168. + WMN/630.)*H02L7
+        XTQST = 1.0/90.0*L6 - (19.*NB/10080. + WMN/1260.)*H02L8
+        XTQDE = 1.0/180.0*H0L6 - (31.*NB/20160. + WMN/4032.)*H03L8
+        XTQDT = 1.0/336.0*H0L7
+     1          - (7.*NB/12960. + 5.*WMN/36288.)*H03L9
+      ELSE
+        XTQCT = HSCCS2/H02F - HSCSY/H04F
+     1   + 0.5*HSSSS2 + 0.5*WMN*HSSSS2/WM5N
+        XTQSE = 0.5*HSDCS2/H0 - NB*HSSSS2/WM5N
+     1   - 0.5*HSCCS2/H02F + 0.5*HSCSY/H04F
+        XTQST = 0.5*HSDSS2/H0 + HSSCS2/H02F
+     1   - 0.5*HSCSS2/H02F - 0.5*HSSY2/H04F
+        XTQDE = NB*HSCSS2/H0WF + NB*HSSY2/H03WF
+     1   + 0.5*HSLCS2/H0W - 0.5*HSSCS2/H0W
+     2   - 0.5*HSSCS2/H0F + 0.5*HSSY2/H03W
+        XTQDT = 0.5*HSLSS2/H0W - 0.5*HSSSS2/H0W
+     1   + HSDCS2/H02F - 0.5*HSSSS2/H0F
+      ENDIF
+C
+      PXI = HPDX/H02
+      PXC = 0.5*HPLSX
+      IF (XPND) THEN
+        PXS = 1.0/24.0*L4 - WMN*H02L6/240.
+        PXD = 1.0/120.0*H0L5 - WMN*H03L7/1680.
+      ELSE
+        PXS = 0.5*HPSX/H02W - 0.5*HPLCX/H02W
+        PXD = HPDX/H03W - 0.5*HPLSX/H0W
+      ENDIF
+      PXCC = 2./3.*HPDX/H02 + 1./3.*HPCDX/H02
+      PXCS = 1./3.*HPSDX/H02
+      IF (XPND) THEN
+        PXCD = 1.0/120.0*H0L5 - WMN*H03L7/560.
+      ELSE
+        PXCD = 0.5*HPLSX/H0W - 2./3.*HPDX/H03W
+     1   - 1./3.*HPCDX/H03W
+      ENDIF
+      PXSS = 1./3.*HPDX2/H04
+      IF (XPND) THEN
+        PXSD = 1.0/240.0*H0L6 - WMN*H03L8/1920.
+        PXDD = 1.0/840.0*H02L7 - WMN*H04L9/8640.
+      ELSE
+        PXSD = 1./3.*HPCSX/H03W2 + 1./6.*HPSX/H03W2
+     1   - 0.5*HPLCX/H03W2
+        PXDD = 1./3.*HPCDX/H04W2 + 5./3.*HPDX/H04W2
+     1   - HPLSX/H02W2
+      ENDIF
+      IF (XPND) THEN
+        PXEE = 1.0/6.0*L3 - H02L5/60.
+        PXET = 1.0/24.0*L4 - (NB/180. + WMN/360.)*H02L6
+        PXTT = 1.0/60.0*L5 - (NB/630. + WMN/1260.)*H02L7
+      ELSE
+        PXEE = - 0.5*HPCX/H02W - 0.5*HPCX/H02F
+     1   + HPCY2/H02F - 2.0*NB*SX/H02WF
+        PXET = - HPSX/H02F + HPCSY/H02F
+        PXTT = HPSY2/H04F - 2.0*HPDX/H04F
+      ENDIF
+C
+      PCXI = HPCDX/H02
+      PCXC = 0.5*HPLCS0
+      IF (XPND) THEN
+        PCXS = 1.0/24.0*L4 - 13.*WMN*H02L6/720.
+        PCXD = 1.0/120.0*H0L5 - WMN*H03L7/280.
+      ELSE
+        PCXS = - 0.5*HPLCC0/H02W + 0.5*HPCSX/H02W
+        PCXD = - 0.5*HPLCS0/H0W + HPCDX/H03W
+      ENDIF
+      PCXCC = 2./3.*HPCDX/H02 + 1./3.*HPCCD0/H0
+      PCXCS = 1./3.*HPCSD0/H0
+      IF (XPND) THEN
+        PCXCD = 1.0/120.0*H0L5 - WMN*H03L7/210.
+        PCXSS = 1.0/60.0*L5 - WMN*H02L7/120.
+        PCXSD = 1.0/240.0*H0L6 - WMN*H03L8/480.
+        PCXDD = 1.0/840.0*H02L7 - WMN*H04L9/1728.
+        PCXEE = 1.0/6.0*L3 - (NB/60. + WMN/15.)*H02L5
+        PCXET = 1.0/24.0*L4 - (NB/180. + WMN/60.)*H02L6
+        PCXTT = 1.0/60.0*L5 - (NB/630. + 17.*WMN/2520.)*H02L7
+      ELSE
+        PCXCD = 0.5*HPLCS0/H0W - 2./3.*HPCDX/H03W
+     1   - 1./3.*HPCCD0/H02W
+        PCXSS = 1./3.*HPCDX/H04W - 1./3.*HPCCD0/H03W
+        PCXSD = - 0.5*HPLCC0/H03W2
+     1   + 1./6.*HPCSX/H03W2 + 1./3.*HPCCS0/H03W2
+        PCXDD = - HPLCS0/H02W2 + 5./3.*HPCDX/H04W2
+     1   + 1./3.*HPCCD0/H03W2
+        PCXEE = HPCCC2/H02F + 0.5*HPCDX/H02
+     1   - 0.5*HPCX/H02F - 0.5*HPCX2/H02F
+        PCXET = - HPCSX/H02F + HPCCS2/H02F
+        PCXTT = HPCSS2/H02F - 2.0*HPCX/H04WF
+     1   + 2.0*HPCX2/H04WF
+      ENDIF
+C
+      PSXI = HPSDX/H02
+      PSXC = 0.5*HPLSS0
+      IF (XPND) THEN
+        PSXS = 1.0/30.0*L5 - WMN*H02L7/140.
+        PSXD = 1.0/144.0*H0L6 - 3.*WMN*H03L8/2240.
+      ELSE
+        PSXS = - 0.5*HPLCS0/H02W + 0.5*HPSX2/H02W
+        PSXD = - 0.5*HPLSS0/H0W - HPCSX/H03W2
+     1   + HPSX/H03W2
+      ENDIF
+      PSXCC = 2./3.*HPSDX/H02 + 1./3.*HPCSD0/H0
+      PSXCS = 1./3.*HPSSD0/H0
+      IF (XPND) THEN
+        PSXCD = 1.0/144.0*H0L6 - WMN*H03L8/420.
+      ELSE
+        PSXCD = 0.5*HPLSS0/H0W - 2./3.*HPSDX/H03W
+     1   - 1./3.*HPCSD0/H02W
+      ENDIF
+      PSXSS = 1./3.*HPSDD0/H02
+      IF (XPND) THEN
+        PSXSD = 1.0/280.0*H0L7 - 11.*WMN*H03L9/12096.
+        PSXDD = 1.0/960.0*H02L8 - 29.*WMN*H04L10/120960.
+        PSXEE = 0.125*L4 - (NB/72. + WMN/40.)*H02L6
+        PSXET = 1.0/30.0*L5 - (NB/210. + WMN/168.)*H02L7
+        PSXTT = 1.0/72.0*L6 - (NB/720. + 47.*WMN/20160.)*H02L8
+      ELSE
+        PSXSD = - 0.5*HPLCS0/H03W2
+     1   + 1./3.*HPCSS0/H03W2 + 1./6.*HPSX2/H03W2
+        PSXDD = - HPLSS0/H02W2 + 5./3.*HPSDX/H04W2
+     1   + 1./3.*HPCSD0/H03W2
+        PSXEE = 0.5*HPSDX/H02 - 0.5*HPCSX/H02F
+     1   + HPSCC2/H02F - 0.5*HPSX/H02F
+        PSXET = HPSCS2/H02F - HPSX2/H02F
+        PSXTT = 2.0*HPCSX/H04WF- 2.0*HPSX/H04WF
+     1   + HPSSS2/H02F
+      ENDIF
+C
+      PDXI = HPDX2/H03
+      PDXC = 0.5*HPLSD0
+      IF (XPND) THEN
+        PDXS = 1.0/72.0*H0L6 - 29.*WMN*H03L8/13440.
+        PDXD = 1.0/336.0*H02L7 - 47.*WMN*H04L9/120960.
+      ELSE
+        PDXS = - 0.5*HPLCD0/H02W + 0.5*HPSDX/H03W
+        PDXD = - 0.5*HPLSD0/H0W + HPDX2/H04W
+      ENDIF
+      PDXCC = 2./3.*HPDX2/H03 + 1./3.*HPCDD0/H0
+      PDXCS = 1./3.*HPSDD0/H0
+      IF (XPND) THEN
+        PDXCD = 1.0/336.0*H02L7 - 103.*WMN*H04L9/120960.
+      ELSE
+        PDXCD = 0.5*HPLSD0/H0W - 2./3.*HPDX2/H04W
+     1   - 1./3.*HPCDD0/H02W
+      ENDIF
+      PDXSS = 1./3.*HPDDD0/H02
+      IF (XPND) THEN
+        PDXSD = 1.0/640.0*H02L8 - 121.*WMN*H04L10/403200.
+        PDXDD = 1.0/2160.0*H03L9 - 127.*WMN*H05L11/1663200.
+        PDXEE = 0.05*H0L5 - (NB/168. + WMN/140.)*H03L7
+        PDXET = 1.0/72.0*H0L6 - (NB/480. + 11.*WMN/6720.)*H03L8
+        PDXTT = 1.0/168.0*H0L7 - (NB/1620. + 113.*WMN/181440.)*H03L9
+      ELSE
+        PDXSD = - 0.5*HPLCD0/H03W2
+     1   + 1./3.*HPCSD0/H03W2 + 1./6.*HPSDX/H04W2
+        PDXDD = - HPLSD0/H02W2 + 5./3.*HPDX2/H05W2
+     1   + 1./3.*HPCDD0/H03W2
+        PDXEE = 0.5*HPDX2/H03 - 0.5*HPCDX/H03F
+     1   + HPDCC2/H02F - 0.5*HPDX/H03F
+        PDXET = - HPSDX/H03F + HPDCS2/H02F
+        PDXTT = - 2.0*HPDX2/H05F + HPDSS2/H02F
+      ENDIF
+C
+      PCPI = HPCSX
+      PCPC = 0.5*HPLCC0 + 0.5*HPCSX
+      PCPS = 0.5*HPLCS0
+      IF (XPND) THEN
+        PCPD = 1.0/24.0*H0*L4 - 13.*WMN*H03L6/720.
+      ELSE
+        PCPD = - 0.5*HPLCC0/H0W + 0.5*HPCSX/H0W
+      ENDIF
+      PCPCC = 1./3.*HPCSX + 2./3.*HPCCS0
+      PCPCS = 1./3.*HPCDX/H02 + 2./3.*HPCCD0/H0
+      IF (XPND) THEN
+        PCPCD = 1.0/24.0*H0*L4 - 19.*WMN*H03L6/720.
+      ELSE
+        PCPCD = 0.5*HPLCC0/H0W + 1./6.*HPCSX/H0W
+     1   - 2./3.*HPCCS0/H0W
+      ENDIF
+      PCPSS = 2./3.*HPCSD0/H0
+      IF (XPND) THEN
+        PCPSD = 0.025*H0L5 - 11.*WMN*H03L7/840.
+        PCPDD = 1.0/120.0*H02L6 - WMN*H04L8/240.
+      ELSE
+        PCPSD = 0.5*HPLCS0/H0W - 1./3.*HPCDX/H03W
+     1   - 2./3.*HPCCD0/H02W
+        PCPDD = - HPLCC0/H02W2 + 1./3.*HPCSX/H02W2
+     1   + 2./3.*HPCCS0/H02W2
+      ENDIF
+      PCPEE = 0.5*WMN*HPCSX/WM5N - 2.*NB*HPCCS2/WM5N
+     1 + 0.5*HPCSX
+      IF (XPND) THEN
+        PCPET = 1.0/6.0*L3 - (NB/30. + WMN/15.)*H02L5
+        PCPTT = 1.0/12.0*L4 - (NB/90. + WMN/30.)*H02L6
+      ELSE
+        PCPET = 2.*HPCCC2/H02F - HPCX/H02F
+     1   - HPCX2/H02F
+        PCPTT = - 2.0*HPCSX/H02F + 2.0*HPCCS2/H02F
+      ENDIF
+C
+      PSPI = HPSX2
+      PSPC = 0.5*HPLCS0 + 0.5*HPSX2
+      PSPS = 0.5*HPLSS0
+      IF (XPND) THEN
+        PSPD = 1.0/30.0*H0L5 - WMN*H03L7/140.
+      ELSE
+        PSPD = - 0.5*HPLCS0/H0W + 0.5*HPSX2/H0W
+      ENDIF
+      PSPCC = 2./3.*HPCSS0  + 1./3.*HPSX2
+      PSPCS = 1./3.*HPSDX/H02 + 2./3.*HPCSD0/H0
+      IF (XPND) THEN
+        PSPCD = 1.0/30.0*H0L5 - WMN*H03L7/70.
+      ELSE
+        PSPCD = 0.5*HPLCS0/H0W - 2./3.*HPCSS0/H0W
+     1   + 1./6.*HPSX2/H0W
+      ENDIF
+      PSPSS = 2./3.*HPSSD0/H0
+      IF (XPND) THEN
+        PSPSD = 1.0/48.0*H0L6 - 41.*WMN*H03L8/6720.
+        PSPDD = 1.0/140.0*H02L7 - 11.*WMN*H04L9/6048.
+      ELSE
+        PSPSD = 0.5*HPLSS0/H0W - 2./3.*HPCSD0/H02W
+     1   - 1./3.*HPSDX/H03W
+        PSPDD = - HPLCS0/H02W2 + 2./3.*HPCSS0/H02W2
+     1   + 1./3.*HPSX2/H02W2
+      ENDIF
+      PSPEE = - 2.*NB*HPSCS2/WM5N + 0.5*HPSX2
+     1 + 0.5*WMN*HPSX2/WM5N
+      IF (XPND) THEN
+        PSPET = 0.125*L4 - (NB/36 + WMN/40.)*H02L6
+        PSPTT = 1.0/15.0*L5 - (NB/105. + WMN/84.)*H02L7
+      ELSE
+        PSPET = - HPCSX/H02F + 2.*HPSCC2/H02F
+     1   - HPSX/H02F
+        PSPTT = - 2.0*HPSX2/H02F + 2.*HPSCS2/H02F
+      ENDIF
+C
+      PDPI = HPSDX/H0
+      PDPC = 0.5*HPLCD0 + 0.5*HPSDX/H0
+      PDPS = 0.5*HPLSD0
+      IF (XPND) THEN
+        PDPD = 1.0/72.0*H02L6 - 29.*WMN*H04L8/13440.
+      ELSE
+        PDPD = - 0.5*HPLCD0/H0W + 0.5*HPSDX/H02W
+      ENDIF
+      PDPCC = 2./3.*HPCSD0 + 1./3.*HPSDX/H0
+      PDPCS = 1./3.*HPDX2/H03 + 2./3.*HPCDD0/H0
+      IF (XPND) THEN
+        PDPCD = 1.0/72.0*H02L6 - 71.*WMN*H04L8/13440.
+      ELSE
+        PDPCD = 0.5*HPLCD0/H0W - 2./3.*HPCSD0/H0W
+     1   + 1./6.*HPSDX/H02W
+      ENDIF
+      PDPSS = 2./3.*HPSDD0/H0W
+      IF (XPND) THEN
+        PDPSD = 1.0/112.0*H02L7 - 253.*WMN*H04L9/120960.
+        PDPDD = 1.0/320.0*H03L8 - 121.*WMN*H05L10/201600.
+      ELSE
+        PDPSD = 0.5*HPLSD0/H0W - 2./3.*HPCDD0/H02W
+     1   - 1./3.*HPDX2/H04W
+        PDPDD = - HPLCD0/H02W2 + 2./3.*HPCSD0/H02W2
+     1   + 1./3.*HPSDX/H03W2
+      ENDIF
+      PDPEE = - 2.*NB*HPDCS2/WM5N + 0.5*HPSDX/H0
+     1 + 0.5*HPSDX*WMN/H0F
+      IF (XPND) THEN
+        PDPET = 0.05*H0L5 - (NB/84. + WMN/140.)*H03L7
+        PDPTT = 1.0/36.0*H0L6 - (NB/240. + 11.*WMN/3360.)*H03L8
+      ELSE
+        PDPET = - HPCDX/H03F + 2.*HPDCC2/H02F
+     1   - HPDX/H03F
+        PDPTT = - 2.0*HPSDX/H03F + 2.*HPDCS2/H02F
+      ENDIF
+C
+      PEYE = 0.5*HPLCS2
+      IF (XPND) THEN
+        PEYT = 1/24.0*L4 - (NB/60. + WMN/720.)*H02L6
+        PEYCE = 1.0/6.0*L3 - (NB/15. + WMN/60.)*H02L5
+        PEYCT = 1.0/24.0*L4 - (NB/60. + WMN/180.)*H02L6
+        PEYSE = 1.0/24.0*L4 - (7.*NB/360. + WMN/360.)*H02L6
+        PEYST = 1.0/60.0*L5 - (NB/140. + WMN/840.)*H02L7
+        PEYDE = 1.0/120.0*H0L5 - (11.*NB + WMN)*H03L7/2520.
+        PEYDT = 1.0/240.0*H0L6 - (19.*NB/10080. + WMN/5040.)*H03L8
+      ELSE
+        IF (NB .EQ. 0.0) THEN
+          PEYT = 1.0/6.0*HPL3
+        ELSE
+          PEYT = - 0.5*HPLCC2/(NB*H02) + 0.5*HPCSY/(NB*H02)
+        ENDIF
+        PEYCE = - 2.0*NB*HPSCS2/WM5N - HPCCC2/H02F
+     1   + HPCY2/H02F
+        PEYCT = 2.0*HPSCC2/H02F - HPCCS2/H02F
+     1   - HPCSY/H02F
+        PEYSE = 0.5*HPCCS2/H02F + 0.5*HPDCS2/H0
+     1   + 0.5*HPCSY/H02F - HPSCC2/H02F
+        PEYST = 2.0*HPDCC2/H03F - HPSCS2/H02F
+        PEYDE = 0.5*HPLCS2/H0W + 2.0*NB*HPSCS2/H0WF
+     1   - HPDCC2/H02F
+        IF (NB .EQ. 0.0) TERM1 = 1.0/6.0*HPL3/H0W
+        IF (NB .NE. 0.0)
+     1   TERM1 = - 0.5*HPLCC2/H03NW + 0.5*HPCSY/H03NW
+        PEYDT = TERM1 - 2.0*HPSCC2/H03WF
+     1   + HPCCS2/H03WF + HPCSY/H03WF
+      ENDIF
+C
+      PTYE = 0.5*HPLSS2
+      IF (XPND) THEN
+        PTYT = 1.0/30.0*L5 - (2.*NB/315. + WMN/1260.)*H02L7
+        PTYCE = 0.125*L4 - (NB/36. + WMN/90.)*H02L6
+        PTYCT = 1.0/30.0*L5 - (2.*NB/315. + 11.*WMN/2520.)*H02L7
+        PTYSE = 1.0/30.0*L5 - (11.*NB/1260. + WMN/504.)*H02L7
+        PTYST = 1.0/72.0*L6 - (NB/360. + 19.*WMN/20160.)*H02L8
+        PTYDE = 1.0/144.0*H0L6 - (NB/480. + WMN/3360.)*H03L8
+        PTYDT = 1.0/280.0*H0L7
+     1          - (17.*NB/22680. + 29.*WMN/181440.)*H03L9
+      ELSE
+        IF (NB .EQ. 0.0) PTYT = 1.0/6.0*HPL4
+        IF (NB .NE. 0.0) PTYT = 0.5*HPSY2/H04N
+     1   - 0.5*HPLCS2/H02N
+        PTYCE = - HPCCS2/H02F + HPCSY/H02F
+     1   - 2.0*NB*HPSSS2/WM5N
+        PTYCT = 2.0*HPSCS2/H02F - HPCSS2/H02F
+     1   - HPSY2/H04F
+        PTYSE = 0.5*HPDSS2/H0 - HPSCS2/H02F
+     1   + 0.5*HPCSS2/H02F + 0.5*HPSY2/H04F
+        PTYST = - 2.0*HPCCS2/H04WF
+     1   + 2.0*HPCSY/H04WF - HPSSS2/H02F
+        PTYDE = 0.5*HPLSS2/H0W - HPDCS2/H02F
+     1   + 2.0*NB*HPSSS2/H0WF
+        IF (NB .EQ. 0.0) TERM1 = 1.0/6.0*HPL4/H0W
+        IF (NB .NE. 0.0) TERM1 = 0.5*HPSY2/H05NW
+     1   - 0.5*HPLCS2/H03NW
+        PTYDT = TERM1 - 2.0*HPSCS2/H03WF
+     1   + HPCSS2/H03WF + HPSY2/H05WF
+      ENDIF
+C
+      PEQE = 0.5*HPLCC2 + 0.5*HPCSY
+      PEQT = 0.5*HPLCS2
+      PEQCE = - NB*HPCCS2/WM5N - NB*HPCSY/WM5N
+     1 + 0.5*HPSCC2 + 0.5*WMN*HPSCC2/WM5N
+      IF (XPND) THEN
+        PEQCT = 1.0/6.0*L3 - (NB/15. + WMN/30.)*H02L5
+        PEQSE = 1.0/6.0*L3 - (NB/12. + WMN/60.)*H02L5
+        PEQST = 1.0/12.0*L4 - (13.*NB/360. + WMN/120.)*H02L6
+        PEQDE = 1.0/24.0*H0*L4 - (17.*NB/720. + WMN/360.)*H03L6
+        PEQDT = 0.025*H0L5 - (29.*NB/2520. + WMN/630.)*H03L7
+      ELSE
+        PEQCT = 0.5*HPSCS2 + 0.5*HPSCS2*WMN/WM5N
+     1   + HPCCC2/H02F - HPCY2/H02F
+        PEQSE = 0.5*HPDCC2/H0 - NB*HPSCS2/WM5N
+     1   - 0.5*HPCCC2/H02F + 0.5*HPCY2/H02F
+        PEQST = 0.5*HPDCS2/H0 - 0.5*HPCCS2/H02F
+     1   - 0.5*HPCSY/H02F + HPSCC2/H02F
+        PEQDE = NB*HPCCS2/H0WF + NB*HPCSY/H0WF
+     1   + 0.5*HPLCC2/H0W + 0.5*HPCSY/H0W
+     2   - 0.5*HPSCC2/H0W - 0.5*HPSCC2/H0F
+        PEQDT = 0.5*HPLCS2/H0W - 0.5*HPSCS2/H0W
+     1   - 0.5*HPSCS2/H0F + HPDCC2/H02F
+      ENDIF
+C
+      PTQE = 0.5*HPLCS2 + 0.5*HPSY2/H02
+      PTQT = 0.5*HPLSS2
+      PTQCE = - NB*HPCSS2/WM5N - NB*HPSY2/H02F
+     1 + 0.5*HPSCS2 + 0.5*WMN*HPSCS2/WM5N
+      IF (XPND) THEN
+        PTQCT = 0.125*L4 - (NB/36. + WMN/40.)*H02L6
+        PTQSE = 0.125*L4 - (NB/24. + WMN/90.)*H02L6
+        PTQST = 1.0/15.0*L5 - (19.*NB/1260. + 2.*WMN/315.)*H02L7
+        PTQDE = 1.0/30.0*H0L5 - (31.*NB/2520. + WMN/504.)*H03L7
+        PTQDT = 1.0/48.0*H0L6 - (7.*NB/1440. + 5.*WMN/4032.)*H03L8
+      ELSE
+        PTQCT = HPCCS2/H02F - HPCSY/H02F
+     1   + 0.5*HPSSS2 + 0.5*WMN*HPSSS2/WM5N
+        PTQSE = 0.5*HPDCS2/H0 - NB*HPSSS2/WM5N
+     1   - 0.5*HPCCS2/H02F + 0.5*HPCSY/H02F
+        PTQST = 0.5*HPDSS2/H0 + HPSCS2/H02F
+     1   - 0.5*HPCSS2/H02F - 0.5*HPSY2/H04F
+        PTQDE = NB*HPCSS2/H0WF + NB*HPSY2/H03WF
+     1   + 0.5*HPLCS2/H0W - 0.5*HPSCS2/H0W
+     2   - 0.5*HPSCS2/H0F + 0.5*HPSY2/H03W
+        PTQDT = 0.5*HPLSS2/H0W - 0.5*HPSSS2/H0W
+     1   + HPDCS2/H02F - 0.5*HPSSS2/H0F
+      ENDIF
+C
+      YYE = 0.5*VSLSY
+      IF (XPND .OR. NB .EQ. 0.0) YYT = L5/120.0
+      IF (.NOT. XPND .AND. NB .NE. 0.0)
+     1 YYT = 0.5*VSSY/(NB*H04) - 0.5*VSLCY/(NB*H02)
+      YYCE = WMN*VSDCM/H02F - 2.0*NB*VSSSM/H02F
+      IF (XPND) THEN
+        YYCT = 1.0/120.0*L5 - 1.0/1680.*H02L7
+        YYSE = 1.0/120.0*L5 - (NB/1008. + WMN/5040.)*H02L7
+        YYST = 1.0/360.0*L6 - (NB/5040. + WMN/10080.)*H02L8
+        YYDE = 1.0/720.0*H0L6 - (NB/5040. + WMN/40320.)*H03L8
+        YYDT = 1.0/1680.0*H0L7 - (NB/22680. + WMN/72576.)*H03L9
+      ELSE
+        YYCT = 2.0*VSSCM/H04F - VSCSM/H04F
+     1   - VSSY/H04F
+        YYSE = 0.5*VSDSM/H04 - VSSCM/H04F
+     1   + 0.5*VSCSM/H04F + 0.5*VSSY/H04F
+        YYST = 2.0*VSDCM/H04F - VSSSM/H04F
+        YYDE = 0.5*VSLSY/H0W - VSDCM/H03F
+     1   + 2.0*NB*VSSSM/H03WF
+        IF (NB .EQ. 0.0) TERM1 = 1.0/120.0*L5/H0
+        IF (NB .NE. 0.0)
+     1   TERM1 = 0.5*VSSY/(NB*H05*WMN) - 0.5*VSLCY/(NB*H03*WMN)
+        YYDT = TERM1
+     1   - 2.0*VSSCM/H05WF + VSCSM/H05WF
+     2   + VSSY/H05WF
+      ENDIF
+C
+      YCYE = 0.5*VSLCS1
+      IF (XPND) THEN
+        YCYT = 1.0/120.0*L5 - (NB/1680. + WMN/504.)*H02L7
+        YCYCE = 1.0/24.0*L4 - (NB/240. + 7.*WMN/720.)*H02L6
+        YCYCT = 1.0/120.0*L5 - (NB/1680. + 13.*WMN/5040.)*H02L7
+        YCYSE = 1.0/120.0*L5 - (NB/1008. + 11.*WMN/5040.)*H02L7
+        YCYST = 1.0/360.0*L6 - (NB/5040. + 17.*WMN/20160.)*H02L8
+        YCYDE = 1.0/720.0*H0L6 - (NB/5040. + WMN/2520.)*H03L8
+      ELSE
+        IF (NB .EQ. 0.0) YCYT = 1.0/6.0*VSL3CX
+        IF (NB .NE. 0.0) YCYT = 0.5*VSCSM/H04N
+     1   - 0.5*VSLCC1/H02N
+        YCYCE = VSCCM/H02F - VSCCC1/H02F
+     1   - 2.0*NB*VSCSS1/WM5N
+        YCYCT = 2.0*VSCSC1/H02F - VSCSM/H04F
+     1   - VSCCS1/H02F
+        YCYSE = 0.5*VSCDS1/H0 - VSCSC1/H02F
+     1   + 0.5*VSCSM/H04F + 0.5*VSCCS1/H02F
+        YCYST = 2.0*VSCDC1/H03F - VSCSS1/H02F
+        YCYDE = 0.5*VSLCS1/H0W - VSCDC1/H02F
+     1   + 2.0*NB*VSCSS1/H0WF
+      ENDIF
+      IF (XPND) THEN
+        YCYDT = 1.0/1680.0*H0L7 - (NB/22680. + 17.*WMN/90720.)*H03L9
+      ELSE
+        IF (NB .EQ. 0.0) TERM1 = 1.0/6.0*VSL3CX/H0
+        IF (NB .NE. 0.0)
+     1   TERM1 = 0.5*VSCSM/H05NW - 0.5*VSLCC1/H03NW
+        YCYDT = TERM1
+     1   - 2.0*VSCSC1/H03WF + VSCSM/H05WF
+     2   + VSCCS1/H03WF
+      ENDIF
+C
+      YSYE = 0.5*VSLSS1
+      IF (XPND) THEN
+        YSYT = 1.0/180.0*L6 - (NB/2520. + WMN/2016.)*H02L8
+        YSYCE = 0.025*L5 - (13.*NB/5040. + WMN/336.)*H02L7
+        YSYCT = 1.0/180.0*L6 - (NB/2520. + 19.*WMN/20160.)*H02L8
+        YSYSE = 1.0/180.0*L6 - (NB/1440. + 13.*WMN/20160.)*H02L8
+        YSYST = 1.0/504.0*L7 - (13.*NB/90720. + 7.*WMN/25920.)*H02L9
+        YSYDE = 1.0/1008.0*H0L7 - (NB/6720. + WMN/8640.)*H03L9
+        YSYDT = 1.0/2240.0*H0*L8
+     1          - (61.*NB/1814400. + 13.*WMN/226800.)*H03L10
+      ELSE
+        IF (NB .EQ. 0.0) YSYT = 1.0/6.0*VSL3SX
+        IF (NB .NE. 0.0) YSYT = 0.5*VSSSM/H04N
+     1   - 0.5*VSLSC1/H02N
+        YSYCE = VSSCM/H04F - VSCSC1/H02F
+     1   - 2.0*NB*VSSSS1/WM5N
+        YSYCT = 2.0*VSSSC1/H02F - VSCSS1/H02F
+     1   - VSSSM/H04F
+        YSYSE = 0.5*VSSDS1/H0 - VSSSC1/H02F
+     1   + 0.5*VSCSS1/H02F + 0.5*VSSSM/H04F
+        YSYST = 2.0*VSSDC1/H03F - VSSSS1/H02F
+        YSYDE = 0.5*VSLSS1/H0W - VSSDC1/H02F
+     1   - 0.5*VSSSS1/H0W + 0.5*VSSSS1/H0F
+        IF (NB .EQ. 0.0) TERM1 = 1.0/6.0*VSL3SX/H0
+        IF (NB .NE. 0.0)
+     1   TERM1 = 0.5*VSSSM/H05NW - 0.5*VSLSC1/H03NW
+        YSYDT = TERM1
+     1   - 2.0*VSSSC1/H03WF + VSCSS1/H03WF
+     2   + VSSSM/H05WF
+      ENDIF
+C
+      YDYE = 0.5*VSLDS1
+      IF (XPND) THEN
+        YDYT = 1.0/504.0*H0L7 - (13.*NB/90720. + WMN/10368.)*H03L9
+        YDYCE = 1.0/120.0*H0L6 - (NB/1120. + WMN/1344.)*H03L8
+        YDYCT = 1.0/504.0*H0L7
+     1          - (13.*NB/90720. + 7.*WMN/25920.)*H03L9
+        YDYSE = 1.0/504.0*H0L7 - (47.*NB/181440. + WMN/6480.)*H03L9
+        YDYST = 1.0/1344.0*H0*L8
+     1          - (11.*NB/201600. + WMN/14400.)*H03L10
+        YDYDE = 1.0/2688.0*H02L8
+     1          - (211.*NB/3628800. + 7.*WMN/259200.)*H04L10
+        YDYDT = 1.0/5760.0*H02L9
+     1      - (59.*NB/4435200. + 31.*WMN/2217600.)*H04L11
+      ELSE
+        IF (NB .EQ. 0.0)
+     1   YDYT = 1.0/6.0*VSL3/H0W - 1.0/6.0*VSL3CX/H0W
+        IF (NB .NE. 0.0)
+     1   YDYT = 0.5*VSDSM/H05N - 0.5*VSLDC1/H02N
+        YDYCE = - VSCDC1/H02F + VSDCM/H03F
+     1   - 2.0*NB*VSSDS1/WM5N
+        YDYCT = 2.0*VSSDC1/H02F - VSCDS1/H02F
+     1   - VSDSM/H05F
+        YDYSE = - 0.5*VSCDS1/H02W + 0.5*VSDSM/H05W
+     1   + 0.5*VSCDS1/H02F - VSSDC1/H02F
+     2   + 0.5*VSDSM/H05F
+        YDYST = 2.0*VSDDC1/H03F - VSSDS1/H02F
+        YDYDE = 0.5*VSLDS1/H0W - VSDDC1/H02F
+     1   + 2.0*NB*VSSDS1/H0WF
+      IF (NB .EQ. 0.0) TERM1 = (0.05*L5 + (H02L3 - 18.0*L)*CX/H04
+     1 - (6.0*H02L2 - 24.0)*SX/H04 - 6.0*L/H04)/(6.0*H02)
+      IF (NB .NE. 0.0) TERM1 = 0.5*VSDSM/(NB*WMN*H06)
+     1 - 0.5*VSLDC1/(NB*WMN*H03)
+        YDYDT = TERM1
+     1   - 2.0*VSSDC1/H03WF + VSCDS1/H03WF
+     2   + VSDSM/H06WF
+      ENDIF
+C
+      YCQE = 0.5*VSLCC1 + 0.5*VSCSM/H02
+      YCQT = 0.5*VSLCS1
+      YCQCE = - NB*VSCSM/H02F - NB*VSCCS1/WM5N
+     1 + 0.5*VSCSC1 + 0.5*WMN*VSCSC1/WM5N
+      IF (XPND) THEN
+        YCQCT = 1.0/24.0*L4 - (NB/240. + WMN/80.)*H02L6
+        YCQSE = 1.0/24.0*L4 - (NB/144. + 7.*WMN/720.)*H02L6
+        YCQST = 1.0/60.0*L5 - (NB/630. + WMN/210.)*H02L7
+        YCQDE = 1.0/120.0*H0L5 - (NB/630. + 11.*WMN/5040.)*H03L7
+        YCQDT = 1.0/240.0*H0L6 - (NB/2520. + 5.*WMN/4032.)*H03L8
+      ELSE
+        YCQCT = - VSCCM/H02F + VSCCC1/H02F
+     1   + 0.5*VSCSS1 + 0.5*WMN*VSCSS1/WM5N
+        YCQSE = - NB*VSCSS1/WM5N + 0.5*VSCCM/H02W
+     1   + 0.5*VSCCM/H02F - 0.5*VSCCC1/H02W
+     2   - 0.5*VSCCC1/H02F
+        YCQST = 0.5*VSCDS1/H0 + VSCSC1/H02F
+     1   - 0.5*VSCSM/H04F - 0.5*VSCCS1/H02F
+        YCQDE = NB*VSCSM/H03WF + NB*VSCCS1/H0WF
+     1   + 0.5*VSLCC1/H0W - 0.5*VSCSC1/H0W
+     2   - 0.5*VSCSC1/H0F + 0.5*VSCSM/H03W
+        YCQDT = 0.5*VSLCS1/H0W + VSCCM/H03WF
+     1   - VSCCC1/H03WF - 0.5*VSCSS1/H0W
+     2   - 0.5*VSCSS1/H0F
+      ENDIF
+C
+      YSQE = 0.5*VSLSC1 + 0.5*VSSSM/H02
+      YSQT = 0.5*VSLSS1
+      YSQCE = - NB*VSCSS1/WM5N - NB*VSSSM/H02F
+     1 + 0.5*VSSSC1 + 0.5*WMN*VSSSC1/WM5N
+      IF (XPND) THEN
+        YSQCT = 0.025*L5 - (13.*NB/5040. + 5.*WMN/1008.)*H02L7
+        YSQSE = 0.025*L5 - (23.*NB/5040 + WMN/336.)*H02L7
+        YSQST = 1.0/90.0*L6 - (11.*NB/10080. + WMN/630.)*H02L8
+        YSQDE = 1.0/180.0*H0L6
+     1          - (23.*NB/21060. + 13.*WMN/20160.)*H03L8
+        YSQDT = 1.0/336.0*H0L7 - (53.*NB/181440. + WMN/2592.)*H03L9
+      ELSE
+        YSQCT = VSCSC1/H02F - VSSCM/H04F
+     1   + 0.5*VSSSS1 + 0.5*WMN*VSSSS1/WM5N
+        YSQSE = 0.5*VSSDC1/H0 - NB*VSSSS1/WM5N
+     1   - 0.5*VSCSC1/H02F + 0.5*VSSCM/H04F
+        YSQST = 0.5*VSSDS1/H0 + VSSSC1/H02F
+     1   - 0.5*VSCSS1/H02F - 0.5*VSSSM/H04F
+        YSQDE = NB*VSCSS1/H0WF + NB*VSSSM/H03WF
+     1   + 0.5*VSLSC1/H0W - 0.5*VSSSC1/H0W
+     2   - 0.5*VSSSC1/H0F + 0.5*VSSSM/H03W
+        YSQDT = 0.5*VSLSS1/H0W + VSSDC1/H02F
+     1   - 0.5*VSSSS1/H0W - 0.5*VSSSS1/H0F
+      ENDIF
+      YDQE = 0.5*VSLDC1 + 0.5*VSDSM/H03
+      YDQT = 0.5*VSLDS1
+      YDQCE = - NB*VSCDS1/WM5N - NB*VSDSM/H03F
+     1 + 0.5*VSSDC1 + 0.5*WMN*VSSDC1/WM5N
+      IF (XPND) THEN
+        YDQCT = 1.0/120.0*H0L6 - (NB/1120. + WMN/672.)*H03L8
+        YDQSE = 1.0/120.0*H0L6 - (11.*NB/6720. + WMN/1344.)*H03L8
+        YDQST = 1.0/252.0*H0L7
+     1          - (73.*NB/181440. + 11.*WMN/25920.)*H03L9
+        YDQDE = 1.0/504.0*H02L7
+     1          - (157.*NB/362880. + WMN/6480)*H04L9
+        YDQDT = 1.0/896.0*H02L8
+     1          - (409.*NB/3628800. + WMN/10368.)*H04L10
+      ELSE
+        YDQCT = VSCDC1/H02F - VSDCM/H03F
+     1   + 0.5*VSSDS1 + 0.5*WMN*VSSDS1/WM5N
+        YDQSE = 0.5*VSDDC1/H0 - NB*VSSDS1/WM5N
+     1   - 0.5*VSCDC1/H02F + 0.5*VSDCM/H03F
+        YDQST = 0.5*VSDDS1/H0 + VSSDC1/H02F
+     1   - 0.5*VSCDS1/H02F - 0.5*VSDSM/H05F
+        YDQDE = NB*VSCDS1/H0WF + NB*VSDSM/H04WF
+     1   + 0.5*VSLDC1/H0W - 0.5*VSSDC1/H0W
+     2   - 0.5*VSSDC1/H0F + 0.5*VSDSM/H04W
+        YDQDT = VSDDC1/H02F + 0.5*VSLDS1/H0W
+     1   - 0.5*VSSDS1/H0W - 0.5*VSSDS1/H0F
+      ENDIF
+C
+      YEXI = VSDCM/H02
+      YEXC = 0.5*VSLSC1
+      IF (XPND) THEN
+        YEXS = 1.0/120.0*L5 - (11.*NB/5040. + WMN/2520.)*H02L7
+        YEXD = 1.0/720.0*H0L6 - (NB/2520. + WMN/20160.)*H03L8
+      ELSE
+        YEXS = 0.5*VSSCM/H04W - 0.5*VSLCC1/H02W
+        YEXD = VSDCM/H03W - 0.5*VSLSC1/H0W
+      ENDIF
+      YEXCC = 1./3.*VSCDC1/H0 + 2./3.*VSDCM/H02
+      YEXCS = 1./3.*VSSDC1/H0
+      IF (XPND) THEN
+        YEXCD = 1.0/720.0*H0L6 - (NB/2520. + WMN/5040.)*H03L8
+      ELSE
+        YEXCD = 0.5*VSLSC1/H0W - 1./3.*VSCDC1/H02W
+     1   - 2./3.*VSDCM/H03W
+      ENDIF
+      YEXSS = 1./3.*VSDDC1/H02
+      IF (XPND) THEN
+        YEXSD = 1.0/1680.0*H0L7 - (11.*NB/60480. + WMN/20160.)*H03L9
+        YEXDD = 1.0/6720.0*H02L8
+     1          - (29.*NB/604800. + WMN/100800.)*H04L10
+        YEXEE = 1.0/24.0*L4 - (NB/80. + WMN/720.)*H02L6
+        YEXET = 1.0/120.0*L5 - (NB/336. + WMN/5040.)*H02L7
+        YEXTT = 1.0/360.0*L6 - (NB/1008. + WMN/20160.)*H02L8
+      ELSE
+        YEXSD = - 0.5*VSLCC1/H03W2
+     1   + 1./3.*VSCSC1/H03W2 + 1./6.*VSSCM/H05W2
+        YEXDD = 1./3.*VSCDC1/H03W2
+     1   + 5./3.*VSDCM/H04W2 - VSLSC1/H02W2
+        YEXEE = 0.5*VSDCM/H02 - 0.5*VSCCM/H02F
+     1   - 0.5*VSCY/H02F + VSCCC3/H02F
+        YEXET = - VSSCM/H04F + VSCCS3/H02F
+        YEXTT = 2.0*VSCCM/H04WF - 2.0*VSCY/H04WF
+     1   + VSCSS3/H02F
+      ENDIF
+C
+      YTXI = VSDSM/H04
+      YTXC = 0.5*VSLSS1
+      IF (XPND) THEN
+        YTXS = 1.0/180.0*L6 - (NB/1680. + WMN/3360.)*H02L8
+        YTXD = 1.0/1008.0*H0L7 - (NB/9072. + WMN/25920.)*H03L9
+      ELSE
+        YTXS = 0.5*VSSSM/H04W - 0.5*VSLCS1/H02W
+        YTXD = VSDSM/H05W - 0.5*VSLSS1/H0W
+      ENDIF
+      YTXCC = 2./3.*VSDSM/H04 + 1./3.*VSCDS1/H0
+      YTXCS = 1./3.*VSSDS1/H0
+      IF (XPND) THEN
+        YTXCD = 1.0/1008.0*H0L7 - (NB/9072. + WMN/6480.)*H03L9
+      ELSE
+        YTXCD = 0.5*VSLSS1/H0W - 1./3.*VSCDS1/H02W
+     1   - 2./3.*VSDSM/H05W
+      ENDIF
+      YTXSS = 1./3.*VSDDS1/H02
+      IF (XPND) THEN
+        YTXSD = 1.0/2240.0*H0*L8
+     1          - (31.*NB/604800. + WMN/25200.)*H03L10
+        YTXDD = 1.0/8640.0*H02L9
+     1          - (13.*NB/950400. + WMN/123200.)*H04L11
+        YTXEE = 0.025*L5 - (23.*NB/5040. + WMN/1008.)*H02L7
+        YTXET = 1.0/180.0*L6 - (NB/840. + WMN/6720.)*H02L8
+        YTXTT = 1.0/504.0*L7 - (17.*NB/45360. + WMN/25920.)*H02L9
+      ELSE
+        YTXSD = 1./3.*VSCSS1/H03W2
+     1   + 1./6.*VSSSM/H05W2 - 0.5*VSLCS1/H03W2
+        YTXDD = 5./3.*VSDSM/H06W2
+     1   + 1./3.*VSCDS1/H03W2 - VSLSS1/H02W2
+        YTXEE = 0.5*VSDSM/H04 - 0.5*VSCSM/H04F
+     1   + VSCCS3/H02F - 0.5*VSSY/H04F
+        YTXET = - VSSSM/H04F + VSCSS3/H02F
+        YTXTT = - 2.0*VSDSM/H06F + VSSSS3/H02F
+      ENDIF
+C
+      YEPI = VSSCM/H02
+      YEPC = 0.5*VSLCC1 + 0.5*VSSCM/H02
+      YEPS = 0.5*VSLSC1
+      IF (XPND) THEN
+        YEPD = 1.0/120.0*H0L5 - (11.*NB/5040. + WMN/2520.)*H03L7
+      ELSE
+        YEPD = 0.5*VSSCM/H03W - 0.5*VSLCC1/H0W
+      ENDIF
+      YEPCC = 2./3.*VSCSC1 + 1./3.*VSSCM/H02
+      YEPCS = 1./3.*VSDCM/H02 + 2./3.*VSCDC1/H0
+      IF (XPND) THEN
+        YEPCD = 1.0/120.0*H0L5 - (11.*NB/5040. + WMN/630.)*H03L7
+      ELSE
+        YEPCD = 0.5*VSLCC1/H0W - 2./3.*VSCSC1/H0W
+     1   + 1./6.*VSSCM/H03W
+      ENDIF
+      YEPSS = 2./3.*VSSDC1/H0
+      IF (XPND) THEN
+        YEPSD = 1.0/240.0*H0L6 - (NB/840. + WMN/2240.)*H03L8
+        YEPDD = 1.0/840.0*H02L7
+     1          - (11.*NB/30240. + WMN/10080.)*H04L9
+      ELSE
+        YEPSD = 0.5*VSLSC1/H0W - 2./3.*VSCDC1/H02W
+     1   - 1./3.*VSDCM/H03W
+        YEPDD = 2./3.*VSCSC1/H02W2
+     1   + 1./3.*VSSCM/H04W2 - VSLCC1/H02W2
+      ENDIF
+      YEPEE = 0.5*VSSCM/H02 + 0.5*WMN*VSSCM/H02F
+     1 - 2.*NB*VSCCS3/WM5N
+      IF (XPND) THEN
+        YEPET = 1.0/24.0*L4 - (11.*NB/720. + WMN/720.)*H02L6
+        YEPTT = 1.0/60.0*L5 - (NB/168. + WMN/2520.)*H02L7
+      ELSE
+        YEPET = - VSCCM/H02F - VSCY/H02F
+     1   + 2.*VSCCC3/H02F
+        YEPTT = - 2.0*VSSCM/H04F + 2.*VSCCS3/H02F
+      ENDIF
+C
+      YTPI = VSSSM/H02
+      YTPC = 0.5*VSLCS1 + 0.5*VSSSM/H02
+      YTPS = 0.5*VSLSS1
+      IF (XPND) THEN
+        YTPD = 1.0/180.0*H0L6 - (NB/1680. + WMN/3360.)*H03L8
+      ELSE
+        YTPD = - 0.5*VSLCS1/H0W + 0.5*VSSSM/H03W
+      ENDIF
+      YTPCC = 2./3.*VSCSS1 + 1./3.*VSSSM/H02
+      IF (XPND) THEN
+        YTPCS = 0.025*L5 - (13.*NB/5040. + 5.*WMN/1008.)*H02L7
+        YTPCD = 1.0/180.0*H0L6 - (NB/1680. + WMN/840.)*H03L8
+      ELSE
+        YTPCS = 1./3.*VSCSM/H04W - 2./3.*VSCCS1/H02W
+     1   + 1./3.*VSSY/H04W
+        YTPCD = 0.5*VSLCS1/H0W - 2./3.*VSCSS1/H0W
+     1   + 1./6.*VSSSM/H03W
+      ENDIF
+      YTPSS = 2./3.*VSSDS1/H0
+      IF (XPND) THEN
+        YTPSD = 1.0/336.0*H0L7 - (NB/3024 + WMN/2880.)*H03L9
+        YTPDD = 1.0/1120.0*H02L8
+     1          - (31.*NB/302400. + WMN/12600.0)*H04L10
+      ELSE
+        YTPSD = 0.5*VSLSS1/H0W - 2./3.*VSCDS1/H02W
+     1   - 1./3.*VSDSM/H05W
+        YTPDD = - VSLCS1/H02W2 + 2./3.*VSCSS1/H02W2
+     1   + 1./3.*VSSSM/H04W2
+      ENDIF
+      YTPEE = 0.5*WMN*VSSSM/H02F - 2.*NB*VSCSS3/WM5N
+     1 + 0.5*VSSSM/H02
+      IF (XPND) THEN
+        YTPET = 0.025*L5 - (11.*NB/1680. + WMN/1008.)*H02L7
+        YTPTT = 1.0/90.0*L6 - (NB/420. + WMN/3360.)*H02L8
+      ELSE
+        YTPET = - VSCSM/H04F + 2.*VSCCS3/H02F
+     1   - VSSY/H04F
+        YTPTT = - 2.0*VSSSM/H04F + 2.*VSCSS3/H02F
+      ENDIF
+C
+      QYE = 0.5*VPLSY
+      IF (XPND .OR. NB .EQ. 0.0) THEN
+        QYT = 1.0/24.0*L4 - NB*H02L6/240.
+      ELSE
+        QYT = 0.5*VPSY/(NB*H02) - 0.5*VPLCY/(NB*H02)
+      ENDIF
+      QYCE = WMN*VPDCM/H02F - 2.0*NB*VPSSM/H02F
+      IF (XPND) THEN
+        QYCT = 1.0/24.0*L4 - 1.0/240.0*H02L6
+        QYSE = 1.0/24.0*L4 - (NB/144. + WMN/720.)*H02L6
+        QYST = 1.0/60.0*L5 - (NB/630. + WMN/1260.)*H02L7
+        QYDE = 1.0/120.0*H0L5 - (NB/630. + WMN/5040.)*H03L7
+        QYDT = 1.0/240.0*H0L6 - (NB/2520. + WMN/8064.)*H03L8
+      ELSE
+        QYCT = 2.0*VPSCM/H02F - VPCSM/H02F
+     1   - VPSY/H02F
+        QYSE = 0.5*VPDSM/H02 - VPSCM/H02F
+     1   + 0.5*VPCSM/H02F + 0.5*VPSY/H02F
+        QYST = 2.0*VPDCM/H04F - VPSSM/H04F
+        QYDE = 0.5*VPLSY/H0W - VPDCM/H03F
+     1   + 2.0*NB*VPSSM/H03WF
+        IF (NB .EQ. 0.0) TERM1 = L4/(24.0*H0)
+        IF (NB .NE. 0.0)
+     1   TERM1 = 0.5*VPSY/H03NW - 0.5*VPLCY/H03NW
+        QYDT = TERM1
+     1   - 2.0*VPSCM/H03WF + VPCSM/H03WF
+     2   + VPSY/H03WF
+      ENDIF
+C
+      QCYE = 0.5*VPLCS1
+      IF (XPND) THEN
+        QCYT = 1.0/24.0*L4 - (NB/240. + WMN/72.)*H02L6
+        QCYCE = 1.0/6.0*L3 - (NB/40. + 7.*WMN/120.)*H02L5
+        QCYCT = 1.0/24.0*L4 - (NB/240. + 13.*WMN/720.)*H02L6
+        QCYSE = 1.0/24.0*L4 - (NB/144. + 11.*WMN/720.)*H02L6
+        QCYST = 1.0/60.0*L5 - (NB/630. + 17.*WMN/2520.)*H02L7
+        QCYDE = 1.0/120.0*H0L5 - (NB/630. + WMN/315.)*H03L7
+        QCYDT = 1.0/240.0*H0L6 - (NB/2520. + 17.*WMN/10080)*H03L8
+      ELSE
+        IF (NB .EQ. 0.0) QCYT = 1.0/6.0*VPL3CX
+        IF (NB .NE. 0.0)
+     1   QCYT = 0.5*VPCSM/H02N - 0.5*VPLCC1/H02N
+        QCYCE = VPCCM/H02F - VPCCC1/H02F
+     1   - 2.0*NB*VPCSS1/WM5N
+        QCYCT = 2.0*VPCSC1/H02F - VPCSM/H02F
+     1   - VPCCS1/H02F
+        QCYSE = 0.5*VPCDS1/H0 - VPCSC1/H02F
+     1   + 0.5*VPCSM/H02F + 0.5*VPCCS1/H02F
+        QCYST = 2.0*VPCDC1/H03F - VPCSS1/H02F
+        QCYDE = 0.5*VPLCS1/H0W - VPCDC1/H02F
+     1   + 2.0*NB*VPCSS1/H0WF
+        IF (NB .EQ. 0.0) TERM1 = 1.0/6.0*VPL3CX/H0
+        IF (NB .NE. 0.0)
+     1   TERM1 = 0.5*VPCSM/H03NW - 0.5*VPLCC1/H03NW
+        QCYDT = TERM1
+     1   - 2.0*VPCSC1/H03WF + VPCSM/H03WF
+     2   + VPCCS1/H03WF
+      ENDIF
+C
+      QSYE = 0.5*VPLSS1
+      IF (XPND) THEN
+        QSYT = 1.0/30.0*L5 - (NB/315. + WMN/252.)*H02L7
+        QSYCE = 0.125*L4 - (13.*NB/720. + WMN/48.)*H02L6
+        QSYCT = 1.0/30.0*L5 - (NB/315. + 19.*WMN/2520.)*H02L7
+        QSYSE = 1.0/30.0*L5 - (NB/180. + 13.*WMN/2520.)*H02L7
+        QSYST = 1.0/72.0*L6 - (13.*NB/10080. + 7.*WMN/2880.)*H02L8
+        QSYDE = 1.0/144.0*H0L6 - (3.*NB/2240. + WMN/960.)*H03L8
+        QSYDT = 1.0/280.0*H0L7
+     1          - (61.*NB/181440. + 13.*WMN/22680.)*H03L9
+      ELSE
+        IF (NB .EQ. 0.0) QSYT = 1.0/6.0*VPL3SX
+        IF (NB .NE. 0.0)
+     1   QSYT = 0.5*VPSSM/H04N - 0.5*VPLSC1/H02N
+        QSYCE = VPSCM/H02F - VPCSC1/H02F
+     1   - 2.0*NB*VPSSS1/WM5N
+        QSYCT = 2.0*VPSSC1/H02F - VPCSS1/H02F
+     1   - VPSSM/H04F
+        QSYSE = 0.5*VPSDS1/H0 - VPSSC1/H02F
+     1   + 0.5*VPCSS1/H02F + 0.5*VPSSM/H04F
+        QSYST = 2.0*VPSDC1/H03F - VPSSS1/H02F
+        QSYDE = 0.5*VPLSS1/H0W - VPSDC1/H02F
+     1   - 0.5*VPSSS1/H0W + 0.5*VPSSS1/H0F
+        IF (NB .EQ. 0.0) TERM1 = 1.0/6.0*VPL3SX/H0
+        IF (NB .NE. 0.0)
+     1   TERM1 = 0.5*VPSSM/H05NW - 0.5*VPLSC1/H03NW
+        QSYDT = TERM1
+     1   - 2.0*VPSSC1/H03WF + VPCSS1/H03WF
+     2   + VPSSM/H05WF
+      ENDIF
+C
+      QDYE = 0.5*VPLDS1
+      IF (XPND) THEN
+        QDYT = 1.0/72.0*H0L6 - (13.*NB/10080. + WMN/1152.)*H03L8
+        QDYCE = 0.05*H0L5 - (NB/140. + WMN/168.)*H03L7
+        QDYCT = 1.0/72.0*H0L6 - (13.*NB/10080. + 7.*WMN/2880.)*H03L8
+        QDYSE = 1.0/72.0*H0L6 - (47.*NB/20160. + WMN/720.)*H03L8
+        QDYST = 1.0/168.0*H0L7 - (11.*NB/20160. + WMN/1440.)*H03L9
+        QDYDE = 1.0/336.0*H02L7
+     1          - (211.*NB/362880. + 7.*WMN/25920.)*H04L9
+        QDYDT = 1.0/640.0*H02L8
+     1          - (59.*NB/403200. + 31.*WMN/201600.)*H04L10
+      ELSE
+        IF (NB .EQ. 0.0) QDYT = 1.0/6.0*(VPL3 - VPL3CX)/H0
+        IF (NB .NE. 0.0)
+     1   QDYT = 0.5*VPDSM/H03N - 0.5*VPLDC1/H02N
+        QDYCE = - VPCDC1/H02F + VPDCM/H03F
+     1   - 2.0*NB*VPSDS1/WM5N
+        QDYCT = 2.0*VPSDC1/H02F - VPCDS1/H02F
+     1   - VPDSM/H03F
+        QDYSE = 0.5*VPDDS1/H0 + 0.5*VPCDS1/H02F
+     1   - VPSDC1/H02F + 0.5*VPDSM/H03F
+        QDYST = - 2.0*VPCDC1/H04WF - VPSDS1/H02F
+     1   + 2.0*VPDCM/H05WF
+        QDYDE = 0.5*VPLDS1/H0W - VPDDC1/H02F
+     1   + 2.0*NB*VPSDS1/H0WF
+        IF (NB .EQ. 0.0) TERM1 = 1.0/6.0*(VPL3 - VPL3CX)/H02
+        IF (NB .NE. 0.0)
+     1   TERM1 = 0.5*VPDSM/H04NW - 0.5*VPLDC1/H03NW
+        QDYDT = TERM1
+     1   - 2.0*VPSDC1/H03WF + VPCDS1/H03WF
+     2   + VPDSM/H04WF
+      ENDIF
+C
+      QCQE = 0.5*VPLCC1 + 0.5*VPCSM
+      QCQT = 0.5*VPLCS1
+      QCQCE = - NB*VPCSM/WM5N - NB*VPCCS1/WM5N
+     1 + 0.5*VPCSC1 + 0.5*WMN*VPCSC1/WM5N
+      IF (XPND) THEN
+        QCQCT = 1.0/6.0*L3 - (NB/40. + 3.*WMN/40.)*H02L5
+        QCQSE = 1.0/6.0*L3 - (NB/24. + 7.*WMN/120.)*H02L5
+        QCQST = 1.0/12.0*L4 - (NB/90. + WMN/30.)*H02L6
+        QCQDE = 1.0/24.0*H0*L4 - (NB/90. + 11.*WMN/720.)*H03L6
+        QCQDT = 0.025*H0L5 - (NB/315. + 5.*WMN/504.)*H03L7
+      ELSE
+        QCQCT = - VPCCM/H02F + VPCCC1/H02F
+     1   + 0.5*VPCSS1 + 0.5*WMN*VPCSS1/WM5N
+        QCQSE = - NB*VPCSS1/WM5N + 0.5*VPCCM/H02W
+     1   + 0.5*VPCCM/H02F - 0.5*VPCCC1/H02W
+     2   - 0.5*VPCCC1/H02F
+        QCQST = 0.5*VPCDS1/H0 + VPCSC1/H02F
+     1   - 0.5*VPCSM/H02F - 0.5*VPCCS1/H02F
+        QCQDE = NB*VPCSM/H0WF + NB*VPCCS1/H0WF
+     1   + 0.5*VPLCC1/H0W - 0.5*VPCSC1/H0W
+     2   - 0.5*VPCSC1/H0F + 0.5*VPCSM/H0W
+        QCQDT = 0.5*VPLCS1/H0W - 0.5*VPCSS1/H0W
+     1   + VPCDC1/H02F - 0.5*VPCSS1/H0F
+      ENDIF
+C
+      QSQE = 0.5*VPLSC1 + 0.5*VPSSM/H02
+      QSQT = 0.5*VPLSS1
+      QSQCE = - NB*VPCSS1/WM5N - NB*VPSSM/H02F
+     1 + 0.5*VPSSC1 + 0.5*WMN*VPSSC1/WM5N
+      IF (XPND) THEN
+        QSQCT = 0.125*L4 - (13*NB/720. + 5.*WMN/144.)*H02L6
+        QSQSE = 0.125*L4 - (23.*NB/720. + WMN/48.)*H02L6
+        QSQST = 1.0/15.0*L5 - (11.*NB/1260. + 4.*WMN/315.)*H02L7
+        QSQDE = 1.0/30.0*H0L5 - (23.*NB + 13.*WMN)*H03L7/2520.
+        QSQDT = 1.0/48.0*H0L6 - (53.*NB/20160. + WMN/288.)*H03L8
+      ELSE
+        QSQCT = VPCSC1/H02F - VPSCM/H02F
+     1   + 0.5*VPSSS1 + 0.5*WMN*VPSSS1/WM5N
+        QSQSE = 0.5*VPSDC1/H0 - NB*VPSSS1/WM5N
+     1   - 0.5*VPCSC1/H02F + 0.5*VPSCM/H02F
+        QSQST = 0.5*VPSDS1/H0 + VPSSC1/H02F
+     1   - 0.5*VPCSS1/H02F - 0.5*VPSSM/H04F
+        QSQDE = NB*VPCSS1/H0WF + NB*VPSSM/H03WF
+     1   + 0.5*VPLSC1/H0W - 0.5*VPSSC1/H0W
+     2   - 0.5*VPSSC1/H0F + 0.5*VPSSM/H03W
+        QSQDT = 0.5*VPLSS1/H0W + VPSDC1/H02F
+     1   - 0.5*VPSSS1/H0W - 0.5*VPSSS1/H0F
+      ENDIF
+C
+      QDQE = 0.5*VPLDC1 + 0.5*VPDSM/H0
+      QDQT = 0.5*VPLDS1
+      QDQCE = - NB*VPCDS1/WM5N - NB*VPDSM/H0F
+     1 + 0.5*VPSDC1 + 0.5*WMN*VPSDC1/WM5N
+      IF (XPND) THEN
+        QDQCT = 0.05*H0L5 - (NB/140. + WMN/84.)*H03L7
+        QDQSE = 0.05*H0L5 - (11.*NB/840. + WMN/168.)*H03L7
+        QDQST = 1.0/36.0*H0L6
+     1          - (73.*NB/20160. + 11.*WMN/2880.)*H03L8
+        QDQDE = 1.0/72.0*H02L6 - (157.*NB/40320. + WMN/720.)*H04L8
+        QDQDT = 1.0/112.0*H02L7
+     1          - (409.*NB/362880. + 5.*WMN/5184.)*H04L9
+      ELSE
+        QDQCT = VPCDC1/H02F - VPDCM/H03F
+     1   + 0.5*VPSDS1 + 0.5*WMN*VPSDS1/WM5N
+        QDQSE = 0.5*VPDDC1/H0 - NB*VPSDS1/WM5N
+     1   - 0.5*VPCDC1/H02F + 0.5*VPDCM/H03F
+        QDQST = 0.5*VPDDS1/H0 + VPSDC1/H02F
+     1   - 0.5*VPCDS1/H02F - 0.5*VPDSM/H03F
+        QDQDE = NB*VPCDS1/H0WF + NB*VPDSM/H02WF
+     1   + 0.5*VPLDC1/H0W - 0.5*VPSDC1/H0W
+     2   - 0.5*VPSDC1/H0F + 0.5*VPDSM/H02W
+        QDQDT = VPDDC1/H02F + 0.5*VPLDS1/H0W
+     1   - 0.5*VPSDS1/H0W - 0.5*VPSDS1/H0F
+      ENDIF
+C
+      QEXI = VPDCM/H02
+      QEXC = 0.5*VPLSC1
+      IF (XPND) THEN
+        QEXS = 1.0/24.0*L4 - (11.*NB/720. + WMN/360.)*H02L6
+        QEXD = 1.0/120.0*H0L5 - (NB/315. + WMN/2520.)*H03L7
+      ELSE
+        QEXS = 0.5*VPSCM/H02W - 0.5*VPLCC1/H02W
+        QEXD = VPDCM/H03W - 0.5*VPLSC1/H0W
+      ENDIF
+      QEXCC = 1./3.*VPCDC1/H0 + 2./3.*VPDCM/H02
+      QEXCS = 1./3.*VPSDC1/H0
+      IF (XPND) THEN
+        QEXCD = 1.0/120.0*H0L5 - (NB/315. + WMN/630.)*H03L7
+      ELSE
+        QEXCD = 0.5*VPLSC1/H0W - 1./3.*VPCDC1/H02W
+     1   - 2./3.*VPDCM/H03W
+      ENDIF
+      QEXSS = 1./3.*VPDDC1/H02
+      IF (XPND) THEN
+        QEXSD = 1.0/240.0*H0L6 - (11.*NB/6720. + WMN/2240.)*H03L8
+        QEXDD = 1.0/840.0*H02L7
+     1          - (29.*NB/60480. + WMN/10080.)*H04L9
+      ELSE
+        QEXSD = - 0.5*VPLCC1/H03W2
+     1   + 1./3.*VPCSC1/H03W2 + 1./6.*VPSCM/H03W2
+        QEXDD = 1./3.*VPCDC1/H03W2 + 5./3.*VPDCM/H04W2
+     1   - VPLSC1/H02W2
+      ENDIF
+      IF (XPND) THEN
+        QEXEE = 1.0/6.0*L3 - (3.*NB/40. + WMN/120.)*H02L5
+        QEXET = 1.0/24.0*L4 - (NB/48. + WMN/720.)*H02L6
+        QEXTT = 1.0/60.0*L5 - (NB/126. + WMN/2520.)*H02L7
+      ELSE
+        QEXEE = 0.5*VPDCM/H02 - 0.5*VPCCM/H02F
+     1   - 0.5*VPCY/H02F + VPCCC3/H02F
+        QEXET = - VPSCM/H02F + VPCCS3/H02F
+        QEXTT = 2.0*VPCCM/H04WF
+     1   - 2.0*VPCY/H04WF + VPCSS3/H02F
+      ENDIF
+C
+      QTXI = VPDSM/H02
+      QTXC = 0.5*VPLSS1
+      IF (XPND) THEN
+        QTXS = 1.0/30.0*L5 - (NB/210. + WMN/420.)*H02L7
+        QTXD = 1.0/144.0*H0L6 - (NB/1008. + WMN/2880.)*H03L8
+      ELSE
+        QTXS = 0.5*VPSSM/H04W - 0.5*VPLCS1/H02W
+        QTXD = VPDSM/H03W - 0.5*VPLSS1/H0W
+      ENDIF
+      QTXCC = 2./3.*VPDSM/H02 + 1./3.*VPCDS1/H0
+      QTXCS = 1./3.*VPSDS1/H0
+      IF (XPND) THEN
+        QTXCD = 1.0/144.0*H0L6 - (NB/1008. + WMN/720.)*H03L8
+      ELSE
+        QTXCD = 0.5*VPLSS1/H0W - 1./3.*VPCDS1/H02W
+     1   - 2./3.*VPDSM/H03W
+      ENDIF
+      QTXSS = 1./3.*VPDDS1/H02
+      IF (XPND) THEN
+        QTXSD = 1.0/280.0*H0L7 - (31.*NB/60480. + WMN/2520.)*H03L9
+        QTXDD = 1.0/960.0*H02L8
+     1          - (13.*NB/86400. + WMN/11200.)*H04L10
+      ELSE
+        QTXSD = 1./3.*VPCSS1/H03W2
+     1   + 1./6.*VPSSM/H05W2 - 0.5*VPLCS1/H03W2
+        QTXDD = 5./3.*VPDSM/H04W2
+     1   + 1./3.*VPCDS1/H03W2 - VPLSS1/H02W2
+      ENDIF
+      IF (XPND) THEN
+        QTXEE = 0.125*L4 - (23.*NB/720. + WMN/144.0)*H02L6
+        QTXET = 1.0/30.0*L5 - (NB/105. + WMN/840.)*H02L7
+        QTXTT = 1.0/72.0*L6 - (17.*NB/5040. + WMN/2880.)*H02L8
+      ELSE
+        QTXEE = 0.5*VPDSM/H02 - 0.5*VPCSM/H02F
+     1   + VPCCS3/H02F - 0.5*VPSY/H02F
+        QTXET = - VPSSM/H04F + VPCSS3/H02F
+        QTXTT = - 2.0*VPDSM/H04F + VPSSS3/H02F
+      ENDIF
+C
+      QEPI = VPSCM
+      QEPC = 0.5*VPLCC1 + 0.5*VPSCM
+      QEPS = 0.5*VPLSC1
+      IF (XPND) THEN
+        QEPD = 1.0/24.0*H0*L4 - (11.*NB/720. + WMN/360.)*H03L6
+      ELSE
+        QEPD = 0.5*VPSCM/H0W - 0.5*VPLCC1/H0W
+      ENDIF
+      QEPCC = 2./3.*VPCSC1 + 1./3.*VPSCM
+      QEPCS = 1./3.*VPDCM/H02 + 2./3.*VPCDC1/H0
+      IF (XPND) THEN
+        QEPCD = 1.0/24.0*H0*L4 - (11.*NB/720. + WMN/90.)*H03L6
+      ELSE
+        QEPCD = 0.5*VPLCC1/H0W - 2./3.*VPCSC1/H0W
+     1   + 1./6.*VPSCM/H0W
+      ENDIF
+      QEPSS = 2./3.*VPSDC1/H0
+      IF (XPND) THEN
+        QEPSD = 0.025*H0L5 - (NB/105. + WMN/280.)*H03L7
+        QEPDD = 1.0/120.0*H02L6 - (11.*NB/3360. + WMN/1120.)*H04L8
+      ELSE
+        QEPSD = 0.5*VPLSC1/H0W - 2./3.*VPCDC1/H02W
+     1   - 1./3.*VPDCM/H03W
+        QEPDD = 2./3.*VPCSC1/H02W2
+     1   + 1./3.*VPSCM/H02W2 - VPLCC1/H02W2
+      ENDIF
+      QEPEE = 0.5*VPSCM + 0.5*WMN*VPSCM/WM5N
+     1 - 2.*NB*VPCCS3/WM5N
+      IF (XPND) THEN
+        QEPET = 1.0/6.0*L3 - (11.*NB + WMN)*H02L5/120.
+        QEPTT = 1.0/12.0*L4 - (NB/24. + WMN/360.)*H02L6
+      ELSE
+        QEPET = - VPCCM/H02F - VPCY/H02F
+     1   + 2.*VPCCC3/H02F
+        QEPTT = - 2.0*VPSCM/H02F + 2.*VPCCS3/H02F
+      ENDIF
+C
+      QTPI = VPSSM/H02
+      QTPC = 0.5*VPLCS1 + 0.5*VPSSM/H02
+      QTPS = 0.5*VPLSS1
+      IF (XPND) THEN
+        QTPD = 1.0/30.0*H0L5 - (NB/210. + WMN/420.)*H03L7
+      ELSE
+        QTPD = - 0.5*VPLCS1/H0W + 0.5*VPSSM/H03W
+      ENDIF
+      QTPCC = 2./3.*VPCSS1 + 1./3.*VPSSM/H02
+      IF (XPND) THEN
+        QTPCS = 0.125*L4 - (13.*NB/720. + 5.*WMN/144.)*H02L6
+        QTPCD = 1.0/30.0*H0L5 - (NB/210. + WMN/105.)*H03L7
+      ELSE
+        QTPCS = 1./3.*VPCSM/H02W - 2./3.*VPCCS1/H02W
+     1   + 1./3.*VPSY/H02W
+        QTPCD = 0.5*VPLCS1/H0W - 2./3.*VPCSS1/H0W
+     1   + 1./6.*VPSSM/H03W
+      ENDIF
+      QTPSS = 2./3.*VPSDS1/H0
+      IF (XPND) THEN
+        QTPSD = 1.0/48.0*H0L6 - (NB/336. + WMN/320.)*H03L8
+        QTPDD = 1.0/140.0*H02L7
+     1          - (31.*NB/30240. + WMN/1260.)*H04L9
+        QTPEE = 1.0/3.0*L3 - (7.*NB/60. + WMN/30.)*H02L5
+        QTPET = 0.125*L4 - (11.*NB/240. + WMN/144.)*H02L6
+        QTPTT = 1.0/15.0*L5 - (2.*NB/105. + WMN/420.)*H02L7
+      ELSE
+        QTPSD = 0.5*VPLSS1/H0W - 2./3.*VPCDS1/H02W
+     1   - 1./3.*VPDSM/H03W
+        QTPDD = - VPLCS1/H02W2 + 2./3.*VPCSS1/H02W2
+     1   + 1./3.*VPSSM/H04W2
+        QTPEE = 0.5*WMN*VPSSM/H02F - 2.*NB*VPCSS3/WM5N
+     1   + 0.5*VPSSM/H02
+        QTPET = - VPCSM/H02F + 2.*VPCCS3/H02F
+     1   - VPSY/H02F
+        QTPTT = - 2.0*VPSSM/H04F + 2.*VPCSS3/H02F
+      ENDIF
+      RETURN
+      END
+      SUBROUTINE THORS
+C---- CALCULATES SINGLE INTEGRALS FOR THIRD-ORDER MATRIX ELEMENTS
+C---- FOR A COMBINED FUNCTION BENDING MAGNET
+C----------------------------------------------------------------------
+      INCLUDE 'ELM0B.CIN'
+      INCLUDE 'ELM4A.CIN'
+      INCLUDE 'ELM4D.CIN'
+      INCLUDE 'HSINT.CIN'
+      INCLUDE 'HSINT3.CIN'
+      INCLUDE 'HSLINT.CIN'
+      INCLUDE 'HSLIN3.CIN'
+      INCLUDE 'HPINT.CIN'
+      INCLUDE 'HPINT3.CIN'
+      INCLUDE 'HPLINT.CIN'
+      INCLUDE 'HPLIN3.CIN'
+      INCLUDE 'H0F.CIN'
+      INCLUDE 'H02F.CIN'
+      INCLUDE 'H03F.CIN'
+      INCLUDE 'H04F.CIN'
+      INCLUDE 'H0L.CIN'
+      INCLUDE 'H0P.CIN'
+      INCLUDE 'H02L.CIN'
+      INCLUDE 'H03L.CIN'
+      INCLUDE 'H04L.CIN'
+      INCLUDE 'H05L.CIN'
+      INCLUDE 'H06L.CIN'
+      INCLUDE 'H07L.CIN'
+      INCLUDE 'H08L.CIN'
+      INCLUDE 'H0N.CIN'
+      INCLUDE 'H0T.CIN'
+      INCLUDE 'H0W.CIN'
+      INCLUDE 'H02W.CIN'
+      INCLUDE 'H03W.CIN'
+      INCLUDE 'H04W.CIN'
+      INCLUDE 'H0WF.CIN'
+      INCLUDE 'H02WF.CIN'
+      INCLUDE 'H03WF.CIN'
+      INCLUDE 'H04WF.CIN'
+      INCLUDE 'H0WT.CIN'
+      INCLUDE 'LP.CIN'
+      INCLUDE 'TERMS.CIN'
+      INCLUDE 'VSINT3.CIN'
+      INCLUDE 'VSLIN3.CIN'
+      INCLUDE 'VPINT3.CIN'
+      INCLUDE 'VPLIN3.CIN'
+      INCLUDE 'WMN.CIN'
+      INCLUDE 'WM2N.CIN'
+      INCLUDE 'WM5N.CIN'
+C--------------------------------------------------------------------
+      REAL            HPL3, HPL4, HSL3, HSL4
+      REAL            SMLCY, SNARK
+C
+      IF (XPND .OR. NB .EQ. 0.0) SNARK = 2.0/3.0*L3 - 2./15.*NB*H02L5
+      IF (.NOT. XPND .AND. NB .NE. 0.0)
+     1 SNARK = (L - CY*SY)/H02N
+C
+      IF (XPND) THEN
+        HSL3 = 0.05*H05L5 - WMN*H07L7/840.
+        HSL4 = 1.0/30.0*H06L6 - WMN*H08L8/1680.
+      ELSE
+        HSL3 = 6.0*(SX - L) + H02L3
+        HSL4 = 24.0*(1.0 - 0.5*H02L2 + 1.0/24.0*H04L4
+     1   - CX)
+      ENDIF
+      HSLCX = - 0.25*SMLCX/H02W + 0.25*SX*L2
+      HSLSX =  0.25*SMLCX*L/WMN
+      IF (XPND) THEN
+        HSLCC0 = 1./6.*L3 - 7./120.*WMN*H02L5
+        HSLCS0 = 1.0/12.0*L4 - 0.025*WMN*H02L6
+        HSLCD0 = 0.025*H0L5 - 19./2520.*WMN*H03L7
+        HSLSS0 = 0.05*L5 - 23./2520.*WMN*H02L7
+        HSLSD0 = 1.0/60.0*H0L6 - 17./6720.*WMN*H03L8
+        HSLCC2 = 1.0/6.0*L3 - (0.05*NB + WMN/120.)*H02L5
+        HSLCS2 = 1.0/12.0*L4 - (NB/45. + WMN/360.)*H02L6
+        HSLSS2 = 0.05*L5 - (NB/126. + WMN/840.)*H02L7
+      ELSE
+        HSLCC0 = 1./3.*L/H02W + 4./9.*CX*SX/H02W
+     1   - 7./9.*SX/H02W + 1./3.*SX**2*L
+        HSLCS0 = - 1./3.*CX*SX*L/H02W
+     1   + 4./9.*SX**2/H02W - 2./9.*DISP/H03W
+        HSLCD0 = - 1./3.*L/H03W2 + 0.25*CX*L/H03W2
+     1   - 4./9.*CX*SX/H03W2 + 0.25*SX*L2/H0W
+     2   + 19./36.*SX/H03W2 - 1./3.*SX**2*L/H0W
+        HSLSS0 = 2./3.*L/H04W2 - 4./9.*CX*SX/H04W2
+     1   - 2./9.*SX/H04W2 - 1./3.*SX**2*L/H02W
+        HSLSD0 = - 0.25*CX*L2/H03W2
+     1   + 1./3.*CX*SX*L/H03W2
+     2   + 0.25*SX*L/H03W2 - 4./9.*SX**2/H03W2
+     3   + 2./9.*DISP/H04W2
+        HSLCC2 = 0.5*(1.0/WMN + 1.0/WM5N)*L/H02
+     1   - (2.*NB/WM5N2 + 0.5*WMN/WM5N2 + 0.5/WMN)*SX/H02
+     2   + 4.*NB*CY*SY/H02F2 - NB*SY**2*L/WM5N
+        HSLCS2 = - 2.*WMN*DISN/H02F2
+     1   + CY*SY*L/H02F + 4.*NB*SY**2/H02F2
+        HSLSS2 = - 2.0*L/H04WF
+     1   + 4.0*(1.0-3*NB)*SX/H04WF2
+     2   + 2.*SX/H04F2 - 4.*CY*SY/H04F2
+     3   + SY**2*L/H02F
+      ENDIF
+C
+      HSCCC0 = 0.125*CX*SX**2 + 0.375*SX*L
+      IF (XPND) THEN
+        HSCCS0 = 1.0/6.0*L3 - 1./15.*WMN*H02L5
+        HSCCD0 = 1.0/24.0*H0*L4 - 7./360.*WMN*H03L6
+        HSCSS0 = 1.0/12.0*L4 - 11./360.*WMN*H02L6
+        HSCSD0 = 0.025*H0L5 - 1./105.*WMN*H03L7
+        HSCDD0 = 1.0/120.0*H02L6 - 1./320.*WMN*H04L8
+      ELSE
+        HSCCS0 = - 0.125*CX*L/H02W
+     1   + 0.125*SX/H02W + 0.125*SX**3
+        HSCCD0 = 1./3.*DISP/H02W - 0.125*CX*SX**2/H0W
+     1   - 0.375*SX*L/H0W + 1./3.*SX**2/H0W
+        HSCSS0 = - 0.125*CX*SX**2/H02W + 0.125*SX*L/H02W
+        HSCSD0 = 0.125*CX*L/H03W2 - 1./3.*CX*SX/H03W2
+     1   + 5./24.*SX/H03W2 - 0.125*SX**3/H0W
+        HSCDD0 = - 2./3.*DISP/H03W2
+     1   + 0.125*CX*SX**2/H02W2 + 0.875*SX*L/H02W2
+     2   - 2./3.*SX**2/H02W2
+      ENDIF
+      IF (XPND) THEN
+        HSSSS0 = 0.05*L5 - 11./840.*WMN*H02L7
+        HSSSD0 = 1.0/60.0*H0L6 - 9./2240.*WMN*H03L8
+        HSSDD0 = 1.0/168.0*H02L7 - 5./4032.*WMN*H04L9
+        HSDDD0 = 1.0/448.0*H03L8 - 1./2688.*WMN*H05L10
+      ELSE
+        HSSSS0 = 0.375*SMLCX/H04W2 -  0.125*SX**3/H02W
+        HSSSD0 = 2./3.*DISP/H04W2
+     1   + 0.125*CX*SX**2/H03W2 - 0.125*SX*L/H03W2
+     2   - 1./3.*SX**2/H03W2
+        HSSDD0 = - 0.625*CX*L/H04W3
+     1   + 2./3.*CX*SX/H04W3 - 1./24.*SX/H04W3
+     2   + 0.125*SX**3/H02W2
+        HSDDD0 = 2.0*DISP/H04W3
+     1   - 0.125*CX*SX**2/H03W3 - 1.875*SX*L/H03W3
+     2   + SX**2/H03W3
+      ENDIF
+      HSCCC2 = - 0.25*NB*CX*SY**2/WM2N + 0.25*SX*L
+     1 + 0.25*WMN*SX*CY*SY/WM2N
+      IF (XPND) THEN
+        HSCCS2 = 1.0/6.0*L3 - 1./30.*H02L5
+        HSCSS2 = 1.0/12.0*L4 - (NB/90. + 7./360.*WMN)*H02L6
+      ELSE
+        HSCCS2 = 0.25*CX*CY*SY/H02T + 0.25*WMN*SX*SY**2/WM2N
+     1   - 0.25*SX/H02T
+        HSCSS2 = 0.25*CX*SY**2/H02T + 0.25*SX*SNARK
+     1   - 0.25*SX*CY*SY/H02T
+      ENDIF
+C
+      IF (XPND) THEN
+        HSSCC2 = 1.0/6.0*L3 - (NB/20. + WMN/60.)*H02L5
+        HSSCS2 = 1.0/12.0*L4 - (NB/45. + WMN/120.)*H02L6
+        HSSSS2 = 0.05*L5 - (NB/126. + 13./2520.*WMN)*H02L7
+      ELSE
+        HSSCC2 = - 0.25*CX*L/H02W
+     2   - 0.25*CX*CY*SY/H02T
+     3   - 0.25*NB*SX*SY**2/WM2N
+     4   + 0.25*SX*(1.0/WMN + 1.0/WM2N)/H02
+        HSSCS2 = - 0.25*CX*SY**2/H02T
+     1   + 0.25*SX*CY*SY/H02T
+        HSSSS2 = - 0.25*CX*SNARK/H02W
+     1   - 0.25*(SX - CX*CY*SY)/H04WT
+     2   + 0.25*SX*SY**2/H02T
+      ENDIF
+      IF (XPND) THEN
+        HSDCC2 = 1.0/24.0*H0*L4 - (NB/60. + WMN/360.)*H03L6
+        HSDCS2 = 0.025*H0L5 - (NB/126. + WMN/630.)*H03L7
+        HSDSS2 = 1.0/60.0*H0L6 - (NB/336. + WMN/960.)*H03L8
+      ELSE
+        HSDCC2 = 0.5*DISP*(1.0/WMN + 1.0/WM5N)/H02
+     1   + 0.25*NB*CX*SY**2/H0WT - 0.25*SX*L/H0W
+     3   - 0.25*SX*CY*SY/H0T - NB*SY**2/H0WF
+        HSDCS2 = - 0.25*CX*CY*SY/H03WT - SX/H03WF
+     1   - 0.25*SX*SY**2/H0T + 0.25*SX/H03WT
+     2   + CY*SY/H03WF
+        HSDSS2 = - 0.25*CX*SY**2/H03WT
+     1   - 2.0*DISP/H04WF - 0.25*SX*SNARK/H0W
+     3   + 0.25*SX*CY*SY/H03WT + SY**2/H03WF
+      ENDIF
+C
+      IF (XPND) THEN
+        HPL3 = 0.25*WMN*L4 - WMN2*H02L6/120.
+        HPL4 = 0.2*WMN2*L5 - WMN3*H02L7/210.
+      ELSE
+        HPL3 = - 6.0*DISP/H03 + 3.0*L2/H02
+        HPL4 = 24.0*(SX - L + 1.0/6.0*WMN*H02L3)/H04
+      ENDIF
+      HPLCX = 0.25*CX*L2 + 0.25*SX*L
+      IF (XPND) THEN
+        HPLSX = L3/3.0 - 0.05*WMN*H02L5
+      ELSE
+        HPLSX = 0.25*SX/H02W - 0.25*CX*L/H02W
+     1   + 0.25*SX*L2
+      ENDIF
+      HPLCC0 = 7./9.*DISP/H0 + 2./3.*CX*SX*L - 5./9.*SX**2
+      IF (XPND) THEN
+        HPLCS0 = 1.0/3.0*L3 - .15*WMN*H02L5
+        HPLCD0 = 0.125*H0*L4 - 19./360.*WMN*H03L6
+        HPLSS0 = 0.25*L4 - 23./360.*WMN*H02L6
+        HPLSD0 = 0.1*H0L5 - 17./840.*WMN*H03L7
+        HPLCC2 = 0.5*L2 - (0.25*NB + WMN/24.)*H02L4
+        HPLCS2 = 1.0/3.0*L3 - (2./15.*NB + WMN/60.)*H02L5
+        HPLSS2 = 0.25*L4 - (1./18.*NB + WMN/120.)*H02L6
+      ELSE
+        HPLCS0 = - 1./3.*L/H02W + 5./9.*CX*SX/H02W
+     1   - 2./9.*SX/H02W + 2./3.*SX**2*L
+        HPLCD0 = 0.25*CX*L2/H0W
+     1   - 2./3.*CX*SX*L/H0W + 0.25*SX*L/H0W
+     2   + 5./9.*SX**2/H0W - 7./9.*DISP/H02W
+        HPLSS0 = - 2./3.*CX*SX*L/H02W
+     1   +  5./9.*SX**2/H02W + 2./9.*DISP/H03W
+        HPLSD0 = 1./3.*L/H03W2 - 0.25*CX*L/H03W2
+     1   - 5./9.*CX*SX/H03W2 + 0.25*SX*L2/H0W
+     2   + 17./36.*SX/H03W2 - 2./3.*SX**2*L/H0W
+        HPLCC2 = ((2.*NB + 0.5*WMN)/WM5N2 + 0.5/WMN)*(1.0 - CX)/H02
+     1   - 2.*NB*CY*SY*L/WM5N - NB*(WMN + 4.*NB)*SY**2/WM5N2
+        HPLCS2 = L/H02F - 2.*WMN*SX/H02F2
+     1   + (4.*NB + WMN)*CY*SY/H02F2
+     2   - 2.*NB*SY**2*L/WM5N
+        HPLSS2 = - 2.0*(2.0*(1.0-3.0*NB) + WMN)*DISP/H03F2
+     1   + 2.*CY*SY*L/H02F
+     2   + (4.*NB + WMN)*SY**2/H02F2
+      ENDIF
+C
+      HPCCC0 = 0.375*CX*L + 0.625*SX - 0.375*WMN*H02*SX**3
+      HPCCS0 = 0.375*CX*SX**2 + 0.125*SX*L
+      IF (XPND) THEN
+        HPCCD0 = 1.0/6.0*H0*L3 - 7./60.*WMN*H03L5
+        HPCSS0 = 1.0/3.0*L3 - 11./60.*WMN*H02L5
+        HPCSD0 = 0.125*H0*L4 - 1./15.*WMN*H03L6
+        HPCDD0 = 0.05*H02L5 - 0.025*WMN*H04L7
+      ELSE
+        HPCCD0 = - 0.375*CX*L/H0W + 2./3.*CX*SX/H0W
+     1   - 7./24.*SX/H0W + 0.375*SX**3*H0
+        HPCSS0 = 0.125*CX*L/H02W
+     1   - 0.125*SX/H02W + 0.375*SX**3
+        HPCSD0 = - 1./3.*DISP/H02W - 0.375*CX*SX**2/H0W
+     1   - 0.125*SX*L/H0W + 2./3.*SX**2/H0W
+        HPCDD0 = 0.875*CX*L/H02W2
+     1   - 4./3.*CX*SX/H02W2 + 11./24.*SX/H02W2
+     2   - 0.375*SX**3/WMN
+      ENDIF
+C
+      IF (XPND) THEN
+        HPSSS0 = 0.25*L4 - 11./120.*WMN*H02L6
+        HPSSD0 = 0.1*H0L5 - 9./280.*WMN*H03L7
+        HPSDD0 = 1.0/24.0*H02L6 - 5./448.*WMN*H04L8
+        HPDDD0 = 1.0/56.0*H03L7 - 5./1344.*WMN*H05L9
+      ELSE
+        HPSSS0 = - 0.375*CX*SX**2/H02W
+     1   + 0.375*SX*L/H02W
+        HPSSD0 = - 0.125*CX*L/H03W2
+     1   - 2./3.*CX*SX/H03W2 + 19./24.*SX/H03W2
+     2   - 0.375*SX**3/H0W
+        HPSDD0 = 2./3.*DISP/H03W2
+     1   + 0.375*CX*SX**2/H02W2 + 0.625*SX*L/H02W2
+     2   - 4./3.*SX**2/H02W2
+        HPDDD0 = - 1.875*CX*L/H03W3
+     1   + 2.*CX*SX/H03W3 - 0.125*SX/H03W3
+     2   + 0.375*SX**3/H0W2
+      ENDIF
+C
+      HPCCC2 = 0.25*CX*L + 0.25*(1.0 - NB/WM2N)*CX*CY*SY
+     1 + 0.25*(1.0 + WMN/WM2N)*SX - 0.25*NB*WMN*H02*SX*SY**2/WM2N
+      IF (XPND) THEN
+        HPCCS2 = 0.5*L2 - 1.0/6.0*H02L4
+        HPCSS2 = 1.0/3.0*L3 - (NB/15. + 7.0/60.0*WMN)*H02L5
+      ELSE
+        HPCCS2 = 0.25*(1.0 - NB/WM2N)*CX*SY**2 + 0.25*WMN*SX*CY*SY/WM2N
+        HPCSS2 = 0.25*CX*SNARK + 0.25*CX*CY*SY/H02T
+     1   + 0.25*WMN*SX*SY**2/WM2N - 0.25*SX/H02T
+      ENDIF
+C
+      HPSCC2 = 0.25*NB*CX*SY**2/WM2N + 0.25*SX*L
+     1 + 0.25*(1.0 - NB/WM2N)*SX*CY*SY
+      IF (XPND) THEN
+        HPSCS2 = 1.0/3.0*L3 - (2./15.*NB + 0.05*WMN)*H02L5
+        HPSSS2 = 0.25*L4 - (NB/18. + 13./360.*WMN)*H02L6
+      ELSE
+        HPSCS2 = - 0.25*CX*CY*SY/H02T
+     1   + 0.25*(1.0 - NB/WM2N)*SX*SY**2 + 0.25*SX/H02T
+        HPSSS2 = - 0.25*CX*SY**2/H02T + 0.25*SX*SNARK
+     1   + 0.25*SX*CY*SY/H02T
+      ENDIF
+C
+      IF (XPND) THEN
+        HPDCC2 = 1.0/6.0*H0*L3 - (0.1*NB + WMN/60.)*H03L5
+        HPDCS2 = 0.125*H0*L4 - (NB/18. + WMN/90.)*H03L6
+        HPDSS2 = 0.1*H0L5 - (NB/42. + WMN/120.)*H03L7
+      ELSE
+        HPDCC2 = - 0.25*CX*L/H0W
+     1   + 0.25*(NB/WM2N - 1.0)*CX*CY*SY/H0W
+     2   + 0.25*NB*H0*SX*SY**2/WM2N
+     3   + 0.25*(1.0/WMN - 1.0/WM2N + 2.0/WM5N)*SX/H0
+     4   - 2.*NB*CY*SY/H0WF
+        HPDCS2 = DISP/H02F
+     1   - 0.25*(1.0 - NB/WM2N)*CX*SY**2/H0W
+     2   - 0.25*SX*CY*SY/H0T - 2.*NB*SY**2/H0WF
+        HPDSS2 = - 0.25*CX*SNARK/H0W
+     1   - 0.25*CX*CY*SY/H03WT - 0.25*SX*SY**2/H0T
+     2   - 0.25*SX*(4.0/WMN + 3.0/WM2N)/H03F
+     3   + 2.*CY*SY/H03WF
+      ENDIF
+C
+      VSL3 = 0.05*L5
+      IF (XPND) THEN
+        VSL3CX = 0.05*L5 - (NB/840. + WMN/84.)*H02L7
+        VSL3SX = 1.0/30.0*L6 - (NB/1680. + WMN/336.)*H02L8
+      ELSE
+        VSL3CX = 6.0*L/H04 + 18.0*L*CX/H04 - 24.0*SX/H04
+     1   + 6.0*L2*SX/H02 - L3*CX/H02
+        VSL3SX = - L3*SX/H02 + 18.0*L*SX/H04 - 6.0*L2*CX/H04
+     1   + 24.0*(CX - 1.0)/H06
+      ENDIF
+      IF (NB .EQ. 0.0) SMLCY = L3/3.0
+      IF (NB .NE. 0.0) SMLCY = (SY - L*CY)/H02N
+      VSLCY = - 0.25*SMLCY + 0.25*SY*L2
+      VSLSY = 0.25*SMLCY*L
+      IF (XPND) THEN
+        VSLCC1 = 1.0/6.0*L3 - (NB/30 + WMN/40.)*H02L5
+        VSLCS1 = 1.0/12.0*L4 - (NB/120. + WMN/60.)*H02L6
+      ELSE
+        VSLCC1 = - (2.*NB + 0.5*WMN)*SY*(1.0 + CX)/H02F2
+     1   - 0.5*SY*DISP/H0 - CX*CY*L/H02F
+     2   + 2.*WMN*SX*CY/H02F2 - 2.0*NB*SX*SY*L/WM5N
+        VSLCS1 = - 2.0*(3.0 - 7.0*NB)*CY*DISP/H03F2
+     1   - CX*SY*L/H02F + 2.0*SX*CY*L/H02F
+     2   + 2.*WMN*SX*SY/H02F2
+      ENDIF
+      IF (XPND) THEN
+        VSLSC1 = 1.0/12.0*L4 - (7.*NB/360. + WMN/180.)*H02L6
+        VSLSS1 = 0.05*L5 - (13.*NB/2520 + WMN/252.)*H02L7
+        VSLDC1 = 0.025*H0L5 - (11./1680.*NB + WMN/1008.)*H03L7
+      ELSE
+        VSLSC1 = 2.*WMN*CY*DISP/H03F2
+     1   +  2.0*NB*CX*SY*L/H02WF - SX*CY*L/H02F
+     2   + ( - (2.*NB + 0.5*WMN)/WM5N2 + 0.5/WMN)*SX*SY/H02
+        VSLSS1 = - 2.*SY/H04F2 - 2.0*CX*CY*L/H04WF
+     1   - 2.*CX*SY/H04F2
+     2   + 2.0*(2.0*(1.0 - 3.0*NB)/WMN + 1.0)*SX*CY/H04F2
+     3   - SX*SY*L/H02F
+        VSLDC1 = - 0.25*SMLCY/H0W
+     1   + 0.25*SY*L2/H0W
+     2   + (2.*NB/WMN + 0.5)*SY*(1.0 + CX)/H03F2
+     3   + 0.5*SY*DISP/H02W + CX*CY*L/H03WF
+     4   - 2.*SX*CY/H03F2 + 2.0*NB*SX*SY*L/H0WF
+      ENDIF
+      IF (XPND) THEN
+        VSLDS1 = 1.0/60.0*H0L6 - (NB/560. + WMN/1344.)*H03L8
+      ELSE
+        VSLDS1 = 0.25*SMLCY*L/H0W
+     1   + 2.0*(2.0*(1.0 - 3.0*NB)/WMN + 1.0)*CY*DISP/H04F2
+     2   + CX*SY*L/H03WF - 2.0*SX*CY*L/H03WF
+     3   - 2.*SX*SY/H03F2
+      ENDIF
+C
+      VSCCC1 = - 0.25*NB*CX*SX*SY/WM2N + 0.25*SY*L
+     1 + 0.25*WMN*SX**2*CY/WM2N
+      IF (XPND) THEN
+        VSCCS1 = 1.0/6.0*L3 - (NB/60. + WMN/20.)*H02L5
+        VSCSC1 = 1.0/6.0*L3 - H02L5/30.
+        VSCSS1 = 1.0/12.0*L4 - (NB/120. + WMN/45.)*H02L6
+        VSCDC1 = 1.0/24.0*H0*L4 - 7.*H03L6/720.
+        VSCDS1 = 0.025*H0L5 - (13.*NB/5040. + WMN/144.)*H03L7
+      ELSE
+        VSCCS1 = 0.25*CX*SX*CY/H02T + 0.25*SMLCY
+     1   - 0.25*SY/H02T + 0.25*WMN*SX**2*SY/WM2N
+        VSCSC1 = - 0.25*CX*SX*CY/H02T + 0.25*SY/H02T
+     1   - 0.25*NB*SX**2*SY/WM2N
+        VSCSS1 = - 0.25*CX*SX*SY/H02T
+     1   + 0.25*SX**2*CY/H02T
+        VSCDC1 = CY*DISP/H02F - 0.25*SY*L/H0W
+     1   - 0.25*(1.0/WMN - 1.0/WM2N)*CX*SX*SY/H0
+     2   + 0.5*(1.0/WMN - 1.0/WM5N)*SX*SY/H0
+     3   - 0.25*SX**2*CY/H0T
+        VSCDS1 = - CX*SY/H03WF
+     1   - 0.25*CX*SX*CY/H03WT
+     2   - SY/H03WF + 0.25*SY/H03WT
+     3   - 0.25*SMLCY/H0W + 2.0*SX*CY/H03WF
+     4   - 0.25*SX**2*SY/H0T
+      ENDIF
+C
+      IF (XPND) THEN
+        VSSSC1 = 1.0/12.0*L4 - (7.*NB/360. + WMN/90.)*H02L6
+        VSSSS1 = 0.05*L5 - (13.*NB/2520. + WMN/126.)*H02L7
+        VSSDC1 = 0.025*H0L5 - (11.*NB/1680. + WMN/336.)*H03L7
+        VSSDS1 = 1.0/60.0*H0L6 - (NB/560. + WMN/448.)*H03L8
+      ELSE
+        VSSSC1 = - 0.25*(1.0/WMN - 1.0/WM2N)*CX*SX*SY/H02
+     1   + 0.25*SY*L/H02W - 0.25*SX**2*CY/H02T
+        VSSSS1 = - 0.25*CX*SX*CY/H04WT
+     1   + 0.25*SMLCY/H02W + 0.25*SY/H04WT
+     2   - 0.25*SX**2*SY/H02T
+        VSSDC1 = 0.5*(1.0/WM5N - 1.0/WMN)*CX*SY/H03W
+     1   + 0.25*CX*SX*CY/H03WT
+     2   + 0.5*(1.0/WMN + 1.0/WM5N)*SY/H03W
+     3   - 0.25*SY/H03WT - SX*CY/H03WF
+     4   + 0.25*(1.0/WM2N - 1.0/WMN)*SX**2*SY/H0
+        VSSDS1 = 2.0*CY*DISP/H04WF
+     1    + 0.25*CX*SX*SY/H03WT
+     2    - SX*SY/H03WF
+     3    - 0.25*SX**2*CY/H03WT
+      ENDIF
+C
+      IF (XPND) THEN
+        VSDDC1 = 1.0/120.0*H02L6 - (NB/420. + WMN/1344.)*H04L8
+        VSDDS1 = 1.0/168.0*H02L7 - (NB/1512. + WMN/1728.)*H04L9
+      ELSE
+        VSDDC1 = - 2.*CY*DISP/H03WF
+     1   + 0.25*(1.0/WMN - 1.0/WM2N)*CX*SX*SY/H02W
+     2   + 0.75*SY*L/H02W2
+     4   + (1.0/WM5N - 1.0/WMN)*SX*SY/H02W
+     5   + 0.25*SX**2*CY/H02WT
+        VSDDS1 = 2.*CX*SY/H04W2F
+     1   + 0.25*CX*SX*CY/H04W2T + 0.75*SMLCY/H02W2
+     2   + 2.*SY/H04W2F - 0.25*SY/H04W2T
+     3   - 4.0*SX*CY/H04W2F
+     4   + 0.25*SX**2*SY/H02WT
+      ENDIF
+C
+      VSCCC3 = 0.125*CY*SY**2 + 0.375*SY*L
+      VSCCS3 = 0.125*SMLCY + 0.125*SY**3
+      VSCSS3 = 0.125*SY*SNARK
+C
+      IF (XPND .OR. NB .EQ. 0.0) THEN
+        VSSSS3 = 0.05*L5 - 11.*NB*H02L7/840.
+      ELSE
+        VSSSS3 = (3.0*SMLCY - SY**3)/(8.0*NB*H02)
+      ENDIF
+C
+      VPL3 = 0.25*L4
+      IF (XPND) THEN
+        VPL3CX = 0.25*L4 - (NB/120. + WMN/12.)*H02L6
+        VPL3SX = 0.2*L5 - (NB/210. + WMN/42.)*H02L7
+      ELSE
+        VPL3CX = ((3.0*H02L2 - 6.0)*CX
+     1   + (H04L3 - 6.0*H02L)*SX + 6.0)/H04
+        VPL3SX = ((3.0*H02L2 - 6.0)*SX
+     1   - (H02L3 - 6.0*L)*CX)/H04
+      ENDIF
+      VPLCY = 0.25*CY*L2 + 0.25*SY*L
+      VPLSY = 0.25*SMLCY + 0.25*SY*L2
+      IF (XPND) THEN
+        VPLCC1 = 0.5*L2 - (NB/6. + WMN/8.)*H02L4
+        VPLCS1 = 1.0/3.0*L3 - (NB/20. + WMN/10.)*H02L5
+        VPLSC1 = 1.0/3.0*L3 - (7.*NB/60. + WMN/30.)*H02L5
+        VPLSS1 = 0.25*L4 - (13.*NB/360. + WMN/36.)*H02L6
+        VPLDC1 = 0.125*H0*L4 - (11.*NB/240. + WMN/144.)*H03L6
+        VPLDS1 = 0.1*H0L5 - (NB/70. + WMN/168.)*H03L7
+      ELSE
+        VPLCC1 =
+     1   - ((2.*NB + 0.5*WMN)/WM5N2 + 0.5/WMN)*CY*(1.0 - CX)/H02
+     2   - NB*CX*SY*L/WM5N + 0.5*(1.0 + WMN/WM5N)*SX*CY*L
+     3   + 2.*NB*WMN*SX*SY/WM5N2
+        VPLCS1 = ((2.*NB + 0.5*WMN)/WM5N2 - 0.5/WMN)*SY/H02
+     1   + ((2.*NB + 0.5*WMN)/WM5N2 + 0.5/WMN)*CX*SY/H02
+     2   + CX*CY*L/H02F - 2.*WMN*SX*CY/H02F2
+     3   + 0.5*(1.0 + WMN/WM5N)*SX*SY*L
+        VPLSC1 = - 2.*NB*SY/H02F2
+     1   - 0.5*(1.0/WMN + 1.0/WM5N)*CX*CY*L/H02
+     2   - 2.*NB*CX*SY/H02F2 - NB*SX*SY*L/WM5N
+     3   + ((2.*NB + 0.5*WMN)/WM5N2 + 0.5/WMN)*SX*CY/H02
+        VPLSS1 = - 2.0*WMN*CY*DISP/H03F2
+     1   - 0.5*(1.0/WMN + 1.0/WM5N)*CX*SY*L/H02
+     2   + SX*CY*L/H02F
+     3   + ((2.*NB + 0.5*WMN)/WM5N2 + 0.5/WMN)*SX*SY/H02
+        VPLDC1 = 0.25*CY*L2/H0W
+     1   + (2.*NB/(WMN*WM5N2) + 0.5/WMN2 + 0.5/WM5N2)*
+     2                 CY*(1.0 - CX)/H03
+     3   + 0.25*SY*L/H0W + NB*CX*SY*L/H0WF
+     4   -  0.5*(1.0/WMN + 1.0/WM5N)*SX*CY*L/H0
+     5   - 2.*NB*SX*SY/H0F2
+        VPLDS1 = 0.25*SMLCY/H0W
+     1 + 0.25*SY*L2/H0W
+     2 + (- 2.*NB/(WMN*WM5N2) + 0.5/WMN2 - 0.5/WM5N2)*SY/H03
+     3 - CX*CY*L/H03WF
+     4 + (- 2.*NB/(WMN*WM5N2) - 0.5/WMN2 - 0.5/WM5N2)*CX*SY/H03
+     5 + 2.*SX*CY/H03F2
+     6 - (0.5/WMN + 0.5/WM5N)*SX*SY*L/H0
+      ENDIF
+C
+      VPCCC1 = 0.25*(1.0 + WMN/WM2N)*CX*SX*CY + 0.25*CY*L
+     1 + 0.25*(1.0 - NB/WM2N)*SY
+     2 + 0.25*NB*WMN*SX**2*SY*H02/WM2N
+      VPCCS1 = 0.25*(1.0 + WMN/WM2N)*CX*SX*SY + 0.25*SY*L
+     2 - 0.25*WMN*SX**2*CY/WM2N
+      VPCSC1 = - 0.25*NB*CX*SX*SY/WM2N
+     1 + 0.25*(1.0 + WMN/WM2N)*SX**2*CY
+      IF (XPND) THEN
+        VPCSS1 = 1.0/3.0*L3 - (NB/20 + 2.*WMN/15)*H02L5
+        VPCDC1 = 1.0/6.0*H0*L3 - 7.*H03L5/120.
+        VPCDS1 = 0.125*H0*L4 - (13.*NB/720. + 7.*WMN/144.)*H03L6
+      ELSE
+        VPCSS1 = 0.25*CX*SX*CY/H02T - 0.25*SY/H02T
+     1   + 0.25*(1.0 + WMN/WM2N)*SX**2*SY
+        VPCDC1 = - NB*CX*SY/H0WF
+     1   - 0.25*(1.0/WMN + 1.0/WM2N)*CX*SX*CY/H0
+     2   - 0.25*CY*L/H0W - NB*SY/H0WF
+     3   + 0.25*(NB/WM2N - 1.0)*SY/H0W
+     4   + 0.5*(1.0/WMN + 1.0/WM5N)*SX*CY/H0
+     5   - 0.25*NB*SX**2*SY*H0/WM2N
+        VPCDS1 = - CY*DISP/H02F - 0.25*SY*L/H0W
+     1   - 0.25*(1.0/WMN + 1.0/WM2N)*CX*SX*SY/H0
+     2   + 0.5*(1.0/WMN + 1.0/WM5N)*SX*SY/H0
+     3   + 0.25*SX**2*CY/H0T
+      ENDIF
+C
+      IF (XPND) THEN
+        VPSSC1 = 1.0/3.0*L3 - (7.*NB/60. + WMN/15.)*H02L5
+        VPSSS1 = 0.25*L4 - (13.*NB/360. + WMN/18.)*H02L6
+        VPSDC1 = 0.125*H0*L4 - (11.*NB/240. + WMN/48.)*H03L6
+        VPSDS1 = 0.1*H0L5 - (NB/70. + WMN/56.)*H03L7
+      ELSE
+        VPSSC1 = 0.25*CY*L/H02W
+     1   + 0.25*(NB/WM2N + 1.0)*SY/H02W
+     2   - 0.25*(1.0/WMN + 1.0/WM2N)*CX*SX*CY/H02
+     4   - 0.25*NB*SX**2*SY/WM2N
+        VPSSS1 = - 0.25*(1.0/WMN + 1.0/WM2N)*CX*SX*SY/H02
+     1   + 0.25*SY*L/H02W + 0.25*SX**2*CY/H02T
+        VPSDC1 = 0.5*(1.0/WMN + 1.0/WM5N)*CY*DISP/H02
+     1   + 0.25*NB*CX*SX*SY/H0WT
+     3   - NB*SX*SY/H0WF
+     4   - 0.25*(1.0/WMN + 1.0/WM2N)*SX**2*CY/H0
+        VPSDS1 = - 0.5*(1.0/WMN + 1.0/WM5N)*CX*SY/H03W
+     1 - 0.25*CX*SX*CY/H03WT
+     2 + 0.5*(1.0/WMN - 1.0/WM5N)*SY/H03W
+     3 + 0.25*SY/H03WT + SX*CY/H03WF
+     5 - 0.25*(1.0/WMN + 1.0/WM2N)*SX**2*SY/H0
+      ENDIF
+C
+      IF (XPND) THEN
+        VPDDC1 = 0.05*H02L5 - (2.*NB/105. + WMN/168.)*H04L7
+        VPDDS1 = 1.0/24.0*H02L6 - (NB/168. + WMN/192.)*H04L8
+      ELSE
+        VPDDC1 = 2.*NB*CX*SY/H02W2F
+     1   + 0.25*(1.0/WMN + 1.0/WM2N)*CX*SX*CY/H02W
+     2   + 0.75*CY*L/H02W2 + 2.*NB*SY/H02W2F
+     3   + 0.25*(3.0 - NB/WM2N)*SY/H02W2
+     4   - (1.0/WMN + 1.0/WM5N)*SX*CY/H02W
+     5   + 0.25*NB*SX**2*SY/(WMN*WM2N)
+        VPDDS1 = 2.*CY*DISP/H03WF + 0.75*SY*L/H02W2
+     1   + 0.25*(1.0/WMN + 1.0/WM2N)*CX*SX*SY/H02W
+     2   - (1.0/WMN + 1.0/WM5N)*SX*SY/H02W
+     3   - 0.25*SX**2*CY/H02WT
+      ENDIF
+C
+      VPCCC3 = 0.375*CY*L + 0.625*SY - 0.375*NB*H02*SY**3
+      VPCCS3 = 0.375*CY*SY**2 + 0.125*SY*L
+      VPCSS3 = - 0.125*SMLCY + 0.375*SY**3
+      VPSSS3 =  0.375*SY*SNARK
+      RETURN
+      END
+      SUBROUTINE THORU
+C---- CALCULATES THIRD-ORDER MATRIX ELEMENTS FOR A COMBINED FUNCTION
+C---- BENDING MAGNET
+C----------------------------------------------------------------------
+      INCLUDE 'ELM4A.CIN'
+      INCLUDE 'ELM4D.CIN'
+      INCLUDE 'COEFS.CIN'
+      INCLUDE 'HSINT.CIN'
+      INCLUDE 'HSINT3.CIN'
+      INCLUDE 'HPINT.CIN'
+      INCLUDE 'HPINT3.CIN'
+      INCLUDE 'H0P.CIN'
+      INCLUDE 'PXINT.CIN'
+      INCLUDE 'PCXINT.CIN'
+      INCLUDE 'PSXINT.CIN'
+      INCLUDE 'PDXINT.CIN'
+      INCLUDE 'PCPINT.CIN'
+      INCLUDE 'PSPINT.CIN'
+      INCLUDE 'PEYINT.CIN'
+      INCLUDE 'PTYINT.CIN'
+      INCLUDE 'PEQINT.CIN'
+      INCLUDE 'PTQINT.CIN'
+      INCLUDE 'QYINT.CIN'
+      INCLUDE 'QCYINT.CIN'
+      INCLUDE 'QSYINT.CIN'
+      INCLUDE 'QDYINT.CIN'
+      INCLUDE 'QCQINT.CIN'
+      INCLUDE 'QSQINT.CIN'
+      INCLUDE 'QEXINT.CIN'
+      INCLUDE 'QTXINT.CIN'
+      INCLUDE 'QEPINT.CIN'
+      INCLUDE 'QTPINT.CIN'
+      INCLUDE 'U.CIN'
+      INCLUDE 'VSINT.CIN'
+      INCLUDE 'VSINT3.CIN'
+      INCLUDE 'VPINT.CIN'
+      INCLUDE 'VPINT3.CIN'
+      INCLUDE 'WMN.CIN'
+      INCLUDE 'XXINT.CIN'
+      INCLUDE 'XCXINT.CIN'
+      INCLUDE 'XSXINT.CIN'
+      INCLUDE 'XDXINT.CIN'
+      INCLUDE 'XCPINT.CIN'
+      INCLUDE 'XSPINT.CIN'
+      INCLUDE 'XEYINT.CIN'
+      INCLUDE 'XTYINT.CIN'
+      INCLUDE 'XEQINT.CIN'
+      INCLUDE 'XTQINT.CIN'
+      INCLUDE 'YYINT.CIN'
+      INCLUDE 'YCYINT.CIN'
+      INCLUDE 'YSYINT.CIN'
+      INCLUDE 'YDYINT.CIN'
+      INCLUDE 'YCQINT.CIN'
+      INCLUDE 'YSQINT.CIN'
+      INCLUDE 'YEXINT.CIN'
+      INCLUDE 'YTXINT.CIN'
+      INCLUDE 'YEPINT.CIN'
+      INCLUDE 'YTPINT.CIN'
+C---------------------------------------------------------------------
+C
+      U(1,1) = - GPTB*H04*HSCCC0 - 0.5*FMTN*WMN2*H06*HSCSS0
+     1 - 0.5*WMN3*H08*XSPSS - TNMB*WMN*H06*XSPCC
+     2 + TNMB*WMN2*H08*XCXSS + 2.*TNMB**2*H06*XCXCC
+      U(1,2) = - 3.*GPTB*H04*HSCCS0 + FMTN*WMN*H04*HSCCS0
+     1 - 0.5*FMTN*WMN2*H06*HSSSS0 + TNMB*H04*XCPCC
+     2 - 2.*TNMB*WMN*H06*XCXCS - 2.*TNMB*WMN*H06*XSPCS
+     3 + TNMB*WMN2*H08*XSXSS + 4.*TNMB**2*H06*XCXCS
+     4 + 2.*TNMB**2*H06*XSXCC + 0.5*WMN2*H06*XCPSS
+     5 + WMN2*H06*XSPCS
+     6 + 2.*TNMB*H04*HSCSX - H04*HSCSX*WMN
+      U(1,3) = - 0.5*FMTN*H02*HSCCC0 - 3.*GPTB*H04*HSCSS0
+     1 + FMTN*WMN*H04*HSCSS0 + TNMB*H04*XCXCC
+     2 + 2.*TNMB*H04*XCPCS - 2.*TNMB*WMN*H06*XSXCS
+     3 - TNMB*WMN*H06*XSPSS + 2.*TNMB**2*H06*XCXSS
+     4 + 4.*TNMB**2*H06*XSXCS - WMN*H04*XCPCS
+     5 - 0.5*WMN*H04*XSPCC
+     6 + 2.*TNMB*H02*HSSX2 + H02*HSCX2
+      U(1,4) = - 0.5*FMTN*H02*HSCCS0 - GPTB*H04*HSSSS0
+     1 + TNMB*H04*XCPSS + TNMB*H04*XSXCC
+     2 + 2.*TNMB**2*H06*XSXSS + 0.5*H02*XCPCC
+      U(1,8) = - WMN*NB**2*H06*HSSCS2 + 0.5*NB**3*H06*HSCSS2
+     1 + TGTB*H04*HSCCC2 - NMTB*WMN*NB*H08*XEYST
+     2 - 2.*NMB*NB*H06*XTQCE - NB**2*TNMB*H08*XCXTT
+     3 + 0.5*WMN*NB**2*H08*XSPTT + WMN*NB**2*H08*XTQST
+     4 + 2.*NMTB*NMB*H06*XEYCE - NMTB*TNMB*H06*XCXEE
+     5 + 0.5*NMTB*WMN*H06*XSPEE
+      U(1,9) = NB**2*H04*HSCCS2 + 0.5*NB**3*H06*HSSSS2
+     1 + TGTB*H04*HSSCC2 + NB*NMTB*H06*XEYCT
+     2 - 2.*NMB*NB*H06*XTQSE - NB**2*TNMB*H08*XSXTT
+     3 - 0.5*NB**2*H06*XCPTT - NB**2*H06*XTQCT
+     4 + 2.*NMTB*NMB*H06*XEYSE - NMTB*TNMB*H06*XSXEE
+     5 - 0.5*NMTB*H04*XCPEE
+      U(1,14) = WMN*NB*H04*HSSCC2 - NB**2*H04*HSCCS2
+     1 - WMN*NB**2*H06*HSSSS2 + 2.*TGTB*H04*HSCCS2
+     2 - NMTB*WMN*NB*H08*XTYST - 2.*NMB*NB*H06*XTQCT
+     3 + 2.*TNMB*NB*H06*XCXET - WMN*NB*H06*XSPET
+     4 - WMN*NB*H06*XEQST - WMN*NB*H06*XTQSE
+     5 + 2.*NMTB*NMB*H06*XEYCT + 2.*NMTB*NMB*H06*XTYCE
+     6 - 2.*NMTB*TNMB*H06*XCXET + NMTB*WMN*H06*XSPET
+     7 + NMTB*WMN*H06*XEYSE + 2.*NMB*H04*XEQCE
+     8 + NB*H02*HSCSY - NMTB*H02*HSCSY
+      U(1,15) = - NB*H02*HSCCC2 + NB**2*H04*HSCSS2
+     1 - NB**2*H04*HSSCS2 + 2.*TGTB*H04*HSSCS2
+     2 + NB*NMTB*H06*XTYCT - 2.*NMB*NB*H06*XTQST
+     3 + 2.*TNMB*NB*H06*XSXET + NB*H04*XCPET
+     4 + NB*H04*XEQCT + NB*H04*XTQCE
+     5 + 2.*NMTB*NMB*H06*XEYST + 2.*NMTB*NMB*H06*XTYSE
+     6 - 2.*NMTB*TNMB*H06*XSXET - NMTB*H04*XCPET
+     7 - NMTB*H04*XEYCE + 2.*NMB*H04*XEQSE
+      U(1,17) = 0.5*NB*H02*HSCCC2 + WMN*NB*H04*HSSCS2
+     1 + TGTB*H04*HSCSS2 + 2.*NMTB*NMB*H06*XTYCT
+     2 - NMTB*TNMB*H06*XCXTT + 0.5*NMTB*WMN*H06*XSPTT
+     3 + NMTB*WMN*H06*XTYSE + 2.*NMB*H04*XEQCT
+     4 - TNMB*H04*XCXEE + 0.5*WMN*H04*XSPEE
+     5 + WMN*H04*XEQSE
+     6 - NMTB*H02*HSSY2 - H02*HSCY2
+      U(1,18) = - NB*H02*HSCCS2 + 0.5*NB*H02*HSSCC2
+     1 + TGTB*H04*HSSSS2 + 2.*NMTB*NMB*H06*XTYST
+     2 - NMTB*TNMB*H06*XSXTT - 0.5*NMTB*H04*XCPTT
+     3 - NMTB*H04*XTYCE + 2.*NMB*H04*XEQST
+     4 - TNMB*H04*XSXEE - 0.5*H02*XCPEE
+     5 - H02*XEQCE
+      U(1,36) = - TNMB*H03*HSCX2 - 3.*GPTB*H04*HSCCD0
+     1 + FMTN*WMN*H05*HSCSS0 + 1.5*WMN2*H03*HSSX2
+     2 - 0.5*FMTN*WMN2*H06*HSSSD0 + 2.*TNMB*TMN*H05*XCXC
+     3 + TNMB*TMN*H05*XXCC + TNMB*H05*XSPCC
+     4 - 2.*TNMB*WMN*H06*XSPCD - 2.*TNMB*WMN*H07*XCXSS
+     5 + TNMB*WMN2*H08*XDXSS + 4.*TNMB**2*H06*XCXCD
+     6 + 2.*TNMB**2*H06*XDXCC - TMN*WMN*H05*XSPC
+     7 + 0.5*TMN*WMN2*H07*XXSS + 1.5*WMN2*H07*XSPSS
+      U(1,37) = - 2.*TNMB*H03*HSCSX - 3.*WMN*H03*HSCSX
+     1 - FMTN*H03*HSCCS0 - 6.*GPTB*H04*HSCSD0
+     2 + FMTN*WMN*H04*HSCSD0 + FMTN*WMN*H05*HSSSS0
+     3 + 2.*TNMB*H04*XCPCD + 2.*TNMB*TMN*H05*XCXS
+     4 + 2.*TNMB*TMN*H05*XSXC + 2.*TNMB*TMN*H05*XXCS
+     5 + 2.*TNMB*H05*XCXCS + 2.*TNMB*H05*XSPCS
+     6 - 2.*TNMB*WMN*H06*XSPSD - 2.*TNMB*WMN*H06*XDXCS
+     7 - 2.*TNMB*WMN*H07*XSXSS + 4.*TNMB**2*H06*XCXSD
+     8 + 4.*TNMB**2*H06*XSXCD + 4.*TNMB**2*H06*XDXCS
+     9 + TMN*H03*XCPC - WMN*TMN*H05*XSPS
+     A - WMN*TMN*H05*XXCS - WMN*H05*XCPSS
+     B - 2.*WMN*H05*XSPCS
+     C + 2.*TNMB*H0*HSSDX + H0*TMN*HSSX + H03*HSCSX
+      U(1,38) = - TNMB*H0*HSSX2 + 1.5*H0*HSCX2
+     1 - 0.5*FMTN*H02*HSCCD0 - FMTN*H03*HSCSS0
+     2 - 3.*GPTB*H04*HSSSD0 + 2.*TNMB*H04*XCPSD
+     3 + TNMB*H04*XDXCC + 2.*TNMB*TMN*H05*XSXS
+     4 + TNMB*TMN*H05*XXSS + 2.*TNMB*H05*XSXCS
+     5 + TNMB*H05*XSPSS + 4.*TNMB**2*H06*XSXSD
+     6 + 2.*TNMB**2*H06*XDXSS + TMN*H03*XCPS
+     7 + 0.5*TMN*H03*XXCC + H03*XCPCS
+     8 + 0.5*H03*XSPCC
+      U(1,41) = NB**2*H05*HSSCS2 + 0.5*NB**2*H03*HSSY2
+     1 + 0.5*NB**3*H06*HSDSS2 + 0.5*NMTB*H03*HSCY2
+     2 + TGTB*H04*HSDCC2 - NB*NMTB*H05*XEYE
+     3 + NB*NMTB*H07*XEYST - 2.*NMB*NB*H06*XTQDE
+     4 - NB**2*TNMB*H08*XDXTT + NB**2*H05*XTQE
+     5 - 0.5*TMN*NB**2*H07*XXTT - 0.5*NB**2*H07*XSPTT
+     6 - NB**2*H07*XTQST + 2.*NMTB*NMB*H06*XEYDE
+     7 - NMTB*TNMB*H06*XDXEE - 0.5*NMTB*TMN*H05*XXEE
+     8 - 0.5*NMTB*H05*XSPEE
+      U(1,44) = - NB*H03*HSSCC2 - NB*H0*HSCSY
+     1 - NB**2*H04*HSDCS2 + NB**2*H05*HSSSS2
+     2 + NMTB*H0*HSCSY + 2.*TGTB*H04*HSDCS2
+     3 - NB*NMTB*H05*XEYT - NMTB*NB*H05*XTYE
+     4 + NMTB*NB*H07*XTYST - 2.*NMB*NB*H06*XTQDT
+     5 + 2.*TNMB*NB*H06*XDXET - NB*H03*XEQE
+     6 + TMN*NB*H05*XXET + NB*H05*XSPET
+     7 + NB*H05*XEQST + NB*H05*XTQSE
+     8 + NB**2*H05*XTQT + 2.*NMTB*NMB*H06*XEYDT
+     9 + 2.*NMTB*NMB*H06*XTYDE - 2.*NMTB*TNMB*H06*XDXET
+     A - NMTB*TMN*H05*XXET - NMTB*H05*XSPET
+     B - NMTB*H05*XEYSE + 2.*NMB*H04*XEQDE
+      U(1,45) = 0.5*NB*H02*HSDCC2 - NB*H03*HSSCS2
+     1 + 0.5*NMTB*H0*HSSY2 + 0.5*H0*HSCY2
+     2 + TGTB*H04*HSDSS2 - NB*NMTB*H05*XTYT
+     3 - NB*H03*XEQT + 2.*NMTB*NMB*H06*XTYDT
+     4 - NMTB*TNMB*H06*XDXTT - 0.5*NMTB*TMN*H05*XXTT
+     5 - 0.5*NMTB*H05*XSPTT - NMTB*H05*XTYSE
+     6 + 2.*NMB*H04*XEQDT - TNMB*H04*XDXEE
+     7 - 0.5*TMN*H03*XXEE - 0.5*H03*XSPEE
+     8 - H03*XEQSE
+      U(1,51) = - 2.*TNMB*H02*HSCDX - TMN*H02*HSCX
+     1 - 0.5*FMTN*H04*HSCSS0 - 3.*GPTB*H04*HSCDD0
+     2 - 3.*WMN*H02*HSSX2 + FMTN*WMN*H05*HSSSD0
+     3 - 2.*TNMB*H04*XCXI + 2.*TNMB*TMN*H05*XCXD
+     4 + 2.*TNMB*TMN*H05*XDXC + 2.*TNMB*TMN*H05*XXCD
+     5 + 2.*TNMB*H05*XSPCD + TNMB*H06*XCXSS
+     6 - TNMB*WMN*H06*XSPDD - 2.*TNMB*WMN*H07*XDXSS
+     7 + 2.*TNMB**2*H06*XCXDD + 4.*TNMB**2*H06*XDXCD
+     8 + TMN*H04*XSPC + TMN**2*H04*XXC
+     9 + WMN*H04*XSPI - TMN*WMN*H05*XSPD
+     A - TMN*WMN*H06*XXSS - 1.5*WMN*H06*XSPSS
+      U(1,52) = - 2.*TNMB*HSSDX - TMN*HSSX
+     1 + 3.*H02*HSCSX - FMTN*H03*HSCSD0
+     2 - 3.*GPTB*H04*HSSDD0 - 0.5*FMTN*H04*HSSSS0
+     3 + TNMB*H04*XCPDD - 2.*TNMB*H04*XSXI
+     4 + 2.*TNMB*TMN*H05*XSXD + 2.*TNMB*TMN*H05*XDXS
+     5 + 2.*TNMB*TMN*H05*XXSD + 2.*TNMB*H05*XSPSD
+     6 + 2.*TNMB*H05*XDXCS + TNMB*H06*XSXSS
+     7 + 2.*TNMB**2*H06*XSXDD + 4.*TNMB**2*H06*XDXSD
+     8 - H02*XCPI + TMN*H03*XCPD
+     9 + TMN*H04*XSPS + TMN*H04*XXCS
+     A + TMN**2*H04*XXS + 0.5*H04*XCPSS
+     B + H04*XSPCS
+      U(1,56) = - TNMB*H0*HSDX2 + DISP
+     1 - TMN*H0*HSDX + 1.5*H0*HSSX2
+     2 - 0.5*FMTN*H04*HSSSD0 - GPTB*H04*HSDDD0
+     3 - 2.*TNMB*H04*XDXI + 2.*TNMB*TMN*H05*XDXD
+     4 + TNMB*TMN*H05*XXDD + TNMB*H05*XSPDD
+     5 + TNMB*H06*XDXSS + 2.*TNMB**2*H06*XDXDD
+     6 - TMN*H03*XXI - H03*XSPI
+     7 + TMN*H04*XSPD + TMN**2*H04*XXD
+     8 + 0.5*TMN*H05*XXSS + 0.5*H05*XSPSS
+C
+      U(2,1) = - GPTB*H04*HPCCC0 - 0.5*FMTN*WMN2*H06*HPCSS0
+     1 - 0.5*WMN3*H08*PSPSS - TNMB*WMN*H06*PSPCC
+     2 + TNMB*WMN2*H08*PCXSS + 2.*TNMB**2*H06*PCXCC
+     3 - TNMB*H04*CX*HPCX2 + TNMB*WMN*H06*SX*HSCX2
+     4 - WMN*H04*SX - 0.5*WMN2*H06*CX*HPSX2
+     5 + WMN2*H06*SX**3 + 0.5*WMN3*H06*SX*HSSX2
+      U(2,2) = - 3.*GPTB*H04*HPCCS0 + FMTN*WMN*H04*HPCCS0
+     1 - 0.5*FMTN*WMN2*H06*HPSSS0 + TNMB*H04*PCPCC
+     2 - 2.*TNMB*WMN*H06*PCXCS - 2.*TNMB*WMN*H06*PSPCS
+     3 + TNMB*WMN2*H08*PSXSS + 4.*TNMB**2*H06*PCXCS
+     4 + 2.*TNMB**2*H06*PSXCC + 0.5*WMN2*H06*PCPSS
+     5 + WMN2*H06*PSPCS
+     6 - TNMB*H04*CX*HSCX2 - 2.*TNMB*H04*CX*HPCSX
+     7 - TNMB*H04*SX*HPCX2 + 2.*TNMB*H04*HPCSX
+     8 + 2.*TNMB*WMN*H06*SX*HSCSX - H03*WMN*DISP
+     9 - 3.*WMN*H04*CX*SX**2 + WMN*H04*CX*HPCSX
+     A + 2.*WMN*H04*SX**2 - WMN*H04*HPCSX
+     B - 0.5*WMN2*H04*CX*HSSX2 - WMN2*H06*SX*HSCSX
+     C - 0.5*WMN2*H06*SX*HPSX2
+      U(2,3) = - 0.5*FMTN*H02*HPCCC0 - 3.*GPTB*H04*HPCSS0
+     1 + FMTN*WMN*H04*HPCSS0 + TNMB*H04*PCXCC
+     2 + 2.*TNMB*H04*PCPCS - 2.*TNMB*WMN*H06*PSXCS
+     3 - TNMB*WMN*H06*PSPSS + 2.*TNMB**2*H06*PCXSS
+     4 + 4.*TNMB**2*H06*PSXCS - WMN*H04*PCPCS
+     5 - 0.5*WMN*H04*PSPCC
+     6 - 2.*TNMB*H04*CX*HSCSX - TNMB*H04*CX*HPSX2
+     7 - 2.*TNMB*H04*SX*HPCSX + 2.*TNMB*H04*HPSX2
+     8 + TNMB*WMN*H04*SX*HSSX2 - 0.5*H02*CX*HPCX2
+     9 + 2.*H03*WMN*SX*DISP + H02*HPCX2
+     A + WMN*H04*CX*HSCSX + 0.5*WMN*H04*SX*HSCX2
+     B + WMN*H04*SX*HPCSX - 3.*WMN*H04*SX**3
+      U(2,4) = - 0.5*FMTN*H02*HPCCS0 - GPTB*H04*HPSSS0
+     1 + TNMB*H04*PCPSS + TNMB*H04*PSXCC
+     2 + 2.*TNMB**2*H06*PSXSS + 0.5*H02*PCPCC
+     3 - TNMB*H02*CX*HSSX2 - TNMB*H04*SX*HPSX2
+     4 + H02*CX*SX**2 - 0.5*H02*CX*HSCX2
+     5 - 0.5*H02*SX*HPCX2
+      U(2,8) = - WMN*NB**2*H06*HPSCS2 + 0.5*NB**3*H06*HPCSS2
+     1 + TGTB*H04*HPCCC2 - NMTB*WMN*NB*H08*PEYST
+     2 - 2.*NMB*NB*H06*PTQCE - NB**2*TNMB*H08*PCXTT
+     3 + 0.5*WMN*NB**2*H08*PSPTT + WMN*NB**2*H08*PTQST
+     4 + 2.*NMTB*NMB*H06*PEYCE - NMTB*TNMB*H06*PCXEE
+     5 + 0.5*NMTB*WMN*H06*PSPEE
+     6 + 0.5*NB**2*H04*CX*HPSY2 - 0.5*NB**2*WMN*H06*SX*HSSY2
+     7 + 0.5*NMTB*H04*CX*HPCY2 - 0.5*NMTB*WMN*H06*SX*HSCY2
+      U(2,9) = NB**2*H04*HPCCS2 + 0.5*NB**3*H06*HPSSS2
+     1 + TGTB*H04*HPSCC2 + NB*NMTB*H06*PEYCT
+     2 - 2.*NMB*NB*H06*PTQSE - NB**2*TNMB*H08*PSXTT
+     3 - 0.5*NB**2*H06*PCPTT - NB**2*H06*PTQCT
+     4 + 2.*NMTB*NMB*H06*PEYSE - NMTB*TNMB*H06*PSXEE
+     5 - 0.5*NMTB*H04*PCPEE
+     6 + 0.5*NB**2*H04*CX*HSSY2 + 0.5*NB**2*H04*SX*HPSY2
+     7 + 0.5*NMTB*H04*CX*HSCY2 + 0.5*NMTB*H04*SX*HPCY2
+      U(2,14) = WMN*NB*H04*HPSCC2 - NB**2*H04*HPCCS2
+     1 - WMN*NB**2*H06*HPSSS2 + 2.*TGTB*H04*HPCCS2
+     2 - NMTB*WMN*NB*H08*PTYST - 2.*NMB*NB*H06*PTQCT
+     3 + 2.*TNMB*NB*H06*PCXET - WMN*NB*H06*PSPET
+     4 - WMN*NB*H06*PEQST - WMN*NB*H06*PTQSE
+     5 + 2.*NMTB*NMB*H06*PEYCT + 2.*NMTB*NMB*H06*PTYCE
+     6 - 2.*NMTB*TNMB*H06*PCXET + NMTB*WMN*H06*PSPET
+     7 + NMTB*WMN*H06*PEYSE + 2.*NMB*H04*PEQCE
+     8 - NB*H04*CX*HPCSY + NB*H04*HPCSY
+     9 + NB*H04*SX*HSCSY*WMN + NMTB*H04*CX*HPCSY
+     A - NMTB*H04*HPCSY - NMTB*WMN*H04*SX*HSCSY
+      U(2,15) = - NB*H02*HPCCC2
+     1 + NB**2*H04*HPCSS2 - NB**2*H04*HPSCS2
+     2 + 2.*TGTB*H04*HPSCS2 + NB*NMTB*H06*PTYCT
+     3 - 2.*NMB*NB*H06*PTQST + 2.*TNMB*NB*H06*PSXET
+     4 + NB*H04*PCPET + NB*H04*PEQCT
+     5 + NB*H04*PTQCE + 2.*NMTB*NMB*H06*PEYST
+     6 + 2.*NMTB*NMB*H06*PTYSE - 2.*NMTB*TNMB*H06*PSXET
+     7 - NMTB*H04*PCPET - NMTB*H04*PEYCE
+     8 + 2.*NMB*H04*PEQSE
+     9 - NB*H02*CX*HSCSY - NB*H04*SX*HPCSY
+     A + NMTB*H02*CX*HSCSY + NMTB*H04*SX*HPCSY
+      U(2,17) = 0.5*NB*H02*HPCCC2 + WMN*NB*H04*HPSCS2
+     1 + TGTB*H04*HPCSS2 + 2.*NMTB*NMB*H06*PTYCT
+     2 - NMTB*TNMB*H06*PCXTT + 0.5*NMTB*WMN*H06*PSPTT
+     3 + NMTB*WMN*H06*PTYSE + 2.*NMB*H04*PEQCT
+     4 - TNMB*H04*PCXEE + 0.5*WMN*H04*PSPEE
+     5 + WMN*H04*PEQSE
+     6 + 0.5*NMTB*H02*CX*HPSY2 - NMTB*H02*HPSY2
+     7 - 0.5*NMTB*WMN*H04*SX*HSSY2 + 0.5*H02*CX*HPCY2
+     8 - H02*HPCY2 - 0.5*WMN*H04*SX*HSCY2
+      U(2,18) = - NB*H02*HPCCS2 + 0.5*NB*H02*HPSCC2
+     1 + TGTB*H04*HPSSS2 + 2.*NMTB*NMB*H06*PTYST
+     2 - NMTB*TNMB*H06*PSXTT - 0.5*NMTB*H04*PCPTT
+     3 - NMTB*H04*PTYCE + 2.*NMB*H04*PEQST
+     4 - TNMB*H04*PSXEE - 0.5*H02*PCPEE
+     5 - H02*PEQCE
+     6 + 0.5*NMTB*H02*CX*HSSY2 + 0.5*NMTB*H02*SX*HPSY2
+     7 + 0.5*H02*CX*HSCY2 + 0.5*H02*SX*HPCY2
+      U(2,36) = - TNMB*H03*HPCX2 - 3.*GPTB*H04*HPCCD0
+     1 + FMTN*WMN*H05*HPCSS0 + 1.5*WMN2*H05*HPSX2
+     2 - 0.5*FMTN*WMN2*H06*HPSSD0 + 2.*TNMB*TMN*H05*PCXC
+     3 + TNMB*TMN*H05*PXCC + TNMB*H05*PSPCC
+     4 - 2.*TNMB*WMN*H06*PSPCD - 2.*TNMB*WMN*H07*PCXSS
+     5 + TNMB*WMN2*H08*PDXSS + 4.*TNMB**2*H06*PCXCD
+     6 + 2.*TNMB**2*H06*PDXCC - TMN*WMN*H05*PSPC
+     7 + 0.5*TMN*WMN2*H07*PXSS + 1.5*WMN2*H07*PSPSS
+     8 - 2.*TNMB*H03*CX*HPCDX - TNMB*H04*DISP*HPCX2
+     9 - TNMB*H05*SX*HSCX2 + 2.*TNMB*WMN*H05*SX*HSCDX
+     A - H03*TMN*CX*HPCX + H03*SX
+     B - 2.*WMN*H04*CX*SX*DISP + WMN*H05*TMN*SX*HSCX
+     C + WMN*H05*CX*HPSX2 - WMN*H05*SX**3
+     D - 0.5*WMN2*H06*DISP*HPSX2 - 1.5*WMN2*H05*SX*HSSX2
+      U(2,37) = - 2.*TNMB*H03*HPCSX - 3.*WMN*H03*HPCSX
+     1 - FMTN*H03*HPCCS0 - 6.*GPTB*H04*HPCSD0
+     2 + FMTN*WMN*H04*HPCSD0 + FMTN*WMN*H05*HPSSS0
+     3 + 2.*TNMB*H04*PCPCD + 2.*TNMB*TMN*H05*PCXS
+     4 + 2.*TNMB*TMN*H05*PSXC + 2.*TNMB*TMN*H05*PXCS
+     5 + 2.*TNMB*H05*PCXCS + 2.*TNMB*H05*PSPCS
+     6 - 2.*TNMB*WMN*H06*PSPSD - 2.*TNMB*WMN*H06*PDXCS
+     7 - 2.*TNMB*WMN*H07*PSXSS + 4.*TNMB**2*H06*PCXSD
+     8 + 4.*TNMB**2*H06*PSXCD + 4.*TNMB**2*H06*PDXCS
+     9 + TMN*H03*PCPC - WMN*TMN*H05*PSPS
+     A - WMN*TMN*H05*PXCS - WMN*H05*PCPSS
+     B - 2.*WMN*H05*PSPCS
+      ADJUST =
+     C - 2.*TNMB*H03*CX*HSCDX - 2.*TNMB*H03*CX*HPSDX
+     D - 2.*TNMB*H03*SX*HPCDX - 2.*TNMB*H04*DISP*HPCSX
+     E + 2.*TNMB*H03*HPSDX - 2.*TNMB*H05*SX*HSCSX
+     F + 2.*TNMB*WMN*H03*SX*HSSDX - H02*CX*DISP
+     G + 2.*H02*DISP - H03*TMN*CX*HSCX
+     H - H03*TMN*CX*HPSX - H03*TMN*SX*HPCX
+     I + H03*TMN*HPSX + 2.*H03*CX*SX**2
+     J - H03*CX*HPCSX - H03*SX**2
+     K + H03*HPCSX - 4.*WMN*H04*SX**2*DISP
+     L + WMN*H04*DISP*HPCSX + WMN*H03*TMN*SX*HSSX
+     M + WMN*H03*CX*HSSX2 + 2.*WMN*H05*SX*HSCSX
+     N + WMN*H05*SX*HPSX2
+      U(2,37) = U(2,37) + ADJUST
+      U(2,38) = - TNMB*H03*HPSX2 + 1.5*H0*HPCX2
+     1 - 0.5*FMTN*H02*HPCCD0 - FMTN*H03*HPCSS0
+     2 - 3.*GPTB*H04*HPSSD0 + 2.*TNMB*H04*PCPSD
+     3 + TNMB*H04*PDXCC + 2.*TNMB*TMN*H05*PSXS
+     4 + TNMB*TMN*H05*PXSS + 2.*TNMB*H05*PSXCS
+     5 + TNMB*H05*PSPSS + 4.*TNMB**2*H06*PSXSD
+     6 + 2.*TNMB**2*H06*PDXSS + TMN*H03*PCPS
+     7 + 0.5*TMN*H03*PXCC + H03*PCPCS
+     8 + 0.5*H03*PSPCC
+     9 - 2.*TNMB*H0*CX*HSSDX - 2.*TNMB*H03*SX*HPSDX
+     A - TNMB*H04*DISP*HPSX2 - TNMB*H03*SX*HSSX2
+     B + 2.*H02*CX*SX*DISP - 0.5*H02*DISP*HPCX2
+     C - H0*TMN*CX*HSSX - H03*TMN*SX*HPSX
+     D - H03*CX*HSCSX - 0.5*H03*SX*HSCX2
+     E - H03*SX*HPCSX + H03*SX**3
+      U(2,41) = NB**2*H05*HPSCS2 + 0.5*NB**2*H03*HPSY2
+     1 + 0.5*NB**3*H06*HPDSS2 + 0.5*NMTB*H03*HPCY2
+     2 + TGTB*H04*HPDCC2 - NB*NMTB*H05*PEYE
+     3 + NB*NMTB*H07*PEYST - 2.*NMB*NB*H06*PTQDE
+     4 - NB**2*TNMB*H08*PDXTT + NB**2*H05*PTQE
+     5 - 0.5*TMN*NB**2*H07*PXTT - 0.5*NB**2*H07*PSPTT
+     6 - NB**2*H07*PTQST + 2.*NMTB*NMB*H06*PEYDE
+     7 - NMTB*TNMB*H06*PDXEE - 0.5*NMTB*TMN*H05*PXEE
+     8 - 0.5*NMTB*H05*PSPEE
+     9 + 0.5*NB**2*H04*DISP*HPSY2 + 0.5*NB**2*H05*SX*HSSY2
+     A + 0.5*NMTB*H04*DISP*HPCY2 + 0.5*NMTB*H05*SX*HSCY2
+      U(2,44) = - NB*H03*HPSCC2 - NB*H03*HPCSY
+     1 - NB**2*H04*HPDCS2 + NB**2*H05*HPSSS2
+     2 + NMTB*H03*HPCSY + 2.*TGTB*H04*HPDCS2
+     3 - NB*NMTB*H05*PEYT - NMTB*NB*H05*PTYE
+     4 + NMTB*NB*H07*PTYST - 2.*NMB*NB*H06*PTQDT
+     5 + 2.*TNMB*NB*H06*PDXET - NB*H03*PEQE
+     6 + TMN*NB*H05*PXET + NB*H05*PSPET
+     7 + NB*H05*PEQST + NB*H05*PTQSE
+     8 + NB**2*H05*PTQT + 2.*NMTB*NMB*H06*PEYDT
+     9 + 2.*NMTB*NMB*H06*PTYDE - 2.*NMTB*TNMB*H06*PDXET
+     A - NMTB*TMN*H05*PXET - NMTB*H05*PSPET
+     B - NMTB*H05*PEYSE + 2.*NMB*H04*PEQDE
+     C - NB*H04*DISP*HPCSY - NB*H03*SX*HSCSY
+     D + NMTB*H04*DISP*HPCSY + NMTB*H03*SX*HSCSY
+      U(2,45) = 0.5*NB*H02*HPDCC2 - NB*H03*HPSCS2
+     1 + 0.5*NMTB*H0*HPSY2 + 0.5*H0*HPCY2
+     2 + TGTB*H04*HPDSS2 - NB*NMTB*H05*PTYT
+     3 - NB*H03*PEQT + 2.*NMTB*NMB*H06*PTYDT
+     4 - NMTB*TNMB*H06*PDXTT - 0.5*NMTB*TMN*H05*PXTT
+     5 - 0.5*NMTB*H05*PSPTT - NMTB*H05*PTYSE
+     6 + 2.*NMB*H04*PEQDT - TNMB*H04*PDXEE
+     7 - 0.5*TMN*H03*PXEE - 0.5*H03*PSPEE
+     8 - H03*PEQSE
+     9 + 0.5*NMTB*H02*DISP*HPSY2 + 0.5*NMTB*H03*SX*HSSY2
+     A + 0.5*H02*DISP*HPCY2 + 0.5*H03*SX*HSCY2
+      U(2,51) = - 2.*TNMB*H02*HPCDX - TMN*H02*HPCX
+     1 - 0.5*FMTN*H04*HPCSS0 - 3.*GPTB*H04*HPCDD0
+     2 - 3.*WMN*H04*HPSX2 + FMTN*WMN*H05*HPSSD0
+     3 - 2.*TNMB*H04*PCXI + 2.*TNMB*TMN*H05*PCXD
+     4 + 2.*TNMB*TMN*H05*PDXC + 2.*TNMB*TMN*H05*PXCD
+     5 + 2.*TNMB*H05*PSPCD + TNMB*H06*PCXSS
+     6 - TNMB*WMN*H06*PSPDD - 2.*TNMB*WMN*H07*PDXSS
+     7 + 2.*TNMB**2*H06*PCXDD + 4.*TNMB**2*H06*PDXCD
+     8 + TMN*H04*PSPC + TMN**2*H04*PXC
+     9 + WMN*H04*PSPI - TMN*WMN*H05*PSPD
+     A - TMN*WMN*H06*PXSS - 1.5*WMN*H06*PSPSS
+     B - TNMB*H02*CX*HPDX2 - 2.*TNMB*H03*DISP*HPCDX
+     C - 2.*TNMB*H04*SX*HSCDX + TNMB*H04*SX*WMN*HSDX2
+     D + H02*CX*SX - H02*TMN*CX*HPDX
+     E - H03*TMN*DISP*HPCX + 2.*H03*CX*SX*DISP
+     F - H04*TMN*SX*HSCX - 0.5*H04*CX*HPSX2
+     G - WMN*H04*SX*DISP**2 - WMN*H03*SX*DISP
+     H + WMN*H04*TMN*SX*HSDX + WMN*H05*DISP*HPSX2
+     I + 1.5*WMN*H04*SX*HSSX2
+      U(2,52) = - 2.*TNMB*H02*HPSDX - TMN*H02*HPSX
+     1 + 3.*H02*HPCSX - FMTN*H03*HPCSD0
+     2 - 3.*GPTB*H04*HPSDD0 - 0.5*FMTN*H04*HPSSS0
+     3 + TNMB*H04*PCPDD - 2.*TNMB*H04*PSXI
+     4 + 2.*TNMB*TMN*H05*PSXD + 2.*TNMB*TMN*H05*PDXS
+     5 + 2.*TNMB*TMN*H05*PXSD + 2.*TNMB*H05*PSPSD
+     6 + 2.*TNMB*H05*PDXCS + TNMB*H06*PSXSS
+     7 + 2.*TNMB**2*H06*PSXDD + 4.*TNMB**2*H06*PDXSD
+     8 - H02*PCPI + TMN*H03*PCPD
+     9 + TMN*H04*PSPS + TMN*H04*PXCS
+     A + TMN**2*H04*PXS + 0.5*H04*PCPSS
+     B + H04*PSPCS
+     C - TNMB*H02*CX*HSDX2 - TNMB*H02*SX*HPDX2
+     D - 2.*TNMB*H03*DISP*HPSDX - 2.*TNMB*H02*SX*HSSDX
+     E + H02*CX*DISP**2 + H0*CX*DISP
+     F + H02*SX**2 - H02*TMN*CX*HSDX
+     G - H02*TMN*SX*HPDX - H03*TMN*DISP*HPSX
+     H + 2.*H03*SX**2*DISP - H03*DISP*HPCSX
+     I - H02*TMN*SX*HSSX - 0.5*H02*CX*HSSX2
+     J - H04*SX*HSCSX - 0.5*H04*SX*HPSX2
+      U(2,56) = - TNMB*H0*HPDX2 + H0*SX
+     1 - TMN*H0*HPDX + 1.5*H03*HPSX2
+     2 - 0.5*FMTN*H04*HPSSD0 - GPTB*H04*HPDDD0
+     3 - 2.*TNMB*H04*PDXI + 2.*TNMB*TMN*H05*PDXD
+     4 + TNMB*TMN*H05*PXDD + TNMB*H05*PSPDD
+     5 + TNMB*H06*PDXSS + 2.*TNMB**2*H06*PDXDD
+     6 - TMN*H03*PXI - H03*PSPI
+     7 + TMN*H04*PSPD + TMN**2*H04*PXD
+     8 + 0.5*TMN*H05*PXSS + 0.5*H05*PSPSS
+     9 - TNMB*H02*DISP*HPDX2 - TNMB*H03*SX*HSDX2
+     A + H02*SX*DISP - H02*TMN*DISP*HPDX
+     B + H03*SX*DISP**2 + H02*SX*DISP
+     C - H03*TMN*SX*HSDX - 0.5*H04*DISP*HPSX2
+     D - 0.5*H03*SX*HSSX2
+C
+      U(3,5) = - TMN*WMN*NB*H06*VSCSS1 - 0.5*WMN2*NB*H06*VSSSC1
+     1 + TGFB*H04*VSCCC1 - 2.*NMB*WMN*NB*H08*YCYST
+     2 - TNMB*NB*H06*YTPCC - WMN2*NB*H08*YSQST
+     3 - 0.5*WMN2*NB*H08*YTPSS - 2.*NMB*TNMB*H06*YEXCC
+     4 + 2.*NMB*WMN*H06*YSQCE - NMB*WMN2*H08*YEXSS
+     5 + 4.*NMB**2*H06*YCYCE
+      U(3,6) = TMN*NB*H04*VSCCS1 + WMN*NB*H04*VSCSC1
+     1 - TMN*WMN*NB*H06*VSSSS1 + 2.*TGFB*H04*VSCSC1
+     2 + 2.*NMB*NB*H06*YCYCT - 2.*NMB*WMN*NB*H08*YSYST
+     3 - 2.*TNMB*NB*H06*YTPCS + WMN*NB*H06*YCQST
+     4 + WMN*NB*H06*YSQCT + WMN*NB*H06*YTPCS
+     5 - 4.*NMB*TNMB*H06*YEXCS - 2.*NMB*H04*YCQCE
+     6 + 2.*NMB*WMN*H06*YSQSE + 2.*NMB*WMN*H06*YEXCS
+     7 + 4.*NMB**2*H06*YCYSE + 4.*NMB**2*H06*YSYCE
+     8 - NB*H02*VSCSM - 2.*NMB*H02*VSSCM
+      U(3,7) = - 0.5*NB*H02*VSCCC1 + TMN*NB*H04*VSCSS1
+     1 + TGFB*H04*VSSSC1 + 2.*NMB*NB*H06*YSYCT
+     2 - TNMB*NB*H06*YTPSS - NB*H04*YCQCT
+     3 - 0.5*NB*H04*YTPCC - 2.*NMB*TNMB*H06*YEXSS
+     4 - 2.*NMB*H04*YCQSE - NMB*H04*YEXCC
+     5 + 4.*NMB**2*H06*YSYSE
+      U(3,10) = - 1.5*NB**3*H06*VSCSS3 - 1./6.*SGTB*H04*VSCCC3
+     1 + 0.5*NB**3*H08*YTPTT + 0.5*NB*NMTB*H06*YTPEE
+     2 + NB**2*NMB*H08*YEXTT + NMTB*NMB*H06*YEXEE
+      U(3,11) = - 0.5*WMN2*NB*H06*VSSSS1 + TMN*WMN*H04*VSCSC1
+     1 + TGFB*H04*VSCCS1 - 2.*NMB*TNMB*H06*YTXCC
+     2 + 2.*NMB*WMN*H06*YCYSE + 2.*NMB*WMN*H06*YSQCT
+     3 - NMB*WMN2*H08*YTXSS + 4.*NMB**2*H06*YCYCT
+     4 + TNMB*H04*YEPCC + WMN2*H06*YSQSE
+     5 + 0.5*WMN2*H06*YEPSS
+     6 - 2.*NMB*H02*VSCSM - WMN*H02*VSSCM
+      U(3,12) = WMN*NB*H04*VSCSS1 - TMN*H02*VSCCC1
+     1 + TMN*WMN*H04*VSSSC1 + 2.*TGFB*H04*VSCSS1
+     2 - 4.*NMB*TNMB*H06*YTXCS - 2.*NMB*H04*YCYCE
+     3 - 2.*NMB*H04*YCQCT + 2.*NMB*WMN*H06*YSYSE
+     4 + 2.*NMB*WMN*H06*YSQST + 2.*NMB*WMN*H06*YTXCS
+     5 + 4.*NMB**2*H06*YCYST + 4.*NMB**2*H06*YSYCT
+     6 + 2.*TNMB*H04*YEPCS - WMN*H04*YCQSE
+     7 - WMN*H04*YSQCE - WMN*H04*YEPCS
+     8 - 4.*NMB*H02*VSSSM + 2.*H02*VSCCM
+      U(3,13) = - 0.5*NB*H02*VSCCS1 - TMN*H02*VSCSC1
+     1 + TGFB*H04*VSSSS1 - 2.*NMB*TNMB*H06*YTXSS
+     2 - 2.*NMB*H04*YCQST - 2.*NMB*H04*YSYCE
+     3 - NMB*H04*YTXCC + 4.*NMB**2*H06*YSYST
+     4 + TNMB*H04*YEPSS + H02*YCQCE
+     5 + 0.5*H02*YEPCC
+      U(3,16) = 3.*NB**2*H04*VSCCS3 - 1.5*NB**3*H06*VSSSS3
+     1 - 0.5*SGTB*H04*VSCCS3 + NB*NMTB*H06*YTPET
+     2 - 2.*NMB*NB*H06*YEXET + NB**2*NMB*H08*YTXTT
+     3 - 0.5*NB**2*H06*YEPTT - NB**2*H06*YTPET
+     4 + 2.*NMTB*NMB*H06*YEXET + NMTB*NMB*H06*YTXEE
+     5 - 0.5*NMTB*H04*YEPEE
+      U(3,19) = - 1.5*NB*H02*VSCCC3 + 3.*NB**2*H04*VSCSS3
+     1 - 0.5*SGTB*H04*VSCSS3 + 0.5*NB*NMTB*H06*YTPTT
+     2 - 2.*NMB*NB*H06*YTXET + NB*H04*YEPET
+     3 + 0.5*NB*H04*YTPEE + NMTB*NMB*H06*YEXTT
+     4 + 2.*NMTB*NMB*H06*YTXET - NMTB*H04*YEPET
+     5 + NMB*H04*YEXEE
+      U(3,20) = - 1.5*NB*H02*VSCCS3 - 1./6.*SGTB*H04*VSSSS3
+     1 + NMTB*NMB*H06*YTXTT - 0.5*NMTB*H04*YEPTT
+     2 + NMB*H04*YTXEE - 0.5*H02*YEPEE
+      U(3,39) = TMN*NB*H05*VSCSS1 + WMN*NB*H03*VSSSM
+     1 + WMN*NB*H05*VSSSC1 - TMN*WMN*NB*H06*VSSDS1
+     2 + 2.*NMB*H03*VSCCM + 2.*TGFB*H04*VSCDC1
+     3 - 2.*NMB*NB*H05*YCYE - 2.*NMB*NB*H05*YYCE
+     4 + 2.*NMB*NB*H07*YCYST - 2.*NMB*WMN*NB*H08*YDYST
+     5 - 2.*TNMB*NB*H06*YTPCD - NB*TMN*H05*YTPC
+     6 - WMN*NB*H05*YSQE + 2.*WMN*NB*H07*YSQST
+     7 + WMN*NB*H07*YTPSS + WMN*NB**2*H07*YYST
+     8 - 4.*NMB*TNMB*H06*YEXCD - 2.*NMB*TMN*H05*YEXC
+     9 - 2.*NMB*H05*YSQCE + 2.*NMB*WMN*H06*YSQDE
+     A + 2.*NMB*WMN*H07*YEXSS + 4.*NMB**2*H06*YCYDE
+     B + 4.*NMB**2*H06*YDYCE
+      U(3,40) = - NB*H03*VSCSC1 - NB*H0*VSCSM
+     1 + TMN*NB*H04*VSCDS1 + TMN*NB*H05*VSSSS1
+     2 + 2.*NMB*H0*VSSCM + 2.*TGFB*H04*VSSDC1
+     3 - 2.*NMB*NB*H05*YSYE - 2.*NMB*NB*H05*YYSE
+     4 + 2.*NMB*NB*H06*YDYCT + 2.*NMB*NB*H07*YSYST
+     5 - 2.*TNMB*NB*H06*YTPSD + NB*H03*YCQE
+     6 - NB*TMN*H05*YTPS - NB*H05*YCQST
+     7 - NB*H05*YSQCT - NB*H05*YTPCS
+     8 - NB**2*H05*YYCT - 4.*NMB*TNMB*H06*YEXSD
+     9 - 2.*NMB*H04*YCQDE - 2.*NMB*TMN*H05*YEXS
+     A - 2.*NMB*H05*YSQSE - 2.*NMB*H05*YEXCS
+     B + 4.*NMB**2*H06*YSYDE + 4.*NMB**2*H06*YDYSE
+      U(3,42) = WMN*NB*H05*VSSSS1 + 2.*NMB*H0*VSCSM
+     1 - TMN*H03*VSCSC1 - WMN*H0*VSSCM
+     2 + TMN*WMN*H04*VSSDC1 + 2.*TGFB*H04*VSCDS1
+     3 - 2.*NMB*NB*H05*YCYT - 2.*NMB*NB*H05*YYCT
+     4 - WMN*NB*H05*YSQT - WMN*NB*H05*YYSE
+     5 - 4.*NMB*TNMB*H06*YTXCD - 2.*NMB*TMN*H05*YTXC
+     6 - 2.*NMB*H05*YCYSE - 2.*NMB*H05*YSQCT
+     7 + 2.*NMB*WMN*H06*YSQDT + 2.*NMB*WMN*H06*YDYSE
+     8 + 2.*NMB*WMN*H07*YTXSS + 4.*NMB**2*H06*YCYDT
+     9 + 4.*NMB**2*H06*YDYCT + 2.*TNMB*H04*YEPCD
+     A + TMN*H03*YEPC - 2.*WMN*H05*YSQSE
+     B - WMN*H05*YEPSS
+     C + NB*H0*VSSY - 2.*NMB*H0*VSDSM + H0*VSSCM
+      U(3,43) = - NB*H03*VSCSS1 + 2.*NMB*H0*VSSSM
+     1 + H0*VSCCM - TMN*H02*VSCDC1
+     2 - TMN*H03*VSSSC1 + 2.*TGFB*H04*VSSDS1
+     3 - 2.*NMB*NB*H05*YSYT - 2.*NMB*NB*H05*YYST
+     4 + NB*H03*YCQT + NB*H03*YYCE
+     5 - 4.*NMB*TNMB*H06*YTXSD - 2.*NMB*H04*YCQDT
+     6 - 2.*NMB*H04*YDYCE - 2.*NMB*TMN*H05*YTXS
+     7 - 2.*NMB*H05*YSYSE - 2.*NMB*H05*YSQST
+     8 - 2.*NMB*H05*YTXCS + 4.*NMB**2*H06*YSYDT
+     9 + 4.*NMB**2*H06*YDYST + 2.*TNMB*H04*YEPSD
+     A + TMN*H03*YEPS + H03*YCQSE
+     B + H03*YSQCE + H03*YEPCS
+      U(3,53) = - NB*H02*VSCY - NB*H02*VSSSM
+     1 - 0.5*NB*H04*VSSSC1 + TMN*NB*H05*VSSDS1
+     2 + 2.*NMB*H02*VSDCM + TGFB*H04*VSDDC1
+     3 - 2.*NMB*NB*H05*YDYE - 2.*NMB*NB*H05*YYDE
+     4 + 2.*NMB*NB*H07*YDYST - TNMB*NB*H06*YTPDD
+     5 + NB*H04*YSQE + NB*H04*YTPI
+     6 - TMN*NB*H05*YTPD - NB*H06*YSQST
+     7 - 0.5*NB*H06*YTPSS + NB**2*H04*YYE
+     8 - NB**2*H06*YYST - 2.*NMB*TNMB*H06*YEXDD
+     9 + 2.*NMB*H04*YEXI - 2.*NMB*TMN*H05*YEXD
+     A - 2.*NMB*H05*YSQDE - NMB*H06*YEXSS
+     B + 4.*NMB**2*H06*YDYDE
+      U(3,54) = - NB*VSSY - 0.5*NB*H04*VSSSS1
+     1 + 2.*NMB*VSDSM + VSSCM
+     2 - TMN*H03*VSSDC1 + TGFB*H04*VSDDS1
+     3 - 2.*NMB*NB*H05*YDYT - 2.*NMB*NB*H05*YYDT
+     4 + NB*H04*YSQT + NB*H04*YYSE
+     5 + NB**2*H04*YYT - 2.*NMB*TNMB*H06*YTXDD
+     6 + 2.*NMB*H04*YTXI - 2.*NMB*TMN*H05*YTXD
+     7 - 2.*NMB*H05*YSQDT - 2.*NMB*H05*YDYSE
+     8 - NMB*H06*YTXSS + 4.*NMB**2*H06*YDYDT
+     9 + TNMB*H04*YEPDD - H02*YEPI
+     A + TMN*H03*YEPD + H04*YSQSE
+     B + 0.5*H04*YEPSS
+C
+      U(4,5) = - TMN*WMN*NB*H06*VPCSS1 - 0.5*WMN2*NB*H06*VPSSC1
+     1 + TGFB*H04*VPCCC1 - 2.*NMB*WMN*NB*H08*QCYST
+     2 - TNMB*NB*H06*QTPCC - WMN2*NB*H08*QSQST
+     3 - 0.5*WMN2*NB*H08*QTPSS - 2.*NMB*TNMB*H06*QEXCC
+     4 + 2.*NMB*WMN*H06*QSQCE - NMB*WMN2*H08*QEXSS
+     5 + 4.*NMB**2*H06*QCYCE
+     6 + NB*TNMB*H06*SY*HSCX2 - NB*H04*SY
+     7 - NB*WMN*H04*CX*VPSSM + NB*WMN*H06*SX**2*SY
+     8 + 0.5*NB*WMN2*H06*SY*HSSX2 + 2.*NMB*H04*CX*VPCCM
+      U(4,6) = TMN*NB*H04*VPCCS1 + WMN*NB*H04*VPCSC1
+     1 - TMN*WMN*NB*H06*VPSSS1 + 2.*TGFB*H04*VPCSC1
+     2 + 2.*NMB*NB*H06*QCYCT - 2.*NMB*WMN*NB*H08*QSYST
+     3 - 2.*TNMB*NB*H06*QTPCS + WMN*NB*H06*QCQST
+     4 + WMN*NB*H06*QSQCT + WMN*NB*H06*QTPCS
+     5 - 4.*NMB*TNMB*H06*QEXCS - 2.*NMB*H04*QCQCE
+     6 + 2.*NMB*WMN*H06*QSQSE + 2.*NMB*WMN*H06*QEXCS
+     7 + 4.*NMB**2*H06*QCYSE + 4.*NMB**2*H06*QSYCE
+     8 + 2.*NB*TNMB*H06*SY*HSCSX - 2.*NB*H04*CX*SX*SY
+     9 + NB*H04*CX*VPCSM + NB*H04*SX*SY
+     A - NB*H04*VPCSM - NB*WMN*H04*SX*VPSSM
+     B - NB*WMN*H06*SY*HSCSX + 2.*NMB*H04*CX*VPSCM
+     C + 2.*NMB*H04*SX*VPCCM - 2.*NMB*H04*VPSCM
+      U(4,7) = - 0.5*NB*H02*VPCCC1 + TMN*NB*H04*VPCSS1
+     1 + TGFB*H04*VPSSC1 + 2.*NMB*NB*H06*QSYCT
+     2 - TNMB*NB*H06*QTPSS - NB*H04*QCQCT
+     3 - 0.5*NB*H04*QTPCC - 2.*NMB*TNMB*H06*QEXSS
+     4 - 2.*NMB*H04*QCQSE - NMB*H04*QEXCC
+     5 + 4.*NMB**2*H06*QSYSE
+     6 + NB*TNMB*H04*SY*HSSX2 + NB*H04*SX*VPCSM
+     7 - NB*H04*SX**2*SY + 0.5*NB*H04*SY*HSCX2
+     8 + 2.*NMB*H04*SX*VPSCM
+      U(4,10) = - 1.5*NB**3*H06*VPCSS3 - 1./6.*SGTB*H04*VPCCC3
+     1 + 0.5*NB**3*H08*QTPTT + 0.5*NB*NMTB*H06*QTPEE
+     2 + NB**2*NMB*H08*QEXTT + NMTB*NMB*H06*QEXEE
+     3 - 0.5*NB*NMTB*H06*SY*HSCY2 - 0.5*NB**3*H06*SY*HSSY2
+      U(4,11) = - 0.5*WMN2*NB*H06*VPSSS1 + TMN*WMN*H04*VPCSC1
+     1 + TGFB*H04*VPCCS1 - 2.*NMB*TNMB*H06*QTXCC
+     2 + 2.*NMB*WMN*H06*QCYSE + 2.*NMB*WMN*H06*QSQCT
+     3 - NMB*WMN2*H08*QTXSS + 4.*NMB**2*H06*QCYCT
+     4 + TNMB*H04*QEPCC + WMN2*H06*QSQSE
+     5 + 0.5*WMN2*H06*QEPSS
+     6 + 2.*NMB*H04*CX*VPCSM - 2.*NMB*H04*VPCSM
+     7 - TNMB*H04*CY*HSCX2 + WMN*H03*CY*DISP
+     8 + WMN*H04*CX*VPSCM - WMN*H04*SX**2*CY
+     9 - WMN*H04*VPSCM - 0.5*WMN2*H04*CY*HSSX2
+      U(4,12) = WMN*NB*H04*VPCSS1 - TMN*H02*VPCCC1
+     1 + TMN*WMN*H04*VPSSC1 + 2.*TGFB*H04*VPCSS1
+     2 - 4.*NMB*TNMB*H06*QTXCS - 2.*NMB*H04*QCYCE
+     3 - 2.*NMB*H04*QCQCT + 2.*NMB*WMN*H06*QSYSE
+     4 + 2.*NMB*WMN*H06*QSQST + 2.*NMB*WMN*H06*QTXCS
+     5 + 4.*NMB**2*H06*QCYST + 4.*NMB**2*H06*QSYCT
+     6 + 2.*TNMB*H04*QEPCS - WMN*H04*QCQSE
+     7 - WMN*H04*QSQCE - WMN*H04*QEPCS
+     8 + 2.*NMB*H02*CX*VPSSM + 2.*NMB*H04*SX*VPCSM
+     9 - 4.*NMB*H02*VPSSM - 2.*TNMB*H04*CY*HSCSX
+     A - H02*CX*VPCCM - 2.*H03*WMN*SX*CY*DISP
+     B + 2.*H02*VPCCM + WMN*H04*SX*VPSCM
+     C + WMN*H04*CY*HSCSX
+      U(4,13) = - 0.5*NB*H02*VPCCS1 - TMN*H02*VPCSC1
+     1 + TGFB*H04*VPSSS1 - 2.*NMB*TNMB*H06*QTXSS
+     2 - 2.*NMB*H04*QCQST - 2.*NMB*H04*QSYCE
+     3 - NMB*H04*QTXCC + 4.*NMB**2*H06*QSYST
+     4 + TNMB*H04*QEPSS + H02*QCQCE
+     5 + 0.5*H02*QEPCC
+     6 + 2.*NMB*H02*SX*VPSSM - TNMB*H02*CY*HSSX2
+     7 - H02*SX*VPCCM + H02*SX**2*CY
+     8 - 0.5*H02*CY*HSCX2
+      U(4,16) = 3.*NB**2*H04*VPCCS3
+     1 - 1.5*NB**3*H06*VPSSS3 - 0.5*SGTB*H04*VPCCS3
+     2 + NB*NMTB*H06*QTPET - 2.*NMB*NB*H06*QEXET
+     3 + NB**2*NMB*H08*QTXTT - 0.5*NB**2*H06*QEPTT
+     4 - NB**2*H06*QTPET + 2.*NMTB*NMB*H06*QEXET
+     5 + NMTB*NMB*H06*QTXEE - 0.5*NMTB*H04*QEPEE
+     6 - NB*NMTB*H04*SY*HSCSY + 0.5*NB**2*H04*CY*HSSY2
+     7 + NB**2*H04*SY*HSCSY + 0.5*NMTB*H04*CY*HSCY2
+      U(4,19) = - 1.5*NB*H02*VPCCC3 + 3.*NB**2*H04*VPCSS3
+     1 - 0.5*SGTB*H04*VPCSS3 + 0.5*NB*NMTB*H06*QTPTT
+     2 - 2.*NMB*NB*H06*QTXET + NB*H04*QEPET
+     3 + 0.5*NB*H04*QTPEE + NMTB*NMB*H06*QEXTT
+     4 + 2.*NMTB*NMB*H06*QTXET - NMTB*H04*QEPET
+     5 + NMB*H04*QEXEE
+     6 - 0.5*NB*NMTB*H04*SY*HSSY2 - NB*H02*CY*HSCSY
+     7 - 0.5*NB*H04*SY*HSCY2 + NMTB*H02*CY*HSCSY
+      U(4,20) = - 1.5*NB*H02*VPCCS3 - 1./6.*SGTB*H04*VPSSS3
+     1 + NMTB*NMB*H06*QTXTT - 0.5*NMTB*H04*QEPTT
+     2 + NMB*H04*QTXEE - 0.5*H02*QEPEE
+     3 + 0.5*NMTB*H02*CY*HSSY2 + 0.5*H02*CY*HSCY2
+      U(4,39) = TMN*NB*H05*VPCSS1 + WMN*NB*H03*VPSSM
+     1 + WMN*NB*H05*VPSSC1 - TMN*WMN*NB*H06*VPSDS1
+     2 + 2.*NMB*H03*VPCCM + 2.*TGFB*H04*VPCDC1
+     3 - 2.*NMB*NB*H05*QCYE - 2.*NMB*NB*H05*QYCE
+     4 + 2.*NMB*NB*H07*QCYST - 2.*NMB*WMN*NB*H08*QDYST
+     5 - 2.*TNMB*NB*H06*QTPCD - NB*TMN*H05*QTPC
+     6 - WMN*NB*H05*QSQE + 2.*WMN*NB*H07*QSQST
+     7 + WMN*NB*H07*QTPSS + WMN*NB**2*H07*QYST
+     8 - 4.*NMB*TNMB*H06*QEXCD - 2.*NMB*TMN*H05*QEXC
+     9 - 2.*NMB*H05*QSQCE + 2.*NMB*WMN*H06*QSQDE
+     A + 2.*NMB*WMN*H07*QEXSS + 4.*NMB**2*H06*QCYDE
+     B + 4.*NMB**2*H06*QDYCE
+     C + 2.*NB*TNMB*H05*SY*HSCDX - NB*H03*CX*VPCY
+     D - 2.*NB*H04*CX*DISP*SY + NB*H05*TMN*SY*HSCX
+     E + NB*H03*CX*VPSSM - NB*WMN*H04*DISP*VPSSM
+     F - NB*WMN*H05*SY*HSSX2 + 2.*NMB*H03*CX*VPDCM
+     G + 2.*NMB*H04*DISP*VPCCM
+      U(4,40) = - NB*H03*VPCSC1 - NB*H03*VPCSM
+     1 + TMN*NB*H04*VPCDS1 + TMN*NB*H05*VPSSS1
+     2 + 2.*NMB*H03*VPSCM + 2.*TGFB*H04*VPSDC1
+     3 - 2.*NMB*NB*H05*QSYE - 2.*NMB*NB*H05*QYSE
+     4 + 2.*NMB*NB*H06*QDYCT + 2.*NMB*NB*H07*QSYST
+     5 - 2.*TNMB*NB*H06*QTPSD + NB*H03*QCQE
+     6 - NB*TMN*H05*QTPS - NB*H05*QCQST
+     7 - NB*H05*QSQCT - NB*H05*QTPCS
+     8 - NB**2*H05*QYCT - 4.*NMB*TNMB*H06*QEXSD
+     9 - 2.*NMB*H04*QCQDE - 2.*NMB*TMN*H05*QEXS
+     A - 2.*NMB*H05*QSQSE - 2.*NMB*H05*QEXCS
+     B + 4.*NMB**2*H06*QSYDE + 4.*NMB**2*H06*QDYSE
+     C + 2.*NB*TNMB*H03*SY*HSSDX - NB*H03*SX*VPCY
+     D - 2.*NB*H04*SX*DISP*SY + NB*H04*DISP*VPCSM
+     E + NB*H03*TMN*SY*HSSX + NB*H03*SX*VPSSM
+     F + NB*H05*SY*HSCSX + 2.*NMB*H03*SX*VPDCM
+     G + 2.*NMB*H04*DISP*VPSCM
+      U(4,42) = WMN*NB*H05*VPSSS1 + 2.*NMB*H03*VPCSM
+     1 - TMN*H03*VPCSC1 - WMN*H03*VPSCM
+     2 + TMN*WMN*H04*VPSDC1 + 2.*TGFB*H04*VPCDS1
+     3 - 2.*NMB*NB*H05*QCYT - 2.*NMB*NB*H05*QYCT
+     4 - WMN*NB*H05*QSQT - WMN*NB*H05*QYSE
+     5 - 4.*NMB*TNMB*H06*QTXCD - 2.*NMB*TMN*H05*QTXC
+     6 - 2.*NMB*H05*QCYSE - 2.*NMB*H05*QSQCT
+     7 + 2.*NMB*WMN*H06*QSQDT + 2.*NMB*WMN*H06*QDYSE
+     8 + 2.*NMB*WMN*H07*QTXSS + 4.*NMB**2*H06*QCYDT
+     9 + 4.*NMB**2*H06*QDYCT + 2.*TNMB*H04*QEPCD
+     A + TMN*H03*QEPC - 2.*WMN*H05*QSQSE
+     B - WMN*H05*QEPSS
+     C - NB*H03*CX*VPSY + NB*H03*VPSY
+     D + 2.*NMB*H03*CX*VPDSM + 2.*NMB*H04*DISP*VPCSM
+     E - 2.*NMB*H03*VPDSM - 2.*TNMB*H03*CY*HSCDX
+     F + 2.*H02*CX*DISP*CY - H02*DISP*CY
+     G - H03*TMN*CY*HSCX - H03*CX*VPSCM
+     H + H03*VPSCM + WMN*H04*DISP*VPSCM
+     I + WMN*H03*CY*HSSX2
+      U(4,43) = - NB*H03*VPCSS1 + 2.*NMB*H0*VPSSM
+     1 + H0*VPCCM - TMN*H02*VPCDC1
+     2 - TMN*H03*VPSSC1 + 2.*TGFB*H04*VPSDS1
+     3 - 2.*NMB*NB*H05*QSYT - 2.*NMB*NB*H05*QYST
+     4 + NB*H03*QCQT + NB*H03*QYCE
+     5 - 4.*NMB*TNMB*H06*QTXSD - 2.*NMB*H04*QCQDT
+     6 - 2.*NMB*H04*QDYCE - 2.*NMB*TMN*H05*QTXS
+     7 - 2.*NMB*H05*QSYSE - 2.*NMB*H05*QSQST
+     8 - 2.*NMB*H05*QTXCS + 4.*NMB**2*H06*QSYDT
+     9 + 4.*NMB**2*H06*QDYST + 2.*TNMB*H04*QEPSD
+     A + TMN*H03*QEPS + H03*QCQSE
+     B + H03*QSQCE + H03*QEPCS
+     C - NB*H03*SX*VPSY + 2.*NMB*H03*SX*VPDSM
+     D + 2.*NMB*H02*DISP*VPSSM - 2.*TNMB*H0*CY*HSSDX
+     E + 2.*H02*SX*DISP*CY - H02*DISP*VPCCM
+     F - H0*TMN*CY*HSSX - H03*SX*VPSCM - H03*CY*HSCSX
+      U(4,53) = - NB*H02*VPCY - NB*H02*VPSSM
+     1 - 0.5*NB*H04*VPSSC1 + TMN*NB*H05*VPSDS1
+     2 + 2.*NMB*H02*VPDCM + TGFB*H04*VPDDC1
+     3 - 2.*NMB*NB*H05*QDYE - 2.*NMB*NB*H05*QYDE
+     4 + 2.*NMB*NB*H07*QDYST - TNMB*NB*H06*QTPDD
+     5 + NB*H04*QSQE + NB*H04*QTPI
+     6 - TMN*NB*H05*QTPD - NB*H06*QSQST
+     7 - 0.5*NB*H06*QTPSS + NB**2*H04*QYE
+     8 - NB**2*H06*QYST - 2.*NMB*TNMB*H06*QEXDD
+     9 + 2.*NMB*H04*QEXI - 2.*NMB*TMN*H05*QEXD
+     A - 2.*NMB*H05*QSQDE - NMB*H06*QEXSS
+     B + 4.*NMB**2*H06*QDYDE
+     C + NB*TNMB*H04*SY*HSDX2 - NB*H03*DISP*VPCY
+     D - NB*H04*DISP**2*SY - NB*H03*SY*DISP
+     E + NB*H04*TMN*SY*HSDX + NB*H03*DISP*VPSSM
+     F + 0.5*NB*H04*SY*HSSX2 + 2.*NMB*H03*DISP*VPDCM
+      U(4,54) = - NB*H02*VPSY - 0.5*NB*H04*VPSSS1
+     1 + 2.*NMB*H02*VPDSM + H02*VPSCM
+     2 - TMN*H03*VPSDC1 + TGFB*H04*VPDDS1
+     3 - 2.*NMB*NB*H05*QDYT - 2.*NMB*NB*H05*QYDT
+     4 + NB*H04*QSQT + NB*H04*QYSE
+     5 + NB**2*H04*QYT - 2.*NMB*TNMB*H06*QTXDD
+     6 + 2.*NMB*H04*QTXI - 2.*NMB*TMN*H05*QTXD
+     7 - 2.*NMB*H05*QSQDT - 2.*NMB*H05*QDYSE
+     8 - NMB*H06*QTXSS + 4.*NMB**2*H06*QDYDT
+     9 + TNMB*H04*QEPDD - H02*QEPI
+     A + TMN*H03*QEPD + H04*QSQSE
+     B + 0.5*H04*QEPSS
+     C - NB*H03*DISP*VPSY + 2.*NMB*H03*DISP*VPDSM
+     D - TNMB*H02*CY*HSDX2 + H02*DISP**2*CY
+     E + H0*CY*DISP - H02*TMN*CY*HSDX
+     F - H03*DISP*VPSCM - 0.5*H02*CY*HSSX2
+      RETURN
+      END

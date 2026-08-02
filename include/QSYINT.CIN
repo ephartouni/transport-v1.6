@@ -1,0 +1,2 @@
+      COMMON /QSYINT/ QSYE, QSYT, QSYCE, QSYCT, QSYSE, QSYST, QSYDE,
+     1                QSYDT

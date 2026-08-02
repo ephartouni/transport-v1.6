@@ -1,0 +1,7 @@
+C UROT                UNITS
+C
+C UROT                   UNITS CONVERSION FACTOR FOR ROTATION ABOUT
+C                        LONGITUDINAL AXIS
+C
+      REAL            UROT
+      COMMON /UROT/   UROT

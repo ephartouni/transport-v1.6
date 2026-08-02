@@ -1,0 +1,2 @@
+      COMMON /PEYINT/ PEYE, PEYT, PEYCE, PEYCT, PEYSE, PEYST, PEYDE,
+     1                PEYDT

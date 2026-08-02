@@ -1,0 +1,7 @@
+C XMICR               UMICR UNIT SET
+C
+C XMICR                  NAMES OF UNITS IN UMICR UNIT SET
+C                        ('MICR', 'MUR', 'PMIC', 'GEV', ETC.)
+C
+      CHARACTER*4     XMICR(14)
+      COMMON /XMICR/  XMICR

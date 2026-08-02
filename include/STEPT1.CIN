@@ -1,0 +1,18 @@
+C STEPT1              STEPPING OF PARAMETERS
+C
+C STLO                   BEGINNING OF RANGE OVER WHICH PARAMETER 
+C                        IS TO BE STEPPED
+C STHI                   END OF RANGE 
+C STEP                   SIZE OF STEP
+C ISTEP                  POSITION IN DATA ARRAY OF PARAMETER TO BE
+C                        STEPPED
+C NSTEPP
+C NSTEPS                 NUMBER OF STEPS = (STHI - STLO)/STEP + 1
+C LSTEP                  TRUE IF SOME PARAMETER IS TO BE STEPPED
+C LSTEPN                 TRUE IF PRINTING IS TO OCCUR IN RUN THROUGH
+C                        OUTFIT
+      COMMON /STEPT1/ STLO, STHI, STEP, ISTEP, NSTEPP, NSTEPS, LSTEP,  
+     1                LSTEPN
+      INTEGER         ISTEP, NSTEPP, NSTEPS, LSTCT, LSTCP
+      LOGICAL         LSTEP, LSTEPN
+      REAL            STLO, STHI, STEP

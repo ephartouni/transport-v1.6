@@ -1,0 +1,8 @@
+C DATA2C              PERTAINS TO LABELS
+C
+C ENAME                  NAME OF ELEMENT
+C KTYPE                  TYPE OF ELEMENT
+C
+      CHARACTER*15    ENAME, KTYPE
+C
+      COMMON /DATA2C/ ENAME, KTYPE

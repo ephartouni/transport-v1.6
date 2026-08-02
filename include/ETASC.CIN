@@ -1,0 +1,7 @@
+C ETASC      TEMPORARY STORAGE FOR ETA
+C
+C ETAS       STORAGE FOR ETA
+C
+      REAL            ETAS(6)
+C
+      COMMON /ETASC/  ETAS

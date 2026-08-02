@@ -1,0 +1,7 @@
+C UMM                 UMM UNIT SET
+C
+C UMM                    SIZE OF UNITS IN UMM UNIT SET
+C                        (IN TERMS OF METERS, RADIANS, ETC.)
+C
+      REAL            UMM(14)
+      COMMON /UMM/    UMM

@@ -1,0 +1,7 @@
+C RS        TEMPORARY STORAGE FOR MATRIX MULTIPLY
+C
+	REAL            RS(6,6), RT(6,6)
+	REAL            RSL(36), RTL(36)
+	EQUIVALENCE     (RS(1,1),RSL(1)), (RT(1,1),RTL(1))
+C
+	COMMON /RS/     RS, RT

@@ -1,0 +1,2 @@
+      COMMON /QDYINT/ QDYE, QDYT, QDYCE, QDYCT, QDYSE, QDYST, QDYDE,
+     1                QDYDT

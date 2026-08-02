@@ -1,0 +1,2 @@
+      COMMON /QCYINT/ QCYE, QCYT, QCYCE, QCYCT, QCYSE, QCYST, QCYDE,
+     1                QCYDT

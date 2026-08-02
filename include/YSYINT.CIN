@@ -1,0 +1,2 @@
+      COMMON /YSYINT/ YSYE, YSYT, YSYCE, YSYCT, YSYSE, YSYST, YSYDE,
+     1                YSYDT

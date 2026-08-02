@@ -1,0 +1,2 @@
+      DIMENSION     U2VT(5,56), U2VTL(280)
+      EQUIVALENCE   (U2VT(1,1),U2VTL(1))

@@ -1,0 +1,1 @@
+      FUNCTION RANDIS()      COMMON /ISEED/   ISEED(4)C      RANDIS = 2.0*DLARAN(ISEED) - 1.0      RETURN      END

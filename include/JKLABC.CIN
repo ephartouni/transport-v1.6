@@ -1,0 +1,2 @@
+      COMMON /JKLABC/ LLIST(100)
+      CHARACTER*8     LLIST

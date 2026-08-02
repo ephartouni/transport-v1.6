@@ -1,0 +1,2 @@
+      COMMON /PXINT/  PXI, PXC, PXS, PXD, PXCC, PXCS, PXCD, PXSS,
+     1                PXSD, PXDD, PXEE, PXET, PXTT

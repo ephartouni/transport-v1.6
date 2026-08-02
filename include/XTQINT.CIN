@@ -1,0 +1,2 @@
+      COMMON /XTQINT/ XTQE, XTQT, XTQCE, XTQCT, XTQSE, XTQST, XTQDE,
+     1                XTQDT

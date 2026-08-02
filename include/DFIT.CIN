@@ -1,0 +1,7 @@
+C DFIT                KEYWORDS FOR FIT ELEMENT
+C
+C DFIT                   LIST OF KEYWORDS FOR FIT
+C
+      CHARACTER*15    DFIT(11)
+C
+      COMMON /DFIT/   DFIT

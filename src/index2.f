@@ -1,0 +1,1 @@
+      INTEGER FUNCTION INDEX2(I2,I3)CC     FINDS INDEX IN SECOND-ORDER TRANSFER MATRIXC      INCLUDE 'INDX.CIN'C-----------------------------------------------------------------------------      IF (I2 .LE. I3) THEN        IB = I2        IC = I3      ELSE        IB = I3        IC = I2      ENDIF      INDEX2 = INDX2(IC) + IB      RETURN      END

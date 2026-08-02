@@ -1,0 +1,9 @@
+C RC2S      TEMPORARY STORAGE FOR RC2
+C
+C RC2S      STORAGE FOR RC2
+C
+      REAL            RC2S(6,6)
+      REAL            RC2SL(36)
+      EQUIVALENCE     (RC2S(1,1),RC2SL(1))
+C
+      COMMON /RC2S/   RC2S

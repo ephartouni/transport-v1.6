@@ -1,0 +1,8 @@
+C COC                 BEAM CENTROID
+C
+C CO(6)                  BEAM CENTROID AT LAST R2 UPDATE.
+C COV(6,NPVAR)           PARTIALS OF CO
+C
+      REAL            CO(6), COV(6,NPVAR)
+C
+      COMMON /COC/    CO, COV

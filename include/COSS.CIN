@@ -1,0 +1,7 @@
+C COSS                 TEMPORARY STORAGE 
+C
+C COSS                    STORAGE FOR CO
+C
+      REAL            COSS(6)
+C
+      COMMON /COSS/   COSS

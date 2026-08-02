@@ -1,0 +1,5 @@
+C R2PS      TEMPORARY STORAGE FOR R2P
+C
+      LOGICAL         R2PS
+C
+      COMMON /R2PS/   R2PS

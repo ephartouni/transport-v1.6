@@ -1,0 +1,7 @@
+C ELS1A               TEMPORARY STORAGE FOR ELM1A
+C
+C RIS      STORAGE FOR RI
+C
+      REAL            RIS
+C
+      COMMON /ELS1A/  RIS

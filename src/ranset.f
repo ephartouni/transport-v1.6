@@ -1,0 +1,1 @@
+      SUBROUTINE RANSET(IGET)      DIMENSION       IGET(4)      COMMON /ISEED/  ISEED(4)C      DO 10 J = 1, 4      ISEED(J) = IGET(J)   10 CONTINUE      RETURN      END

@@ -1,0 +1,7 @@
+C COPS                TEMPORARY STORAGE FOR COP
+C
+C SOFAS        LOGICAL    STORAGE FOR SOFA
+C
+      LOGICAL         SOFAS
+C
+      COMMON /COPS/   SOFAS

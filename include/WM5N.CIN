@@ -1,0 +1,2 @@
+      COMMON /WM5N/   WM5N, WM5N2
+      REAL            WM5N, WM5N2

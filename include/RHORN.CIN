@@ -1,0 +1,4 @@
+C                     RADII OF NEUTRINO HORN VERTICES
+C
+      COMMON /RHORN/  RHORN(3,12)
+      REAL            RHORN

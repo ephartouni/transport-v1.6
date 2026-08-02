@@ -1,0 +1,2 @@
+      COMMON /XXINT/  XXI, XXC, XXS, XXD, XXCC, XXCS, XXCD, XXSS,
+     1                XXSD, XXDD, XXEE, XXET, XXTT

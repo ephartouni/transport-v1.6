@@ -1,0 +1,1 @@
+      SUBROUTINE CAB(C,A,B)CC     CALCULATES MATRIX PRODUCT:  C = A X BC      REAL  C(6,6), A(6,6), B(6,6), SC      DO 2 I = 1, 6        DO 2 J = 1, 6          S = 0.0          DO 1 K = 1, 6            S = S + A(I,K)*B(K,J)    1     CONTINUE          C(I,J) = S    2 CONTINUEC      RETURN      END

@@ -1,0 +1,8 @@
+C XTRANS              UTRANS UNIT SET
+C
+C XTRANS                 NAMES OF UNITS IN UTRANS UNIT SET
+C                        ('CM', 'MR', 'PC', 'GEV', ETC.)
+C
+      CHARACTER*4     XTRANS(14)
+C
+      COMMON /XTRANS/ XTRANS

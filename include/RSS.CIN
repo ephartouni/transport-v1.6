@@ -1,0 +1,7 @@
+C RSS       TEMPORARY STORAGE FOR R
+C
+      REAL            RSS(6,6)
+      REAL            RSSL(36)
+      EQUIVALENCE     (RSS(1,1),RSSL(1))
+C
+      COMMON /RSS/    RSS

@@ -1,0 +1,7 @@
+C UMAD                UMAD UNIT SET
+C
+C UMAD                   SIZE OF UNITS IN UMAD UNIT SET
+C                        (IN TERMS OF METERS, RADIANS, ETC.)
+C
+      REAL            UMAD(14)
+      COMMON /UMAD/   UMAD

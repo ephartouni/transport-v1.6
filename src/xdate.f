@@ -1,0 +1,1 @@
+	program xdate	character*9 cdatec	call date(cdate)	print *,cdate	end

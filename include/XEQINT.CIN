@@ -1,0 +1,2 @@
+      COMMON /XEQINT/ XEQE, XEQT, XEQCE, XEQCT, XEQSE, XEQST, XEQDE,
+     1                XEQDT

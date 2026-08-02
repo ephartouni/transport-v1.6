@@ -1,0 +1,9 @@
+C RCS       TEMPORARY STORAGE FOR RC
+C
+C RCS       STORAGE FOR RC
+C
+      REAL            RCS(6,6)
+      REAL            RCSL(36)
+      EQUIVALENCE     (RCS(1,1),RCSL(1))
+C
+      COMMON /RCS/    RCS

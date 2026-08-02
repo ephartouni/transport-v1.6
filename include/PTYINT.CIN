@@ -1,0 +1,2 @@
+      COMMON /PTYINT/ PTYE, PTYT, PTYCE, PTYCT, PTYSE, PTYST, PTYDE,
+     1                PTYDT

@@ -1,0 +1,1 @@
+      INTEGER FUNCTION TEXT(I)C-----------------------------------------------------------------------      INCLUDE 'DATUM.CIN'C      EQUIVALENCE    (FAKE,LAKE)C      FAKE = DATUM(I)      TEXT = LAKEC      RETURN      END

@@ -1,0 +1,2 @@
+      COMMON /ELS10E/ ATWS
+      LOGICAL         ATWS

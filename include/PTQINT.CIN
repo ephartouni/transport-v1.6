@@ -1,0 +1,2 @@
+      COMMON /PTQINT/ PTQE, PTQT, PTQCE, PTQCT, PTQSE, PTQST, PTQDE,
+     1                PTQDT

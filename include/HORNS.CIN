@@ -1,0 +1,2 @@
+      COMMON /HORNS/  LASTH(4), MXHORN
+      INTEGER         LASTH, MXHORN

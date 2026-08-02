@@ -1,0 +1,8 @@
+C ELM2B               TYPE 2  CALCULATED QUANTITIES -- SEE PAGE 2-3 OF
+C
+C SB                     SEC (BETA)
+C TB                     TAN (BETA).
+C BEFORE       LOGICAL   TELLS IF POLE FACE ROTATION IS ENTRANCE OR EXIT
+C
+      LOGICAL         BEFORE
+      COMMON /ELM2B/  SB, TB, BEFORE

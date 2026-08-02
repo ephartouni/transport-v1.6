@@ -1,0 +1,3 @@
+      COMMON /RO/     RO
+      REAL            RO(6,6), ROL(36)
+      EQUIVALENCE     (RO(1,1),ROL(1))

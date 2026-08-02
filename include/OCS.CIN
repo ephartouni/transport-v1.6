@@ -1,0 +1,8 @@
+C OCS        STORAGE FOR COORDINATE TRANSFORMATIONS
+C
+C OS         STORAGE FOR O
+C X0S        STORAGE FOR X0
+C
+      REAL            OS(4,3,3), X0S(4,3)
+C
+      COMMON /OCS/    OS, X0S

@@ -1,0 +1,3 @@
+      COMMON /TO/     TO
+      REAL            TO(5,21), TOL(105)
+      EQUIVALENCE     (TO(1,1),TOL(1))

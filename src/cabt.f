@@ -1,0 +1,1 @@
+      SUBROUTINE CABT(C,A,B)CC     CALCULATES MATRIX PRODUCT C = A X B (TRANSPOSE)CC     LOCAL VARIABLESC      REAL  C(6,6), A(6,6), B(6,6), SCC-------------------------------------------------------      DO 1 I = 1, 6      DO 1 J = 1, 6      S = 0.0      DO 4 K = 1, 6      S = S + A(I,K) * B(J,K)    4 CONTINUE      C(J,I) = S    1 CONTINUE      RETURN      END

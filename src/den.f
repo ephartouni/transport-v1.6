@@ -1,0 +1,1 @@
+      REAL FUNCTION  DEN(X)CC     PREVENTS DIVISION BY ZEROCC-------------------------------------------      IF (X .EQ. 0.0) THEN        DEN  =  (1.E-16)      ELSE        DEN  =  X      ENDIF      RETURN      END

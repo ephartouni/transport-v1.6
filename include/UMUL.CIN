@@ -1,0 +1,5 @@
+C UMUL
+C
+      LOGICAL  UMUL
+C
+      COMMON /UMUL/ UMUL

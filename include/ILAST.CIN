@@ -1,0 +1,6 @@
+C                     PREVIOUS ELEMENT
+C
+C                     I INDEX OF PREVIOUS ELEMENT
+C
+      INTEGER         ILAST
+      COMMON /ILAST/  ILAST

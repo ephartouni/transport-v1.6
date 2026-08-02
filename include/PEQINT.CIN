@@ -1,0 +1,2 @@
+      COMMON /PEQINT/ PEQE, PEQT, PEQCE, PEQCT, PEQSE, PEQST, PEQDE,
+     1                PEQDT

@@ -1,0 +1,7 @@
+C UMICR              UMICR UNIT SET
+C
+C UMICR                 SIZE OF UNITS IN UMICR UNIT SET
+C                       (IN TERMS OF METERS, RADIANS, ETC.) 
+C
+      REAL           UMICR(14)
+      COMMON /UMICR/ UMICR

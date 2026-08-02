@@ -1,0 +1,7 @@
+C DPLT                KEYWORDS FOR PLOT INSTRUCTION
+C
+C DPLT                   LIST OF KEYWORDS FOR PLOT
+C
+      CHARACTER*15    DPLT(30)
+C
+      COMMON /DPLT/   DPLT

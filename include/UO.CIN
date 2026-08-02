@@ -1,0 +1,3 @@
+      COMMON /UO/     UO
+      REAL            UO(5,56), UOL(280)
+      EQUIVALENCE     (UO(1,1),UOL(1))

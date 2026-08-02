@@ -1,0 +1,15 @@
+C COEFFICIENTS USED IN HIGHER-ORDER TERMS FOR A COMBINED-FUNCTION BENDING
+C MAGNET
+C
+C FMTN                  4.0 - 3.0*NB
+C TMN                   2.0 - NB
+C NMB                   NB - BEB
+C NMTB                  NB - 2.0*BEB
+C TNMB                  2.0*NB - BEB - 1.0
+C GPTB                  GAB + 2.0*BEB - NB
+C TGFB                  3.0*GAB + 4.0*BEB - NB
+C TGTB                  3.0*GAB + 3.0*BEB - 0.5*NB
+C SGTB                  6.0*GAB - 2.0*BEB - NB
+C
+      COMMON /COEFS/  FMTN, TMN, NMB, NMTB, TNMB, GPTB, TGFB, TGTB, SGTB
+      REAL            NMB, NMTB

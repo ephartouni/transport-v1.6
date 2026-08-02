@@ -1,0 +1,7 @@
+C XMETER              UMETER DATA SET
+C
+C                        NAMES OF UNITS IN UMETER DATA SET
+C                        ('M', 'R', 'GEV', 'DEG')
+C
+      CHARACTER*4     XMETER(14)
+      COMMON /XMETER/ XMETER

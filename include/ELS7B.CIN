@@ -1,0 +1,7 @@
+C ELS7B               TEMPORARY STORAGE FOR ELM1C
+C
+C COFS      STORAGE FOR COF
+C
+      REAL            COFS(6)
+C
+      COMMON /ELS7B/  COFS

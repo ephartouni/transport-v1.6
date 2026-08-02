@@ -1,0 +1,1 @@
+      SUBROUTINE RINVCC     FIND INVERSE OF TRANSFER MATRICESCC ----------------------------------------------------------------------      INCLUDE 'ELM17A.CIN'C      CALL RINV1      IF (NORD3 .GE. 2) CALL RINV2      IF (NORD3 .GE. 3) CALL RINV3      RETURN      END

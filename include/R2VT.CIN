@@ -1,0 +1,2 @@
+      DIMENSION     R2VT(6,6), R2VTL(36)
+      EQUIVALENCE   (R2VT(1,1),R2VTL(1))

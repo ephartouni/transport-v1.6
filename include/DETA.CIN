@@ -1,0 +1,7 @@
+C DETA                KEYWORDS FOR ETA ELEMENT
+C
+C DETA                   LIST OF KEYWORDS FOR ETA
+C
+      CHARACTER*15    DETA(6)
+C
+      COMMON /DETA/   DETA
